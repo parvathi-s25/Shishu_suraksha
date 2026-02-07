@@ -1,0 +1,110 @@
+name: shishu_suraksha
+description: AI-powered early childhood development screening application for Andhra Pradesh ICDS
+
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  
+  # State Management
+  flutter_riverpod: ^2.4.0
+  
+  # UI & Design
+  cupertino_icons: ^1.0.2
+  google_fonts: ^6.1.0
+  
+  # Firebase (will add later)
+  # firebase_core: ^2.24.2
+  # firebase_auth: ^4.15.3
+  # cloud_firestore: ^4.13.6
+  
+  # AI & ML (will add later when needed)
+  # google_mlkit_pose_detection: ^0.11.0
+  # tflite_flutter: ^0.10.4
+  
+  # Utilities
+  intl: ^0.18.1
+
+  shared_preferences: ^2.2.2
+  uuid: ^4.2.1
+
+  # Dashboard & UI
+  carousel_slider: ^4.2.1
+  fl_chart: ^0.66.0
+  glassmorphism: ^3.0.0
+
+  # Media & Hardware
+  camera: 0.10.5
+  image_picker: 1.0.7
+  record: ^6.2.0
+  audioplayers: ^5.2.1
+  video_player: ^2.8.2
+  chewie: ^1.7.4
+
+  # AI & Machine Learning
+  google_mlkit_pose_detection: ^0.10.0
+  tflite_flutter: ^0.10.4
+  google_generative_ai: ^0.4.0
+
+  # Device Integrations
+  device_calendar: ^4.3.2
+
+  # Offline Database
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+
+  # Reporting & Utilities
+  pdf: ^3.10.4
+  printing: ^5.11.1
+  connectivity_plus: ^5.0.2
+  path_provider: ^2.1.2
+
+  # System Interop
+  url_launcher: ^6.2.4
+  flutter_local_notifications: ^16.3.0
+  permission_handler: ^11.3.0
+
+
+
+
+
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+  flutter_launcher_icons: ^0.13.1
+
+flutter_launcher_icons:
+  android: true
+  ios: false
+  image_path: "assets/images/logo.png"
+  adaptive_icon_background: "#FFFFFF"
+  adaptive_icon_foreground: "assets/images/logo.png"
+  min_sdk_android: 21
+  # Exact specifications for maximum clarity
+  # Base size: 1024x1024 with 20% padding (safe area: 864x864)
+  # Export densities: mdpi(48), hdpi(72), xhdpi(96), xxhdpi(144), xxxhdpi(192)
+  remove_alpha_ios: false
+  # Adaptive icon will be centered with white background
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/logos/
+    - assets/images/
+    - lib/localization/all_village_translations.json
+  
+  # fonts:
+  #   - family: NotoSansTelugu
+  #     fonts:
+  #       - asset: assets/fonts/NotoSansTelugu-Regular.ttf
+  #       - asset: assets/fonts/NotoSansTelugu-Bold.ttf
+  #         weight: 700
