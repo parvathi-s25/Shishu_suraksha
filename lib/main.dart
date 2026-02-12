@@ -1,39 +1,54 @@
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/hive_flutter.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'ui/screens/opening/opening_animation_screen.dart';
-import 'data/models/growth_data.dart';
-import 'data/models/child_model.dart';
-import 'data/services/storage_service.dart';
+import 'localization/app_localizations.dart';
+import 'ui/screens/splash/splash_screen.dart';
+import 'ui/screens/auth/authentication_screen.dart';
+import 'ui/screens/dashboard/teacher_dashboard.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  
-  // Initialize Hive
-  await Hive.initFlutter();
-  
-  // Register Adapters
-  Hive.registerAdapter(GrowthDataAdapter());
-  Hive.registerAdapter(ChildModelAdapter());
-  
-  // Open Boxes
-  await Hive.openBox<ChildModel>(StorageService.childBoxName);
-
-  runApp(const ProviderScope(child: MyApp()));
+void main() {
+  runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class MyApp extends StatefulWidget {
+  static void setLocale(BuildContext context, Locale locale) {
+    _MyAppState? state = context.findAncestorStateOfType<_MyAppState>();
+    state?.changeLocale(locale);
+  }
+
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  Locale _locale = const Locale("en");
+
+  void changeLocale(Locale locale) {
+    setState(() {
+      _locale = locale;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Shishu Suraksha AI',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const OpeningAnimationScreen(),
+      locale: _locale,
+      supportedLocales: const [
+        Locale("en"), Locale("te"), Locale("hi"), Locale("ta"),
+        Locale("kn"), Locale("ml"), Locale("gu"), Locale("mr"),
+        Locale("bn"), Locale("pa"), Locale("or"),
+      ],
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      home: SplashScreen(),
+      routes: {
+        "/auth": (_) => AuthenticationScreen(),
+        "/dashboard": (_) => DashboardScreen(),
+      },
     );
   }
 }

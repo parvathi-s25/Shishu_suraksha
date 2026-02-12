@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
 
 class LanguageDropdown extends StatefulWidget {
-  final Function(String)? onLanguageChanged;
-  
-  const LanguageDropdown({
-    super.key,
-    this.onLanguageChanged,
-  });
+  final ValueChanged<String> onLanguageChanged;
+  const LanguageDropdown({super.key, required this.onLanguageChanged});
 
   @override
   State<LanguageDropdown> createState() => _LanguageDropdownState();
@@ -41,8 +37,7 @@ class _LanguageDropdownState extends State<LanguageDropdown> {
       selectedLanguage = language;
       isExpanded = false;
     });
-    // Notify parent of language change
-    widget.onLanguageChanged?.call(language);
+    widget.onLanguageChanged(language);
   }
 
   @override
@@ -136,10 +131,10 @@ class _LanguageDropdownState extends State<LanguageDropdown> {
                             padding: EdgeInsets.zero,
                             physics: const NeverScrollableScrollPhysics(),
                             itemCount: languages.length,
-                            separatorBuilder: (context, index) => Divider(
+                            separatorBuilder: (context, index) => const Divider(
                               height: 1,
                               thickness: 1,
-                              color: const Color(0xFFEFEFEF),
+                              color: Color(0xFFEFEFEF),
                             ),
                             itemBuilder: (context, index) {
                               final language = languages[index];

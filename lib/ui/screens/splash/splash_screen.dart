@@ -1,9 +1,11 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import '../../widgets/language_dropdown.dart';
+import '../../widgets/cropped_logo.dart';
 import 'splash_animation_controller.dart';
 import '../auth/authentication_screen.dart';
-import '../permissions/permission_request_screen.dart';
+import 'package:shishu_suraksha/localization/app_localizations.dart';
+import 'package:shishu_suraksha/main.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -15,7 +17,21 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen>
     with TickerProviderStateMixin {
   late SplashAnimationController anim;
-  String selectedLanguage = 'English'; // Track selected language
+  String selectedLanguage = "English";
+
+  final Map<String, String> _languageMap = {
+    "English": "en",
+    "తెలుగు": "te",
+    "हिंदी": "hi",
+    "தமிழ்": "ta",
+    "മലയാളം": "ml",
+    "ಕನ್ನಡ": "kn",
+    "বাংলা": "bn",
+    "মराठी": "mr",
+    "ગુજરાતી": "gu",
+    "ਪੰਜਾਬੀ": "pa",
+    "ଓଡ଼ିଆ": "or",
+  };
 
   @override
   void initState() {
@@ -33,25 +49,27 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Stack(
         children: [
-          // FULL-SCREEN BACKGROUND IMAGE
+          // FULL-SCREEN BACKGROUND IMAGE (bg1.png as requested)
           Positioned.fill(
             child: Image.asset(
               'assets/images/bg1.png',
               fit: BoxFit.cover,
               errorBuilder: (context, error, stackTrace) {
+                // Fallback color if image missing
                 return Container(color: const Color(0xFFFFF8F0));
               },
             ),
           ),
 
-          // SOFT BLUR OVERLAY
+          // SOFT BLUR OVERLAY (Glassmorphism base)
           Positioned.fill(
             child: BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
               child: Container(
-                color: Colors.white.withOpacity(0.22),
+                color: Colors.white.withOpacity(0.2),
               ),
             ),
           ),
@@ -60,57 +78,39 @@ class _SplashScreenState extends State<SplashScreen>
           AnimatedBuilder(
             animation: anim.controller,
             builder: (context, _) {
-              return Center(
+              return SafeArea(
                 child: SingleChildScrollView(
-                  child: Container(
+                  child: ConstrainedBox(
                     constraints: BoxConstraints(
-                      minHeight: MediaQuery.of(context).size.height,
+                      minHeight: MediaQuery.of(context).size.height -
+                          MediaQuery.of(context).padding.top -
+                          MediaQuery.of(context).padding.bottom,
                     ),
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
+                        const SizedBox(height: 50),
 
-                        // LOGO + TAGLINE CONTAINER (CENTERED)
+                        // LOGO + TAGLINE CONTAINER
                         Transform.translate(
                           offset: Offset(0, anim.moveUp.value),
                           child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              // LOGO (30% LARGER - 220 * 1.3 = 286)
+                              // LOGO (LARGER SIZE)
                               Opacity(
                                 opacity: (anim.logoFadeIn.value -
-                                    anim.logoFadeOut.value +
-                                    anim.logoTaglineFadeIn.value).clamp(0.0, 1.0),
-                                child: Image.asset(
-                                  'assets/images/logo.png',
-                                  width: 286,
-                                  fit: BoxFit.contain,
-                                  errorBuilder: (context, error, stackTrace) {
-                                    return Container(
-                                      width: 286,
-                                      height: 286,
-                                      decoration: BoxDecoration(
-                                        color: Colors.white.withOpacity(0.3),
-                                        shape: BoxShape.circle,
-                                      ),
-                                      child: Icon(
-                                        Icons.child_care,
-                                        size: 100,
-                                        color: const Color(0xFF4FB7A7),
-                                      ),
-                                    );
-                                  },
-                                ),
+                                        anim.logoFadeOut.value +
+                                        anim.logoTaglineFadeIn.value)
+                                    .clamp(0.0, 1.0),
+                                child: CroppedLogo(width: 220),
                               ),
 
-                              const SizedBox(height: 4),
+                              const SizedBox(height: 8),
 
-                              // TAGLINE (CLOSER TO LOGO, DEEP TEAL)
+                              // TAGLINE (CLOSER TO LOGO)
                               Opacity(
                                 opacity: (anim.taglineFadeIn.value +
-                                    anim.logoTaglineFadeIn.value).clamp(0.0, 1.0),
+                                        anim.logoTaglineFadeIn.value)
+                                    .clamp(0.0, 1.0),
                                 child: const Text(
                                   "మీ బిడ్డ భద్రత మా బాధ్యత",
                                   textAlign: TextAlign.center,
@@ -127,7 +127,7 @@ class _SplashScreenState extends State<SplashScreen>
                           ),
                         ),
 
-                        const SizedBox(height: 15),
+                        const SizedBox(height: 40), // Reduced from 120/40 logic for consistencty
 
                         // GLASSMORPHISM CARD - LANGUAGE DROPDOWN
                         if (anim.controller.value > 0.643)
@@ -160,20 +160,23 @@ class _SplashScreenState extends State<SplashScreen>
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          "Select Language",
-                                          style: TextStyle(
+                                          AppLocalizations.of(context)!.select_language,
+                                          style: const TextStyle(
                                             fontSize: 14,
-                                            color: const Color(0xFF005F66),
+                                            color: Color(0xFF005F66),
                                             fontWeight: FontWeight.w600,
                                             letterSpacing: 0.5,
                                           ),
                                         ),
                                         const SizedBox(height: 12),
                                         LanguageDropdown(
-                                          onLanguageChanged: (language) {
+                                          onLanguageChanged: (lang) {
                                             setState(() {
-                                              selectedLanguage = language;
+                                              selectedLanguage = lang;
                                             });
+                                            // Trigger global locale change
+                                            String code = _languageMap[lang] ?? "en";
+                                            MyApp.setLocale(context, Locale(code));
                                           },
                                         ),
                                       ],
@@ -184,63 +187,70 @@ class _SplashScreenState extends State<SplashScreen>
                             ),
                           ),
 
-                        SizedBox(height: anim.controller.value > 0.643 ? 40 : 120),
+                        SizedBox(height: anim.controller.value > 0.643 ? 20 : 80), // Reduced gap
 
                         // GLASSMORPHISM CARD - GET STARTED BUTTON
                         if (anim.controller.value > 0.643)
                           Opacity(
-                            opacity: ((anim.controller.value - 0.643) * 3).clamp(0.0, 1.0),
+                            opacity: ((anim.controller.value - 0.643) * 3)
+                                .clamp(0.0, 1.0),
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 32),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 32),
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(16),
                                 child: BackdropFilter(
-                                  filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                                  child: Container(
-                                    width: double.infinity,
-                                    height: 56,
-                                    decoration: BoxDecoration(
-                                      color: Colors.white.withOpacity(0.25),
-                                      borderRadius: BorderRadius.circular(16),
-                                      border: Border.all(
-                                        color: Colors.white.withOpacity(0.3),
-                                        width: 1.5,
-                                      ),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.black.withOpacity(0.1),
-                                          blurRadius: 20,
-                                          offset: const Offset(0, 8),
-                                        ),
-                                      ],
-                                    ),
+                                  filter:
+                                      ImageFilter.blur(sigmaX: 10, sigmaY: 10),
                                     child: Material(
                                       color: Colors.transparent,
                                       child: InkWell(
-                                        borderRadius: BorderRadius.circular(16),
+                                        borderRadius: BorderRadius.circular(30),
                                         onTap: () {
-                                            Navigator.of(context).pushReplacement(
-                                              MaterialPageRoute(
-                                                builder: (context) => PermissionRequestScreen(
-                                                  selectedLanguage: selectedLanguage,
-                                                ),
-                                              ),
-                                            );
+                                          String code = _languageMap[selectedLanguage] ?? "en";
+                                          
+                                          Navigator.pushNamed(
+                                            context,
+                                            "/auth",
+                                            arguments: code,
+                                          );
                                         },
-                                        child: const Center(
+                                        child: Container(
+                                          width: double.infinity,
+                                          height: 56,
+                                          decoration: BoxDecoration(
+                                            gradient: const LinearGradient(
+                                              colors: [
+                                                Color(0xFF005F66),
+                                                Color(0xFF008C96)
+                                              ],
+                                              begin: Alignment.topLeft,
+                                              end: Alignment.bottomRight,
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(30),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: const Color(0xFF005F66)
+                                                    .withOpacity(0.3),
+                                                blurRadius: 10,
+                                                offset: const Offset(0, 4),
+                                              ),
+                                            ],
+                                          ),
+                                          alignment: Alignment.center,
                                           child: Text(
-                                            "Get Started",
-                                            style: TextStyle(
-                                              color: Color(0xFF005F66),
+                                            AppLocalizations.of(context)!.get_started,
+                                            style: const TextStyle(
+                                              color: Colors.white,
                                               fontSize: 18,
-                                              fontWeight: FontWeight.w700,
-                                              letterSpacing: 0.8,
+                                              fontWeight: FontWeight.bold,
+                                              letterSpacing: 1.0,
                                             ),
                                           ),
                                         ),
                                       ),
                                     ),
-                                  ),
                                 ),
                               ),
                             ),
@@ -259,3 +269,4 @@ class _SplashScreenState extends State<SplashScreen>
     );
   }
 }
+

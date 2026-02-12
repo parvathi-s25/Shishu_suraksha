@@ -1,1 +1,14 @@
-{}
+{
+    "login": "LOGIN",
+    "select_role": "Select Role",
+    "admin": "Admin",
+    "anganwadi_teacher": "Anganwadi Teacher",
+    "select_district": "Select District",
+    "select_village": "Select Village",
+    "select_user_id": "Select User ID",
+    "password": "Password",
+    "sign_in": "Sign In",
+    "get_started": "Get Started",
+    "app_name": "Shishu Suraksha",
+    "tagline": "Early Childhood Protection & Development"
+}

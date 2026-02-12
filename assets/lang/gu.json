@@ -1,0 +1,402 @@
+{
+  "login": "લૉગિન",
+  "teacherDashboard": "શિક્ષક ડેશબોર્ડ",
+  "home": "હૉમ",
+  "children": "બાળકો",
+  "start": "શરૂ",
+  "intervene": "હસ્તક્ષેપ",
+  "insights": "આંતરદૃષ્ટિ",
+  "roles": [
+    "એડમિન",
+    "આંગણવાડી શિક્ષક"
+  ],
+  "districts": {
+    "Anantapuramu": "અનંતપુરમુ",
+    "Chittoor": "ચિત્તૂર",
+    "East Godavari": "પૂર્વ ગોદાવરી",
+    "Eluru": "એલુરુ",
+    "Guntur": "ગુંટુર",
+    "Kakinada": "કાકીનાડા",
+    "Konaseema": "કોનસીમા",
+    "Krishna": "કૃષ્ણા",
+    "Kurnool": "કુરનૂલ",
+    "Nandyal": "નાંદયાલ",
+    "NTR": "એનટીઆર",
+    "Palnadu": "પલનાડુ",
+    "Parvathipuram Manyam": "પાર્વતીપુરમ મન્યમ",
+    "Prakasam": "પ્રકાશમ",
+    "S.P.S. Nellore": "નેલ્લોર",
+    "Sri Sathya Sai": "શ્રી સત્ય સાંઈ",
+    "Srikakulam": "શ્રીકાકુલમ",
+    "Tirupati": "તિરુપતિ",
+    "Visakhapatnam": "વિશાખાપટનમ",
+    "Vizianagaram": "વિજયનગરામ",
+    "West Godavari": "પશ્ચિમ ગોદાવરી",
+    "YSR Kadapa": "વાયએસઆર કડપા"
+  },
+  "villages": {
+    "Anantapuramu": [
+      "કલ્યાણદુર્ગ",
+      "રાયદુર્ગ",
+      "ગૂટી",
+      "પમિડી",
+      "સિંગનમાલા",
+      "પેનૂકોંડા",
+      "પાપુલા"
+    ],
+    "Chittoor": [
+      "પાકાલા",
+      "નગરી",
+      "પુત્તૂર",
+      "સોમલા",
+      "કુપ્પમ"
+    ],
+    "East Godavari": [
+      "રાજનગરમ",
+      "પેદ્દાપુરમ",
+      "રંગમપેટા",
+      "ગંડેપલ્લી",
+      "સામલકોટ"
+    ],
+    "Eluru": [
+      "દેંદુલુરુ",
+      "પેદાવેગી",
+      "ભીમડોલુ",
+      "ઉંગુટુરુ",
+      "કૈકાલુરુ"
+    ],
+    "Guntur": [
+      "ચેબ્રોલુ",
+      "તાદિકોંડા",
+      "મેદિકોંડુરુ",
+      "પેદાકાકાની",
+      "વટ્ટીચેરુકુરુ"
+    ],
+    "Kakinada": [
+      "Pithapuram (rural)",
+      "Prathipadu",
+      "Gollaprolu",
+      "Kirlampudi",
+      "Jaggampeta (rural)"
+    ],
+    "Konaseema": [
+      "અમલાપુરમ",
+      "મુરમલ્લા",
+      "મુમ્મિડીવરમ",
+      "રાવુલપાલમ",
+      "ઐનવિલ્લી"
+    ],
+    "Krishna": [
+      "પમર્રૂ",
+      "મોવવા",
+      "બંતુમિલ્લી",
+      "પેડના",
+      "Kaikaluru (partial overlap)"
+    ],
+    "Kurnool": [
+      "ઓર્વકલ",
+      "કોડુમુરુ",
+      "વેલ્દુર્થી",
+      "બેથમચેર્લા",
+      "કલ્લૂર"
+    ],
+    "Nandyal": [
+      "આત્મકૂર",
+      "મહાનંદી",
+      "બનગનપલ્લે",
+      "ડોન",
+      "અલ્લાગડ્ડા"
+    ],
+    "NTR": [
+      "ઇબ્રાહિમપટનમ",
+      "જી કોંડુરુ",
+      "એ કોંડુરુ",
+      "મૈલાવરમ",
+      "તિરુવુરુ"
+    ],
+    "Palnadu": [
+      "સત્તેનપલ્લે",
+      "દાચેપલ્લે",
+      "ગુરજાલા",
+      "રેંટાચિંતલા",
+      "માચેર્લા"
+    ],
+    "Parvathipuram Manyam": [
+      "બલિજીપેટા",
+      "કોમરાદા",
+      "સીતાનગરમ",
+      "સાલૂર",
+      "મક્કુવા"
+    ],
+    "Prakasam": [
+      "અદ્દંકી",
+      "માર્ટૂર",
+      "ઇન્કોલ્લુ",
+      "પોદિલી",
+      "માર્કાપુરમ"
+    ],
+    "S.P.S. Nellore": [
+      "પોદલકુરુ",
+      "રાપુર",
+      "મુત્તુકુરુ",
+      "અલ્લૂર",
+      "અનંતસાગરમ"
+    ],
+    "Sri Sathya Sai": [
+      "બુક્કપટનમ",
+      "પુટ્ટપર્થી",
+      "કોત્તચેરુવુ",
+      "ગોરંટલા",
+      "ચિલમત્તુરુ"
+    ],
+    "Srikakulam": [
+      "અમદાલવલસા",
+      "લાવેરુ",
+      "પોંડુરુ",
+      "જી સિગડામ",
+      "એચ્ચર્લા"
+    ],
+    "Tirupati": [
+      "યેરપેડુ",
+      "શ્રીકાલાહસ્તી",
+      "રેનિગુંટા",
+      "ચંદ્રગિરી",
+      "પીલેરુ"
+    ],
+    "Visakhapatnam": [
+      "આનંદપુરમ",
+      "ભીમુનીપટનમ",
+      "પદ્મનાભમ",
+      "સબ્બવરમ",
+      "પરવાડા"
+    ],
+    "Vizianagaram": [
+      "ચીપુરુપલ્લે",
+      "ગજપતિનગરમ",
+      "ગરિવિડી",
+      "નેલ્લિમર્લા",
+      "બોંડાપલ્લી"
+    ],
+    "West Godavari": [
+      "ભીમવરમ",
+      "પાલકોડેરુ",
+      "નરસાપુરમ",
+      "મોગલટૂરુ",
+      "પેનુમંત્રા"
+    ],
+    "YSR Kadapa": [
+      "રાયચોટી",
+      "લક્કીરેડ્ડીપલ્લી",
+      "વેમ્પલ્લે",
+      "યેર્રગુંટલા",
+      "બદ્વેલ"
+    ]
+  },
+  "admin": "Admin",
+  "password": "Password",
+  "user_ids": {
+    "Anantapuramu": [
+      "ATPAT001",
+      "ATPAT002",
+      "ATPAT003",
+      "ATPAT004",
+      "ATPAT005"
+    ],
+    "Chittoor": [
+      "CTRAT001",
+      "CTRAT002",
+      "CTRAT003",
+      "CTRAT004",
+      "CTRAT005"
+    ],
+    "East Godavari": [
+      "EGDAT001",
+      "EGDAT002",
+      "EGDAT003",
+      "EGDAT004",
+      "EGDAT005"
+    ],
+    "Eluru": [
+      "ELRAT001",
+      "ELRAT002",
+      "ELRAT003",
+      "ELRAT004",
+      "ELRAT005"
+    ],
+    "Guntur": [
+      "GNTAT001",
+      "GNTAT002",
+      "GNTAT003",
+      "GNTAT004",
+      "GNTAT005"
+    ],
+    "Kakinada": [
+      "KKDAT001",
+      "KKDAT002",
+      "KKDAT003",
+      "KKDAT004",
+      "KKDAT005"
+    ],
+    "Konaseema": [
+      "KONAT001",
+      "KONAT002",
+      "KONAT003",
+      "KONAT004",
+      "KONAT005"
+    ],
+    "Krishna": [
+      "KRIAT001",
+      "KRIAT002",
+      "KRIAT003",
+      "KRIAT004",
+      "KRIAT005"
+    ],
+    "Kurnool": [
+      "KRLAT001",
+      "KRLAT002",
+      "KRLAT003",
+      "KRLAT004",
+      "KRLAT005"
+    ],
+    "Nandyal": [
+      "NDLAT001",
+      "NDLAT002",
+      "NDLAT003",
+      "NDLAT004",
+      "NDLAT005"
+    ],
+    "NTR": [
+      "NTRAT001",
+      "NTRAT002",
+      "NTRAT003",
+      "NTRAT004",
+      "NTRAT005"
+    ],
+    "Palnadu": [
+      "PLNAT001",
+      "PLNAT002",
+      "PLNAT003",
+      "PLNAT004",
+      "PLNAT005"
+    ],
+    "Parvathipuram Manyam": [
+      "PVMAT001",
+      "PVMAT002",
+      "PVMAT003",
+      "PVMAT004",
+      "PVMAT005"
+    ],
+    "Prakasam": [
+      "PRKAT001",
+      "PRKAT002",
+      "PRKAT003",
+      "PRKAT004",
+      "PRKAT005"
+    ],
+    "S.P.S. Nellore": [
+      "S.PAT001",
+      "S.PAT002",
+      "S.PAT003",
+      "S.PAT004",
+      "S.PAT005"
+    ],
+    "Sri Sathya Sai": [
+      "SSSAT001",
+      "SSSAT002",
+      "SSSAT003",
+      "SSSAT004",
+      "SSSAT005"
+    ],
+    "Srikakulam": [
+      "SKLAT001",
+      "SKLAT002",
+      "SKLAT003",
+      "SKLAT004",
+      "SKLAT005"
+    ],
+    "Tirupati": [
+      "TPTAT001",
+      "TPTAT002",
+      "TPTAT003",
+      "TPTAT004",
+      "TPTAT005"
+    ],
+    "Visakhapatnam": [
+      "VSPAT001",
+      "VSPAT002",
+      "VSPAT003",
+      "VSPAT004",
+      "VSPAT005"
+    ],
+    "Vizianagaram": [
+      "VZMAT001",
+      "VZMAT002",
+      "VZMAT003",
+      "VZMAT004",
+      "VZMAT005"
+    ],
+    "West Godavari": [
+      "WGDAT001",
+      "WGDAT002",
+      "WGDAT003",
+      "WGDAT004",
+      "WGDAT005"
+    ],
+    "YSR Kadapa": [
+      "YSRAT001",
+      "YSRAT002",
+      "YSRAT003",
+      "YSRAT004",
+      "YSRAT005"
+    ]
+  },
+  "chatbot_title": "Chatbot",
+  "chatbot_placeholder": "Type a message...",
+  "helpline_title": "Helpline",
+  "call_supervisor": "Call Supervisor",
+  "email_support": "Email Support",
+  "whatsapp_support": "WhatsApp Support",
+  "nearest_phc": "Nearest PHC",
+  "emergency_contact": "Emergency Contact",
+  "select_role": "Select Role",
+  "anganwadi_teacher": "Anganwadi Teacher",
+  "select_district": "જિલ્લો પસંદ કરો",
+  "select_village": "ગામ પસંદ કરો",
+  "user_id": "User ID",
+  "sign_in": "સાઇન ઇન",
+  "select_language": "ભાષા પસંદ કરો",
+  "get_started": "શરૂ કરો",
+  "welcome": "Welcome!",
+  "goodMorning": "Good Morning!",
+  "startMonitoring": "Start monitoring child health with these quick actions.",
+  "growth": "Growth",
+  "reports": "Reports",
+  "alerts": "Alerts",
+  "childProfiles": "Child Profiles",
+  "addChild": "Add Child",
+  "growthData": "Growth Data",
+  "adminPanel": "Admin Panel",
+  "childAlerts": "બાળ ચેતવણીઓ",
+  "highRisk": "ઉચ્ચ જોખમ",
+  "moderateRisk": "મધ્યમ જોખમ",
+  "mildObservation": "હળવું નિરીક્ષણ",
+  "normal": "સામાન્ય",
+  "startIntervention": "હસ્તક્ષેપ શરૂ કરો",
+  "suggestedExercises": "સૂચવેલ કસરતો",
+  "referralSuggestion": "રેફરલ સૂચન",
+  "followUpSchedule": "ફોલો-અપ શેડ્યૂલ",
+  "noAlertsMessage": "આ સમયે કોઈ ચેતવણી નથી. બધા બાળકોની દેખરેખ રાખવામાં આવી રહી છે.",
+  "analyticsDashboard": "Analytics Dashboard",
+  "totalAssessed": "Total Assessed",
+  "pendingAssessments": "Pending",
+  "completedAssessments": "Completed",
+  "avgDevScore": "Avg Dev Score",
+  "riskDistribution": "Risk Distribution",
+  "assessmentTrend": "Assessment Trend",
+  "ageDistribution": "Age Group Distribution",
+  "interventionSuccess": "Intervention Success Rate",
+  "devScoreOverview": "Development Score Overview",
+  "exportReport": "Export Report",
+  "downloadPdf": "Download PDF Report",
+  "exportCsv": "Export CSV Data"
+}
