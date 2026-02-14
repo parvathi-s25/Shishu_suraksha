@@ -16,16 +16,49 @@ The application now features a "live" AI assistant capable of interacting in mul
 
 ```mermaid
 graph TD
-    A[User Opens Chatbot] --> B{Choose Interaction}
-    B -->|Voice| C[Speech-to-Text]
-    B -->|Text| D[Input Field]
-    C --> E[AIService - Groq API]
-    D --> E
-    E --> F[Generate Telugu Response]
-    F --> G[Display Chat Message]
-    F --> H[Text-to-Speech Output]
-    G --> I[User Reads/Hears Response]
-    H --> I
+    %% Entry Point
+    User([Anganwadi Worker]) --> Login{Login / Auth}
+    Login -->|Success| Dashboard[Modern Menu Dashboard]
+
+    %% Dashboard Components
+    Dashboard -->|Realtime Streams| DataService[(DataService <br/> StreamControllers)]
+    Dashboard -->|Greeting| Welcome[Realtime Welcome Message]
+    Dashboard -->|Alerts| RedFlag[Red Flag Indicator <br/> High Risk Count]
+    Dashboard -->|Reminders| LastVisit[Last Visit Reminder <br/> >30 Days]
+
+    %% Main Features
+    Dashboard --> Features{Core Features}
+
+    %% Quick Actions
+    Features -->|Quick Actions| QA_Grid[Quick Actions Grid]
+    QA_Grid --> Tasks[Tasks Screen <br/> Smart Reminders]
+    QA_Grid --> Alerts[Alerts Screen <br/> Risk Badges]
+    QA_Grid --> Profile[Profile Screen]
+    QA_Grid --> Help[Help Center <br/> Emergency Guide]
+
+    %% Data Entry & OCR
+    Features -->|Add Child| EntryMode{Select Mode}
+    EntryMode -->|Manual Fast| QuickAdd[Quick Add Screen <br/> Name, Age, Weight]
+    EntryMode -->|Smart Scan| OCR[OCR Data Entry Screen]
+    
+    %% OCR Pipeline
+    subgraph OCR_Pipeline [8-Stage OCR Architecture]
+        OCR -->|Capture| Camera[Stage 1: Smart Capture]
+        Camera -->|Image| Preprocess[Stage 2: Preprocessing <br/> OpenCV Denoise]
+        Preprocess -->|Clean Image| Zonal[Stage 3: Zonal Cropping]
+        Zonal -->|Regions| Extract[Stage 4: Smart Extraction <br/> Fuzzy Match]
+        Extract -->|Data| Confidence[Stage 5: Visual Confidence]
+        Confidence -->|Validation| Validate[Stage 6: Validation <br/> Aadhaar/DOB]
+        Validate -->|Edit| Correction[Stage 7: Assisted Correction <br/> Field Re-scan]
+        Correction -->|Submit| Learning[Stage 8: Learning Loop <br/> Feedback Log]
+    end
+
+    %% Screening Modules
+    Features -->|Screening| Screening[Screening Hub]
+    Screening --> Visual[Visual Screening]
+    Screening --> Audio[Audio Screening]
+    Screening --> Thermal[Thermal Screening]
+    Screening --> Injury[Injury Analysis]
 ```
 
 ## Getting Started
