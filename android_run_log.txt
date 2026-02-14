@@ -1,0 +1,177 @@
+Launching lib\main.dart on sdk gphone64 x86 64 in debug mode...
+Running Gradle task 'assembleDebug'...                          
+Warning: The plugin camera_android requires Android SDK version 36 or higher.
+For more information about build configuration, see https://flutter.dev/to/review-gradle-config.
+Warning: The plugin flutter_plugin_android_lifecycle requires Android SDK version 35 or higher.
+For more information about build configuration, see https://flutter.dev/to/review-gradle-config.
+Warning: The plugin image_picker_android requires Android SDK version 35 or higher.
+For more information about build configuration, see https://flutter.dev/to/review-gradle-config.
+Warning: The plugin package_info_plus requires Android SDK version 35 or higher.
+For more information about build configuration, see https://flutter.dev/to/review-gradle-config.
+Warning: The plugin path_provider_android requires Android SDK version 35 or higher.
+For more information about build configuration, see https://flutter.dev/to/review-gradle-config.
+Warning: The plugin record_android requires Android SDK version 35 or higher.
+For more information about build configuration, see https://flutter.dev/to/review-gradle-config.
+Warning: The plugin shared_preferences_android requires Android SDK version 35 or higher.
+For more information about build configuration, see https://flutter.dev/to/review-gradle-config.
+Warning: The plugin url_launcher_android requires Android SDK version 35 or higher.
+For more information about build configuration, see https://flutter.dev/to/review-gradle-config.
+Warning: The plugin video_player_android requires Android SDK version 35 or higher.
+For more information about build configuration, see https://flutter.dev/to/review-gradle-config.
+Warning: The plugin wakelock_plus requires Android SDK version 35 or higher.
+For more information about build configuration, see https://flutter.dev/to/review-gradle-config.
+Your project is configured to compile against Android SDK 34, but the following plugin(s) require to be compiled against a higher Android SDK version:
+- camera_android compiles against Android SDK 36
+- flutter_plugin_android_lifecycle compiles against Android SDK 35
+- image_picker_android compiles against Android SDK 35
+- package_info_plus compiles against Android SDK 35
+- path_provider_android compiles against Android SDK 35
+- record_android compiles against Android SDK 35
+- shared_preferences_android compiles against Android SDK 35
+- url_launcher_android compiles against Android SDK 35
+- video_player_android compiles against Android SDK 35
+- wakelock_plus compiles against Android SDK 35
+Fix this issue by compiling against the highest Android SDK version (they are backward compatible).
+Add the following to D:\sishusuraksha\Shishu_suraksha\android\app\build.gradle.kts:
+
+    android {
+        compileSdk = 36
+        ...
+    }
+
+Your project is configured with Android NDK 26.1.10909125, but the following plugin(s) depend on a different Android NDK version:
+- audioplayers_android requires Android NDK 27.0.12077973
+- camera_android requires Android NDK 27.0.12077973
+- connectivity_plus requires Android NDK 27.0.12077973
+- device_calendar requires Android NDK 27.0.12077973
+- flutter_local_notifications requires Android NDK 27.0.12077973
+- flutter_plugin_android_lifecycle requires Android NDK 27.0.12077973
+- google_mlkit_commons requires Android NDK 27.0.12077973
+- google_mlkit_pose_detection requires Android NDK 27.0.12077973
+- image_picker_android requires Android NDK 27.0.12077973
+- package_info_plus requires Android NDK 27.0.12077973
+- path_provider_android requires Android NDK 27.0.12077973
+- permission_handler_android requires Android NDK 27.0.12077973
+- printing requires Android NDK 27.0.12077973
+- record_android requires Android NDK 27.0.12077973
+- shared_preferences_android requires Android NDK 27.0.12077973
+- tflite_flutter requires Android NDK 27.0.12077973
+- url_launcher_android requires Android NDK 27.0.12077973
+- video_player_android requires Android NDK 27.0.12077973
+- wakelock_plus requires Android NDK 27.0.12077973
+Fix this issue by using the highest Android NDK version (they are backward compatible).
+Add the following to D:\sishusuraksha\Shishu_suraksha\android\app\build.gradle.kts:
+
+    android {
+        ndkVersion = "27.0.12077973"
+        ...
+    }
+
+Checking the license for package Android SDK Build-Tools 35 in C:\Users\thatr\AppData\Local\Android\Sdk\licenses
+License for package Android SDK Build-Tools 35 accepted.
+Preparing "Install Android SDK Build-Tools 35 v.35.0.0".
+"Install Android SDK Build-Tools 35 v.35.0.0" ready.
+Installing Android SDK Build-Tools 35 in C:\Users\thatr\AppData\Local\Android\Sdk\build-tools\35.0.0
+"Install Android SDK Build-Tools 35 v.35.0.0" complete.
+"Install Android SDK Build-Tools 35 v.35.0.0" finished.
+Checking the license for package Android SDK Platform 34 in C:\Users\thatr\AppData\Local\Android\Sdk\licenses
+License for package Android SDK Platform 34 accepted.
+Preparing "Install Android SDK Platform 34 (revision 3)".
+"Install Android SDK Platform 34 (revision 3)" ready.
+Installing Android SDK Platform 34 in C:\Users\thatr\AppData\Local\Android\Sdk\platforms\android-34
+"Install Android SDK Platform 34 (revision 3)" complete.
+"Install Android SDK Platform 34 (revision 3)" finished.
+[=========                              ] 25%                                   
+[=========                              ] 25% Fetch remote repository...        
+[=======================================] 100% Fetch remote repository...       
+
+Checking the license for package Android SDK Platform 33 in C:\Users\thatr\AppData\Local\Android\Sdk\licenses
+License for package Android SDK Platform 33 accepted.
+Preparing "Install Android SDK Platform 33 (revision 3)".
+"Install Android SDK Platform 33 (revision 3)" ready.
+Installing Android SDK Platform 33 in C:\Users\thatr\AppData\Local\Android\Sdk\platforms\android-33
+"Install Android SDK Platform 33 (revision 3)" complete.
+"Install Android SDK Platform 33 (revision 3)" finished.
+[=========                              ] 25%                                   
+[=========                              ] 25% Fetch remote repository...        
+[=======================================] 100% Fetch remote repository...       
+
+[=========                              ] 25%                                   
+[=========                              ] 25% Fetch remote repository...        
+[=======================================] 100% Fetch remote repository...       
+
+Checking the license for package Android SDK Platform 35 in C:\Users\thatr\AppData\Local\Android\Sdk\licenses
+License for package Android SDK Platform 35 accepted.
+Preparing "Install Android SDK Platform 35 (revision 2)".
+"Install Android SDK Platform 35 (revision 2)" ready.
+Installing Android SDK Platform 35 in C:\Users\thatr\AppData\Local\Android\Sdk\platforms\android-35
+"Install Android SDK Platform 35 (revision 2)" complete.
+"Install Android SDK Platform 35 (revision 2)" finished.
+[=========                              ] 25%                                   
+[=========                              ] 25% Fetch remote repository...        
+[=======================================] 100% Fetch remote repository...       
+
+Checking the license for package Android SDK Platform 31 in C:\Users\thatr\AppData\Local\Android\Sdk\licenses
+License for package Android SDK Platform 31 accepted.
+Preparing "Install Android SDK Platform 31 (revision 1)".
+"Install Android SDK Platform 31 (revision 1)" ready.
+Installing Android SDK Platform 31 in C:\Users\thatr\AppData\Local\Android\Sdk\platforms\android-31
+"Install Android SDK Platform 31 (revision 1)" complete.
+"Install Android SDK Platform 31 (revision 1)" finished.
+[=========                              ] 25%                                   
+[=========                              ] 25% Fetch remote repository...        
+[=======================================] 100% Fetch remote repository...       
+
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':app:checkDebugAarMetadata'.
+> A failure occurred while executing com.android.build.gradle.internal.tasks.CheckAarMetadataWorkAction
+   > 3 issues were found when checking AAR metadata:
+
+       1.  Dependency ':flutter_local_notifications' requires core library desugaring to be enabled
+           for :app.
+
+           See https://developer.android.com/studio/write/java8-support.html for more
+           details.
+
+       2.  Dependency 'androidx.activity:activity-ktx:1.10.1' requires libraries and applications that
+           depend on it to compile against version 35 or later of the
+           Android APIs.
+
+           :app is currently compiled against android-34.
+
+           Recommended action: Update this project to use a newer compileSdk
+           of at least 35, for example 36.
+
+           Note that updating a library or application's compileSdk (which
+           allows newer APIs to be used) can be done separately from updating
+           targetSdk (which opts the app in to new runtime behavior) and
+           minSdk (which determines which devices the app can be installed
+           on).
+
+       3.  Dependency 'androidx.activity:activity:1.10.1' requires libraries and applications that
+           depend on it to compile against version 35 or later of the
+           Android APIs.
+
+           :app is currently compiled against android-34.
+
+           Recommended action: Update this project to use a newer compileSdk
+           of at least 35, for example 36.
+
+           Note that updating a library or application's compileSdk (which
+           allows newer APIs to be used) can be done separately from updating
+           targetSdk (which opts the app in to new runtime behavior) and
+           minSdk (which determines which devices the app can be installed
+           on).
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights.
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 6m 56s
+Running Gradle task 'assembleDebug'...                            417.3s
+Error: Gradle task assembleDebug failed with exit code 1

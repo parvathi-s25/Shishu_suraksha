@@ -1,0 +1,24 @@
+
+Running Gradle task 'assembleRelease'...                        
+Font asset "MaterialIcons-Regular.otf" was tree-shaken, reducing it from 1645184 to 7084 bytes (99.6% reduction). Tree-shaking can be disabled by providing the --no-tree-shake-icons flag when building your app.
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':app:checkReleaseAarMetadata'.
+> Could not resolve all files for configuration ':app:releaseRuntimeClasspath'.
+   > Failed to transform opencv-android-v1.0.0.aar (com.github.vladiH:opencv-android:v1.0.0) to match attributes {artifactType=android-aar-metadata, org.gradle.category=library, org.gradle.libraryelements=jar, org.gradle.status=release, org.gradle.usage=java-runtime}.
+      > Execution failed for JetifyTransform: C:\Users\thatr\.gradle\caches\modules-2\files-2.1\com.github.vladiH\opencv-android\v1.0.0\bc0c657deacd9d02f3ddbb169ef9c685cb70d7ee\opencv-android-v1.0.0.aar.
+         > Jetifier failed to transform: C:\Users\thatr\.gradle\caches\modules-2\files-2.1\com.github.vladiH\opencv-android\v1.0.0\bc0c657deacd9d02f3ddbb169ef9c685cb70d7ee\opencv-android-v1.0.0.aar
+           The error was: java.util.zip.ZipException - invalid entry CRC (expected 0xbd87abec but got 0x101b7fe1)
+           To fix this issue, see https://issuetracker.google.com/issues/184622491
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights.
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 8s
+Running Gradle task 'assembleRelease'...                            8.4s
+Gradle task assembleRelease failed with exit code 1

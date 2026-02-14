@@ -2,6 +2,10 @@ allprojects {
     repositories {
         google()
         mavenCentral()
+        maven { url = uri("https://jitpack.io") }
+    }
+    configurations.all {
+        exclude(group = "com.github.vladiH", module = "opencv-android")
     }
 }
 

@@ -4,10 +4,12 @@ import '../../../../localization/app_localizations.dart';
 import '../../../utils/permission_manager.dart';
 import '../../widgets/cropped_logo.dart';
 import 'tabs/home_task_tab.dart'; // Import the new tab
-import 'tabs/child_tab.dart'; // Import Child Tab
-import 'tabs/start_tab.dart'; // Import Start Tab
+import '../children/children_tab.dart'; // Import Child Tab API
+import '../assessment/start_assessment_tab.dart'; // Import Start Tab API
 import 'tabs/intervene_tab.dart'; // Import Intervene Tab
 import 'tabs/insights_tab.dart'; // Import Insights Tab
+import '../../widgets/voice_assistant_widget.dart';
+import '../../../services/responsive_dashboard.dart'; // Import responsive utilities
 
 class DashboardScreen extends StatefulWidget {
   @override
@@ -17,20 +19,18 @@ class DashboardScreen extends StatefulWidget {
 class _DashboardScreenState extends State<DashboardScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   String _activePanel = 'none';
-  int _selectedIndex = 0; // NEW: Track active tab
+  int _selectedIndex = 0;
 
   @override
   void initState() {
     super.initState();
-    // Trigger permission requests after the first frame to ensure context is valid
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      // Small delay to ensure smooth transition and context readiness
       await Future.delayed(const Duration(milliseconds: 500));
       if (mounted) {
         PermissionManager.requestInitialPermissions(context);
       }
     });
-  } 
+  }
 
   void _togglePanel(String panelName) {
     setState(() {
@@ -43,22 +43,20 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
+    setState(() => _selectedIndex = index);
   }
 
   @override
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context);
-    final size = MediaQuery.of(context).size;
+    final responsive = ResponsiveDashboard(context);
 
     return Scaffold(
       key: _scaffoldKey,
-      drawer: _buildDrawer(t),
+      drawer: responsive.isMobile ? _buildDrawer(t) : null,
       body: Stack(
         children: [
-          // Background Image (bg1.png) with 15% Opacity and Blur
+          // Background with blur
           Positioned.fill(
             child: Stack(
               children: [
@@ -71,32 +69,29 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     height: double.infinity,
                   ),
                 ),
-                ClipRect( // Clip the blur to the container
+                ClipRect(
                   child: BackdropFilter(
                     filter: ImageFilter.blur(sigmaX: 25, sigmaY: 25),
-                    child: Container(
-                      color: Colors.transparent, 
-                    ),
+                    child: Container(color: Colors.transparent),
                   ),
                 ),
               ],
             ),
           ),
 
-          // NEW: Main Content Layout
+          // Main content
           Positioned.fill(
             child: Column(
               children: [
-                _buildTopHeader(t),
+                _buildTopHeader(t, responsive),
                 Expanded(
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Replaced sidebar with SizedBox to maintain exact layout spacing
-                      // as per strict requirement "DO NOT shift any existing elements left or right"
-                      const SizedBox(width: 70),
+                      if (responsive.isTablet || responsive.isDesktop)
+                        _buildSidebar(t, responsive),
                       Expanded(
-                        child: _buildBodyContent(t),
+                        child: _buildBodyContent(t, responsive),
                       ),
                     ],
                   ),
@@ -105,128 +100,108 @@ class _DashboardScreenState extends State<DashboardScreen> {
             ),
           ),
 
-          // 1. Chatbot Panel (Bottom-Right)
-          AnimatedPositioned(
-            duration: const Duration(milliseconds: 300),
-            curve: Curves.easeInOut,
-            bottom: 100, // Above FABs
-            right: 20,
-            width: _activePanel == 'chatbot' ? size.width * 0.4 : 0,
-            height: _activePanel == 'chatbot' ? size.height * 0.65 : 0,
-            child: _activePanel == 'chatbot'
-                ? _buildChatbotPanel(t) 
-                : const SizedBox(),
-          ),
-
-          // 2. Helpline Panel (Bottom-Right)
-          AnimatedPositioned(
-            duration: const Duration(milliseconds: 300),
-            curve: Curves.easeInOut,
-            bottom: 100, // Above FABs
-            right: 20,
-            width: _activePanel == 'helpline' ? size.width * 0.4 : 0,
-            height: _activePanel == 'helpline' ? size.height * 0.55 : 0,
-            child: _activePanel == 'helpline'
-                ? _buildHelplinePanel(t) 
-                : const SizedBox(),
-          ),
-
-          // Chatbot FAB (Top)
-          Positioned(
-            bottom: 120, // Moved down
-            right: 20,
-            child: SizedBox(
-              width: 58,
-              height: 58,
-              child: FloatingActionButton(
-                heroTag: "chatbot_fab",
-                onPressed: () => _togglePanel('chatbot'),
-                backgroundColor: const Color(0xFF00796B), // Teal
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
-                elevation: 4,
-                child: const Icon(Icons.smart_toy, size: 28, color: Colors.white),
-              ),
-            ),
-          ),
-
-          // Helpline FAB (Bottom)
-          Positioned(
-            bottom: 50, // Moved down
-            right: 20,
-            child: SizedBox(
-              width: 58,
-              height: 58,
-              child: FloatingActionButton(
-                heroTag: "helpline_fab", // Dial icon requested
-                onPressed: () => _togglePanel('helpline'),
-                backgroundColor: const Color(0xFFE53935), // Red/Orange
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
-                elevation: 4,
-                child: const Icon(Icons.phone, size: 28, color: Colors.white),
-              ),
-            ),
-          ),
-
-
+          // Animated panels
+          _buildChatbotPanel(t, responsive),
+          _buildHelplinePanel(t, responsive),
+          _buildFABs(responsive),
         ],
       ),
-      
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        selectedItemColor: Colors.teal,
-        unselectedItemColor: Colors.grey,
-        currentIndex: _selectedIndex, // Bind state
-        onTap: _onItemTapped, // Bind action
-        items: [
-          BottomNavigationBarItem(icon: const Icon(Icons.home), label: t.home),
-          BottomNavigationBarItem(icon: const Icon(Icons.child_care), label: t.children),
-          BottomNavigationBarItem(icon: const Icon(Icons.add_circle, size: 40, color: Colors.teal), label: t.start),
-          BottomNavigationBarItem(icon: const Icon(Icons.medical_services), label: t.intervene),
-          BottomNavigationBarItem(icon: const Icon(Icons.bar_chart), label: t.insights),
+      bottomNavigationBar: responsive.isMobile
+          ? _buildBottomNav()
+          : null,
+    );
+  }
+
+  /// Build sidebar for tablet/desktop
+  Widget _buildSidebar(AppLocalizations t, ResponsiveDashboard responsive) {
+    return Container(
+      width: responsive.sidebarWidth,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        border: Border(
+          right: BorderSide(
+            color: Colors.grey[200]!,
+            width: 1,
+          ),
+        ),
+      ),
+      child: Column(
+        children: [
+          SizedBox(height: responsive.getSpacing(20)),
+          _buildSidebarItem(Icons.home, 0, responsive),
+          _buildSidebarItem(Icons.child_care, 1, responsive),
+          _buildSidebarItem(Icons.add_circle, 2, responsive),
+          _buildSidebarItem(Icons.medical_services, 3, responsive),
+          _buildSidebarItem(Icons.bar_chart, 4, responsive),
         ],
       ),
     );
   }
 
-  Widget _buildBodyContent(AppLocalizations t) {
-    // If Home Tab (Index 0), show Task List
-    if (_selectedIndex == 0) {
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          _buildGreeting(t),
-          const Expanded(child: HomeTaskTab()),
-        ],
-      );
-    } else if (_selectedIndex == 1) {
-      // Child Tab
-      return const ChildTab();
-    } else if (_selectedIndex == 2) {
-      // Start Tab (Assessment Flow)
-      return const StartTab();
-    } else if (_selectedIndex == 3) {
-      // Intervene Tab (Alerts Module)
-      return const InterveneTab();
-    }
-    
-    // Placeholder for other tabs (Index 4)
-    else if (_selectedIndex == 4) {
-      // Insights Tab (Analytics Dashboard)
-      return const InsightsTab();
-    }
-    
-    return const Center(child: Text("Feature under development"));
+  Widget _buildSidebarItem(IconData icon, int index, ResponsiveDashboard responsive) {
+    final isActive = _selectedIndex == index;
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: responsive.getSpacing(12)),
+      child: Tooltip(
+        message: ['Home', 'Children', 'Start', 'Intervene', 'Insights'][index],
+        child: IconButton(
+          icon: Icon(icon, size: 28),
+          color: isActive ? Colors.teal : Colors.grey,
+          onPressed: () => setState(() => _selectedIndex = index),
+          disabledColor: Colors.grey[300],
+        ),
+      ),
+    );
   }
 
+  /// Build body content
+  Widget _buildBodyContent(AppLocalizations t, ResponsiveDashboard responsive) {
+    return Padding(
+      padding: EdgeInsets.symmetric(
+        horizontal: responsive.isMobile ? 0 : responsive.contentPadding.left,
+        vertical: responsive.contentPadding.top,
+      ),
+      child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            if (_selectedIndex == 0) ...[
+              _buildGreeting(t, responsive),
+              const SizedBox(height: 16),
+              Expanded(child: HomeTaskTab(onTabChange: _onItemTapped)),
+            ] else if (_selectedIndex == 1)
+              const Expanded(child: ChildrenTab())
+            else if (_selectedIndex == 2)
+              const Expanded(child: StartAssessmentTab())
+            else if (_selectedIndex == 3)
+              const Expanded(child: InterveneTab())
+            else if (_selectedIndex == 4)
+              const Expanded(child: InsightsTab())
+            else
+              Expanded(
+                child: Center(
+                  child: Text(
+                    "Feature under development",
+                    style: TextStyle(
+                      fontSize: responsive.getFontSize(16),
+                      color: Colors.grey,
+                    ),
+                  ),
+                ),
+              ),
+          ],
+        ),
+
+    );
+  }
   Widget _buildDrawer(AppLocalizations t) {
+    final responsive = ResponsiveDashboard(context);
+
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
         children: <Widget>[
           DrawerHeader(
-            decoration: const BoxDecoration(
-              color: Colors.teal,
-            ),
+            decoration: const BoxDecoration(color: Colors.teal),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.end,
@@ -236,20 +211,20 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   radius: 30,
                   child: Icon(Icons.person, size: 40, color: Colors.teal),
                 ),
-                const SizedBox(height: 10),
-                const Text(
+                SizedBox(height: responsive.getSpacing(10)),
+                Text(
                   'Anganwadi Teacher',
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 18,
+                    fontSize: responsive.getFontSize(18),
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 Text(
-                  'teacher@anganwadi.com', // Placeholder e-mail
+                  'teacher@anganwadi.com',
                   style: TextStyle(
                     color: Colors.white.withOpacity(0.8),
-                    fontSize: 14,
+                    fontSize: responsive.getFontSize(14),
                   ),
                 ),
               ],
@@ -265,247 +240,278 @@ class _DashboardScreenState extends State<DashboardScreen> {
           ),
           ListTile(
             leading: const Icon(Icons.person),
-            title: const Text('Profile'), // Add localization key if available
-            onTap: () {
-              Navigator.pop(context);
-            },
+            title: const Text('Profile'),
+            onTap: () => Navigator.pop(context),
           ),
           ListTile(
             leading: const Icon(Icons.settings),
-            title: const Text('Settings'), // Add localization key if available
-            onTap: () {
-              Navigator.pop(context);
-            },
+            title: const Text('Settings'),
+            onTap: () => Navigator.pop(context),
           ),
           const Divider(),
           ListTile(
             leading: const Icon(Icons.logout),
             title: const Text('Logout'),
-            onTap: () {
-              Navigator.pop(context);
-              // Implement logout logic if needed
-            },
+            onTap: () => Navigator.pop(context),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildChatbotPanel(AppLocalizations t) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(24),
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
-        child: Container(
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(24),
-            border: Border.all(color: Colors.white.withOpacity(0.2)),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                   Text(
-                    "🤖 ${t.chatbotTitle}",
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.teal,
-                    ),
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.close, color: Colors.grey),
-                    onPressed: () => _togglePanel('none'),
-                  )
-                ],
-              ),
-              const Divider(),
-              Expanded(
-                child: ListView(
+  /// Build chatbot panel
+  Widget _buildChatbotPanel(AppLocalizations t, ResponsiveDashboard responsive) {
+    if (_activePanel != 'chatbot') return const SizedBox();
+
+    return AnimatedPositioned(
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+      bottom: responsive.fabBottom + 70,
+      right: responsive.fabRight,
+      width: responsive.panelWidth,
+      height: responsive.panelHeight,
+      child: Hero(
+        tag: "chatbot_panel",
+        child: VoiceAssistantWidget(
+          onClose: () => _togglePanel('none'),
+        ),
+      ),
+    );
+  }
+
+  /// Build helpline panel
+  Widget _buildHelplinePanel(AppLocalizations t, ResponsiveDashboard responsive) {
+    if (_activePanel != 'helpline') return const SizedBox();
+
+    return AnimatedPositioned(
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+      bottom: responsive.fabBottom,
+      right: responsive.fabRight,
+      width: responsive.panelWidth,
+      height: responsive.panelHeight,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(24),
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+          child: Container(
+            padding: responsive.contentPadding,
+            decoration: BoxDecoration(
+              color: Colors.white.withOpacity(0.95),
+              borderRadius: BorderRadius.circular(24),
+              border: Border.all(color: Colors.white.withOpacity(0.2)),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.1),
+                  blurRadius: 10,
+                )
+              ],
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    _buildChatMessage("Hello! how can I help?", false),
-                    _buildChatMessage("Show me malnutrition data.", true),
-                    _buildChatMessage("Here is the updated list...", false),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 10),
-              Row(
-                children: [
-                  Expanded(
-                    child: TextField(
-                      decoration: InputDecoration(
-                        hintText: t.chatbotPlaceholder,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 12),
-                        isDense: true,
+                    Text(
+                      "🆘 ${t.helplineTitle}",
+                      style: TextStyle(
+                        fontSize: responsive.getFontSize(18),
+                        fontWeight: FontWeight.bold,
+                        color: Colors.redAccent,
                       ),
                     ),
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.send, color: Colors.teal),
-                    onPressed: () {},
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildHelplinePanel(AppLocalizations t) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(24),
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
-        child: Container(
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(24),
-            border: Border.all(color: Colors.white.withOpacity(0.2)),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                   Text(
-                    "🆘 ${t.helplineTitle}",
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.redAccent,
+                    IconButton(
+                      icon: const Icon(Icons.close, color: Colors.grey),
+                      onPressed: () => _togglePanel('none'),
+                      iconSize: responsive.getFontSize(20),
+                    )
+                  ],
+                ),
+                const Divider(),
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        _buildHelplineItem(Icons.call, t.callSupervisor, Colors.blue, responsive),
+                        _buildHelplineItem(Icons.email, t.emailSupport, Colors.orange, responsive),
+                        _buildHelplineItem(Icons.chat, t.whatsappSupport, Colors.green, responsive),
+                        _buildHelplineItem(Icons.local_hospital, t.nearestPhc, Colors.red, responsive),
+                        _buildHelplineItem(Icons.emergency, t.emergencyContact, Colors.red[900]!, responsive),
+                      ],
                     ),
                   ),
-                  IconButton(
-                    icon: const Icon(Icons.close, color: Colors.grey),
-                    onPressed: () => _togglePanel('none'),
-                  )
-                ],
-              ),
-              const Divider(),
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      _buildHelplineItem(Icons.call, t.callSupervisor, Colors.blue),
-                      _buildHelplineItem(Icons.email, t.emailSupport, Colors.orange),
-                      _buildHelplineItem(Icons.chat, t.whatsappSupport, Colors.green),
-                      _buildHelplineItem(Icons.local_hospital, t.nearestPhc, Colors.red),
-                      _buildHelplineItem(Icons.emergency, t.emergencyContact, Colors.red[900]!),
-                    ],
-                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 
-  Widget _buildChatMessage(String text, bool isUser) {
+  /// Build FABs
+  Widget _buildFABs(ResponsiveDashboard responsive) {
+    return Stack(
+      children: [
+        if (_activePanel == 'none') ...[
+          // Chatbot FAB
+          Positioned(
+            bottom: responsive.fabBottom + 70,
+            right: responsive.fabRight,
+            child: FloatingActionButton(
+              heroTag: "chatbot_fab",
+              onPressed: () => _togglePanel('chatbot'),
+              backgroundColor: const Color(0xFF00796B),
+              child: const Icon(Icons.smart_toy, size: 24, color: Colors.white),
+            ),
+          ),
+          // Helpline FAB
+          Positioned(
+            bottom: responsive.fabBottom,
+            right: responsive.fabRight,
+            child: FloatingActionButton(
+              heroTag: "helpline_fab",
+              onPressed: () => _togglePanel('helpline'),
+              backgroundColor: const Color(0xFFE53935),
+              child: const Icon(Icons.phone, size: 24, color: Colors.white),
+            ),
+          ),
+        ],
+      ],
+    );
+  }
+
+  /// Build bottom navigation for mobile
+  BottomNavigationBar _buildBottomNav() {
+    final t = AppLocalizations.of(context);
+
+    return BottomNavigationBar(
+      type: BottomNavigationBarType.fixed,
+      selectedItemColor: Colors.teal,
+      unselectedItemColor: Colors.grey,
+      currentIndex: _selectedIndex,
+      onTap: _onItemTapped,
+      items: [
+        BottomNavigationBarItem(icon: const Icon(Icons.home), label: t.home),
+        BottomNavigationBarItem(icon: const Icon(Icons.child_care), label: t.children),
+        BottomNavigationBarItem(icon: const Icon(Icons.add_circle), label: t.start),
+        BottomNavigationBarItem(icon: const Icon(Icons.medical_services), label: t.intervene),
+        BottomNavigationBarItem(icon: const Icon(Icons.bar_chart), label: t.insights),
+      ],
+    );
+  }
+
+  Widget _buildChatMessage(String text, bool isUser, ResponsiveDashboard responsive) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4),
+      padding: EdgeInsets.symmetric(vertical: responsive.getSpacing(4)),
       child: Align(
         alignment: isUser ? Alignment.centerRight : Alignment.centerLeft,
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          padding: EdgeInsets.symmetric(
+            horizontal: responsive.getSpacing(12),
+            vertical: responsive.getSpacing(8),
+          ),
           decoration: BoxDecoration(
-            color: isUser ? Colors.teal.withOpacity(0.2) : Colors.grey.withOpacity(0.1),
+            color: isUser
+                ? Colors.teal.withOpacity(0.2)
+                : Colors.grey.withOpacity(0.1),
             borderRadius: BorderRadius.circular(12),
           ),
-          child: Text(text, style: const TextStyle(fontSize: 12)),
+          child: Text(
+            text,
+            style: TextStyle(fontSize: responsive.getFontSize(12)),
+          ),
         ),
       ),
     );
   }
 
-  Widget _buildHelplineItem(IconData icon, String text, Color color) {
+  Widget _buildHelplineItem(
+    IconData icon,
+    String text,
+    Color color,
+    ResponsiveDashboard responsive,
+  ) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8), // Increased spacing
+      padding: EdgeInsets.symmetric(vertical: responsive.getSpacing(8)),
       child: InkWell(
-        onTap: () {
-          // Placeholder for action
-        },
+        onTap: () {},
         child: Row(
           children: [
-            Container( // Colored Icon BG
-              padding: const EdgeInsets.all(8),
+            Container(
+              padding: EdgeInsets.all(responsive.getSpacing(8)),
               decoration: BoxDecoration(
                 color: color.withOpacity(0.1),
                 shape: BoxShape.circle,
               ),
-              child: Icon(icon, color: color, size: 22),
+              child: Icon(icon, color: color, size: responsive.getFontSize(22)),
             ),
-            const SizedBox(width: 12),
+            SizedBox(width: responsive.getSpacing(12)),
             Expanded(
               child: Text(
-                text, 
-                style: const TextStyle(
-                  fontWeight: FontWeight.w600, 
-                  fontSize: 14,
-                  color: Colors.black87
-                )
-              )
+                text,
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: responsive.getFontSize(14),
+                  color: Colors.black87,
+                ),
+              ),
             ),
-            const Icon(Icons.arrow_forward_ios, size: 14, color: Colors.grey),
+            Icon(
+              Icons.arrow_forward_ios,
+              size: responsive.getFontSize(14),
+              color: Colors.grey,
+            ),
           ],
         ),
       ),
     );
   }
-  Widget _buildTopHeader(AppLocalizations t) {
+
+  Widget _buildTopHeader(AppLocalizations t, ResponsiveDashboard responsive) {
     return Container(
       padding: EdgeInsets.only(
-        left: 8, 
-        right: 16, 
-        top: MediaQuery.of(context).viewPadding.top + 5,
-        bottom: 5
+        left: responsive.getSpacing(8),
+        right: responsive.contentPadding.right,
+        top: MediaQuery.of(context).viewPadding.top + responsive.getSpacing(5),
+        bottom: responsive.getSpacing(5),
       ),
       decoration: BoxDecoration(
         color: Colors.white,
         boxShadow: [
-          // Flatter shadow as requested
-          BoxShadow(color: Colors.black.withOpacity(0.03), blurRadius: 2, offset: const Offset(0, 1)),
+          BoxShadow(
+            color: Colors.black.withOpacity(0.03),
+            blurRadius: 2,
+            offset: const Offset(0, 1),
+          ),
         ],
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          // Left: Hamburger Menu
-          IconButton(
-            icon: const Icon(Icons.menu, color: Colors.teal),
-            onPressed: () {
-              _scaffoldKey.currentState?.openDrawer();
-            },
-          ),
-
+          if (responsive.isMobile)
+            IconButton(
+              icon: const Icon(Icons.menu, color: Colors.teal),
+              onPressed: () => _scaffoldKey.currentState?.openDrawer(),
+            ),
           const Spacer(),
-
-          // Right: Logo and Text
           Row(
             mainAxisSize: MainAxisSize.min,
             children: [
               Flexible(
                 child: Text(
                   "ShishuSuraksha AI",
-                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.teal),
+                  style: TextStyle(
+                    fontSize: responsive.getFontSize(16),
+                    fontWeight: FontWeight.bold,
+                    color: Colors.teal,
+                  ),
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
-              const SizedBox(width: 8),
-              const CroppedLogo(width: 36), // Slightly smaller, clearly readable
+              SizedBox(width: responsive.getSpacing(8)),
+              const CroppedLogo(width: 36),
             ],
           ),
         ],
@@ -513,10 +519,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 
-  Widget _buildGreeting(AppLocalizations t) {
+  Widget _buildGreeting(AppLocalizations t, ResponsiveDashboard responsive) {
     return Container(
-      padding: const EdgeInsets.all(20),
-      margin: const EdgeInsets.all(16),
+      padding: responsive.cardPadding,
+      margin: responsive.contentPadding,
       decoration: BoxDecoration(
         color: Colors.teal.withOpacity(0.1),
         borderRadius: BorderRadius.circular(16),
@@ -527,19 +533,29 @@ class _DashboardScreenState extends State<DashboardScreen> {
           Text(
             t.welcome,
             textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 14, color: Colors.teal),
+            style: TextStyle(
+              fontSize: responsive.getFontSize(14),
+              color: Colors.teal,
+            ),
           ),
-          const SizedBox(height: 4),
+          SizedBox(height: responsive.getSpacing(4)),
           Text(
             t.goodMorning,
             textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.black87),
+            style: TextStyle(
+              fontSize: responsive.getFontSize(24),
+              fontWeight: FontWeight.bold,
+              color: Colors.black87,
+            ),
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: responsive.getSpacing(8)),
           Text(
             t.startMonitoring,
             textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 14, color: Colors.grey[700]),
+            style: TextStyle(
+              fontSize: responsive.getFontSize(14),
+              color: Colors.grey[700],
+            ),
           ),
         ],
       ),

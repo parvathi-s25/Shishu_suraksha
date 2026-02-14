@@ -4,8 +4,11 @@ import 'ui/screens/splash/splash_screen.dart';
 import 'ui/screens/auth/authentication_screen.dart';
 import 'ui/screens/dashboard/teacher_dashboard.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: ".env");
   runApp(MyApp());
 }
 

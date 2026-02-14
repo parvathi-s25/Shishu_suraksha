@@ -1,0 +1,39 @@
+Launching lib\main.dart on sdk gphone64 x86 64 in debug mode...
+Running Gradle task 'assembleDebug'...                          
+D:\sishusuraksha\Shishu_suraksha\android\app\src\debug\AndroidManifest.xml Error:
+	uses-sdk:minSdkVersion 24 cannot be smaller than version 26 declared in library [:tflite_flutter] D:\sishusuraksha\Shishu_suraksha\build\tflite_flutter\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml as the library might be using APIs not available in 24
+	Suggestion: use a compatible library with a minSdk of at most 24,
+		or increase this project's minSdk version to at least 26,
+		or use tools:overrideLibrary="org.tensorflow.tflite_flutter" to force usage (may lead to runtime failures)
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':app:processDebugMainManifest'.
+> Manifest merger failed with multiple errors, see logs
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights.
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 1m 3s
+Running Gradle task 'assembleDebug'...                             63.9s
+
+┌─ Flutter Fix ─────────────────────────────────────────────────────────────────────────────────┐
+│ The plugin tflite_flutter requires a higher Android SDK version.                              │
+│ Fix this issue by adding the following to the file                                            │
+│ D:\sishusuraksha\Shishu_suraksha\android\app\build.gradle:                                    │
+│ android {                                                                                     │
+│   defaultConfig {                                                                             │
+│     minSdkVersion 26                                                                          │
+│   }                                                                                           │
+│ }                                                                                             │
+│                                                                                               │
+│ Following this change, your app will not be available to users running Android SDKs below 26. │
+│ Consider searching for a version of this plugin that supports these lower versions of the     │
+│ Android SDK instead.                                                                          │
+│ For more information, see: https://flutter.dev/to/review-gradle-config                        │
+└───────────────────────────────────────────────────────────────────────────────────────────────┘
+Error: Gradle task assembleDebug failed with exit code 1

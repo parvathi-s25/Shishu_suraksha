@@ -17,6 +17,13 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
   String? selectedDistrict;
   String? selectedVillage;
   String? selectedUserId; // Added for User ID Dropdown
+  final FocusNode _passwordFocusNode = FocusNode();
+
+  @override
+  void dispose() {
+    _passwordFocusNode.dispose();
+    super.dispose();
+  }
 
   @override
   void didChangeDependencies() {
@@ -231,6 +238,7 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                      
                      // Password Field (Localized)
                      TextFormField(
+                       focusNode: _passwordFocusNode,
                        obscureText: true,
                        decoration: InputDecoration(
                          labelText: t.password,
