@@ -5,10 +5,13 @@ import 'ui/screens/auth/authentication_screen.dart';
 import 'ui/screens/dashboard/teacher_dashboard.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'core/services/data_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: ".env");
+  // Initialize DataService for realtime counts
+  DataService().init();
   runApp(MyApp());
 }
 

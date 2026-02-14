@@ -3,6 +3,8 @@ import '../../../../localization/app_localizations.dart';
 import '../../../../services/responsive_dashboard.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart';
+import '../../../../core/services/data_service.dart';
+import '../../student/ocr_data_entry_screen.dart';
 
 class HomeTaskTab extends StatefulWidget {
   final Function(int) onTabChange;
@@ -38,51 +40,64 @@ class _HomeTaskTabState extends State<HomeTaskTab> {
           SizedBox(height: responsive.getSpacing(16)),
           
           // Top Summary Grid
-          LayoutBuilder(
-            builder: (context, constraints) {
-              final isWide = constraints.maxWidth > 600;
+          StreamBuilder<int>(
+            stream: DataService().childCountStream,
+            initialData: 42,
+            builder: (context, snapshot) {
               return GridView.count(
-                crossAxisCount: isWide ? 4 : 2,
+                crossAxisCount: responsive.isMobile ? 2 : 4,
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 mainAxisSpacing: responsive.getSpacing(16),
                 crossAxisSpacing: responsive.getSpacing(16),
-                childAspectRatio: isWide ? 1.5 : 1.3,
+                childAspectRatio: responsive.isMobile ? 1.3 : 1.5,
                 children: [
                   _buildSummaryCard(
                     icon: Icons.child_care,
                     color: Colors.purple,
                     title: "Children",
-                    count: "42",
+                    count: snapshot.data.toString(),
                     onTap: () => widget.onTabChange(1),
                     responsive: responsive,
                   ),
-                  _buildSummaryCard(
-                    icon: Icons.assessment,
-                    color: Colors.orange,
-                    title: "Assessments",
-                    count: "5",
-                    label: "Pending",
-                    onTap: () => widget.onTabChange(2),
-                    responsive: responsive,
+                  StreamBuilder<int>(
+                    stream: DataService().assessmentCountStream,
+                    initialData: 5,
+                    builder: (context, snap) => _buildSummaryCard(
+                      icon: Icons.assessment,
+                      color: Colors.orange,
+                      title: "Assessments",
+                      count: snap.data.toString(),
+                      label: "Pending",
+                      onTap: () => widget.onTabChange(2),
+                      responsive: responsive,
+                    ),
                   ),
-                  _buildSummaryCard(
-                    icon: Icons.medical_services,
-                    color: Colors.blue,
-                    title: "Interventions",
-                    count: "12",
-                    label: "Active",
-                    onTap: () => widget.onTabChange(3),
-                    responsive: responsive,
+                  StreamBuilder<int>(
+                    stream: DataService().taskCountStream,
+                    initialData: 12,
+                    builder: (context, snap) => _buildSummaryCard(
+                      icon: Icons.medical_services,
+                      color: Colors.blue,
+                      title: "Interventions",
+                      count: snap.data.toString(),
+                      label: "Active",
+                      onTap: () => widget.onTabChange(3),
+                      responsive: responsive,
+                    ),
                   ),
-                  _buildSummaryCard(
-                    icon: Icons.bar_chart,
-                    color: Colors.pink,
-                    title: "Reports",
-                    count: "8",
-                    label: "New",
-                    onTap: () => widget.onTabChange(4),
-                    responsive: responsive,
+                  StreamBuilder<int>(
+                    stream: DataService().alertCountStream,
+                    initialData: 8,
+                    builder: (context, snap) => _buildSummaryCard(
+                      icon: Icons.bar_chart,
+                      color: Colors.pink,
+                      title: "Reports",
+                      count: snap.data.toString(),
+                      label: "New",
+                      onTap: () => widget.onTabChange(4),
+                      responsive: responsive,
+                    ),
                   ),
                 ],
               );
@@ -188,7 +203,12 @@ class _HomeTaskTabState extends State<HomeTaskTab> {
                 icon: Icons.add_circle_outline,
                 title: "Quick Add",
                 color: Colors.teal,
-                 onTap: () {},
+                 onTap: () {
+                   Navigator.push(
+                     context,
+                     MaterialPageRoute(builder: (context) => const OCRDataEntryScreen()),
+                   );
+                 },
                 responsive: responsive,
               ),
             ],
