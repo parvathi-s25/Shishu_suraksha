@@ -5,6 +5,11 @@ import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart';
 import '../../../../core/services/data_service.dart';
 import '../../student/ocr_data_entry_screen.dart';
+import '../../tasks/tasks_screen.dart';
+import '../../alerts/alerts_screen.dart';
+import '../../profile/profile_screen.dart';
+import '../../help/help_center_screen.dart';
+import '../../student/quick_add_screen.dart';
 
 class HomeTaskTab extends StatefulWidget {
   final Function(int) onTabChange;
@@ -87,14 +92,14 @@ class _HomeTaskTabState extends State<HomeTaskTab> {
                     ),
                   ),
                   StreamBuilder<int>(
-                    stream: DataService().alertCountStream,
-                    initialData: 8,
+                    stream: DataService().highRiskCountStream, // Changed to High Risk
+                    initialData: 3,
                     builder: (context, snap) => _buildSummaryCard(
-                      icon: Icons.bar_chart,
-                      color: Colors.pink,
-                      title: "Reports",
+                      icon: Icons.flag, // Red Flag Icon
+                      color: Colors.red,
+                      title: "Red Flags",
                       count: snap.data.toString(),
-                      label: "New",
+                      label: "High Risk",
                       onTap: () => widget.onTabChange(4),
                       responsive: responsive,
                     ),
@@ -162,6 +167,50 @@ class _HomeTaskTabState extends State<HomeTaskTab> {
           ),
           
           SizedBox(height: responsive.getSpacing(32)),
+
+          // --- LAST VISIT REMINDER (NEW) ---
+          StreamBuilder<int>(
+            stream: DataService().overdueCountStream,
+            initialData: 5,
+            builder: (context, snap) {
+              if (snap.data == 0) return const SizedBox.shrink();
+              return Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: Colors.orange.shade50,
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: Colors.orange.withOpacity(0.3)),
+                ),
+                child: Row(
+                  children: [
+                    const Icon(Icons.history, color: Colors.orange, size: 30),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "${snap.data} children not seen in >30 days",
+                            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                          ),
+                          const Text(
+                            "Schedule a home visit soon.",
+                            style: TextStyle(color: Colors.grey, fontSize: 12),
+                          ),
+                        ],
+                      ),
+                    ),
+                    TextButton(
+                       onPressed: () {}, // Navigate to filtered list (future)
+                       child: const Text("VIEW", style: TextStyle(fontWeight: FontWeight.bold)),
+                    )
+                  ],
+                ),
+              );
+            },
+          ),
+
+          SizedBox(height: responsive.getSpacing(32)),
           _buildSectionTitle(context, "Quick Actions", responsive),
           SizedBox(height: responsive.getSpacing(16)),
 
@@ -177,26 +226,26 @@ class _HomeTaskTabState extends State<HomeTaskTab> {
               _buildActionCard(
                 icon: Icons.task_alt,
                 title: "Tasks",
-                 onTap: () => ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Opening Tasks..."))),
+                 onTap: () => Navigator.push(context, MaterialPageRoute(builder: (c) => const TasksScreen())),
                 responsive: responsive,
               ),
                _buildActionCard(
                 icon: Icons.notifications_none,
                 title: "Alerts",
                 badgeCount: 3,
-                 onTap: () {},
+                 onTap: () => Navigator.push(context, MaterialPageRoute(builder: (c) => const AlertsScreen())),
                 responsive: responsive,
               ),
                _buildActionCard(
                 icon: Icons.person_outline,
                 title: "Profile",
-                 onTap: () {},
+                 onTap: () => Navigator.push(context, MaterialPageRoute(builder: (c) => const ProfileScreen())),
                 responsive: responsive,
               ),
                _buildActionCard(
                 icon: Icons.help_outline,
                 title: "Help Center",
-                 onTap: () {},
+                 onTap: () => Navigator.push(context, MaterialPageRoute(builder: (c) => const HelpCenterScreen())),
                 responsive: responsive,
               ),
                _buildActionCard(
@@ -204,10 +253,40 @@ class _HomeTaskTabState extends State<HomeTaskTab> {
                 title: "Quick Add",
                 color: Colors.teal,
                  onTap: () {
-                   Navigator.push(
-                     context,
-                     MaterialPageRoute(builder: (context) => const OCRDataEntryScreen()),
-                   );
+                    showModalBottomSheet(
+                      context: context,
+                      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(24))),
+                      builder: (context) => Container(
+                        padding: const EdgeInsets.all(24),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Text("Select Mode", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                            const SizedBox(height: 24),
+                            ListTile(
+                              leading: const CircleAvatar(backgroundColor: Colors.teal, child: Icon(Icons.document_scanner, color: Colors.white)),
+                              title: const Text("Scan Document", style: TextStyle(fontWeight: FontWeight.bold)),
+                              subtitle: const Text("Auto-fill details from ID card"),
+                              onTap: () {
+                                Navigator.pop(context);
+                                Navigator.push(context, MaterialPageRoute(builder: (c) => const OCRDataEntryScreen()));
+                              },
+                            ),
+                            const Divider(),
+                            ListTile(
+                              leading: const CircleAvatar(backgroundColor: Colors.blueAccent, child: Icon(Icons.flash_on, color: Colors.white)),
+                              title: const Text("Quick Add (Ultra Fast)", style: TextStyle(fontWeight: FontWeight.bold)),
+                              subtitle: const Text("Enter Name, Age, Weight only"),
+                              onTap: () {
+                                Navigator.pop(context);
+                                Navigator.push(context, MaterialPageRoute(builder: (c) => const QuickAddScreen()));
+                              },
+                            ),
+                            const SizedBox(height: 24),
+                          ],
+                        ),
+                      ),
+                    );
                  },
                 responsive: responsive,
               ),

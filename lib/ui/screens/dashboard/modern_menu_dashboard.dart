@@ -21,6 +21,10 @@ import '../assessment/start_assessment_tab.dart'; // Added import
 
 import 'package:shishu_suraksha/ui/widgets/custom_bottom_nav_bar.dart';
 import '../../../core/utils/voice_command_manager.dart';
+import 'package:shishu_suraksha/ui/screens/tasks/tasks_screen.dart';
+import 'package:shishu_suraksha/ui/screens/alerts/alerts_screen.dart';
+import 'package:shishu_suraksha/ui/screens/profile/profile_screen.dart';
+import 'package:shishu_suraksha/ui/screens/help/help_center_screen.dart';
 
 class ModernMenuDashboard extends StatefulWidget {
   const ModernMenuDashboard({super.key});
@@ -153,9 +157,9 @@ class _ModernMenuDashboardState extends State<ModernMenuDashboard> {
             ),
           ),
           const SizedBox(height: 8),
-          const Text(
-            'Good Morning!',
-            style: TextStyle(
+          Text(
+            _getGreeting(),
+            style: const TextStyle(
               color: Color(0xFF2D3142),
               fontWeight: FontWeight.bold,
               fontSize: 24,
@@ -295,6 +299,42 @@ class _ModernMenuDashboardState extends State<ModernMenuDashboard> {
           MaterialPageRoute(builder: (context) => const CalendarScreen()),
         ),
       },
+      {
+        'label': 'Tasks',
+        'icon': Icons.task_alt,
+        'color': const Color(0xFF607D8B),
+        'onTap': () => Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const TasksScreen()),
+        ),
+      },
+      {
+        'label': 'Alerts',
+        'icon': Icons.notifications_active_rounded,
+        'color': const Color(0xFFD32F2F),
+        'onTap': () => Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const AlertsScreen()),
+        ),
+      },
+      {
+        'label': 'Profile',
+        'icon': Icons.person_rounded,
+        'color': const Color(0xFF795548),
+        'onTap': () => Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const ProfileScreen()),
+        ),
+      },
+      {
+        'label': 'Help',
+        'icon': Icons.help_outline_rounded,
+        'color': const Color(0xFF00BCD4),
+        'onTap': () => Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const HelpCenterScreen()),
+        ),
+      },
     ];
 
     return GridView.builder(
@@ -426,6 +466,16 @@ class _ModernMenuDashboardState extends State<ModernMenuDashboard> {
         ),
       ],
     );
+  }
+  String _getGreeting() {
+    final hour = DateTime.now().hour;
+    if (hour < 12) {
+      return 'Good Morning!';
+    } else if (hour < 17) {
+      return 'Good Afternoon!';
+    } else {
+      return 'Good Evening!';
+    }
   }
 }
 

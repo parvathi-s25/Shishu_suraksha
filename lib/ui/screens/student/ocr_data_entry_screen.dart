@@ -71,6 +71,19 @@ class _OCRDataEntryScreenState extends State<OCRDataEntryScreen> {
     super.dispose();
   }
 
+  // Field Scanning State
+  String? _scanningField;
+
+  void _startFieldScan(String fieldKey) {
+    setState(() {
+      _scanningField = fieldKey;
+      _showForm = false; // Go back to camera
+    });
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Focus camera on ${fieldKey.toUpperCase()} only')),
+    );
+  }
+
   Future<void> _scanImage() async {
     if (_controller == null || !_controller!.value.isInitialized || _isProcessing) return;
 
@@ -79,16 +92,11 @@ class _OCRDataEntryScreenState extends State<OCRDataEntryScreen> {
     try {
       final image = await _controller!.takePicture();
       
-      // Stage 1: Basic Blur Detection (Heuristic: File size check)
-      final bytes = await image.length();
-      if (bytes < 100000) { // If < 100KB, likely blurry or poor quality
-         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('⚠ Image too small/blurry. Please move to better light.')),
-        );
-      }
-
+      // Determine endpoint based on mode
+      String endpoint = _scanningField != null ? 'ocr_field' : 'ocr';
+      
       // Upload to Flask Backend
-      var request = http.MultipartRequest('POST', Uri.parse('http://10.232.15.200:5000/ocr')); 
+      var request = http.MultipartRequest('POST', Uri.parse('http://10.232.15.200:5000/$endpoint')); 
       request.files.add(await http.MultipartFile.fromPath(
         'image',
         image.path,
@@ -101,38 +109,103 @@ class _OCRDataEntryScreenState extends State<OCRDataEntryScreen> {
       if (response.statusCode == 200) {
         await HapticFeedback.heavyImpact();
         final data = jsonDecode(response.body);
-        _fillForm(data['extracted_data']);
-      } else {
-        // Handle server errors gracefully
-        String errorMessage = 'Server error: ${response.statusCode}';
-        try {
-          final errorData = jsonDecode(response.body);
-          if (errorData.containsKey('error')) {
-            errorMessage = errorData['error'];
-          }
-        } catch (e) {
-          // Response body was not JSON
+        
+        if (_scanningField != null) {
+          // Field Scan Result
+          String text = data['extracted_text'] ?? "";
+          _updateField(_scanningField!, text);
+          setState(() {
+            _scanningField = null; // Reset mode
+            _showForm = true; // Go back to form
+          });
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Field Updated")));
+        } else {
+          // Full Scan Result
+          _fillForm(data['extracted_data'], data['request_id'] ?? "");
         }
-        throw Exception(errorMessage);
+      } else {
+          // ... error handling ...
+          throw Exception('Server error: ${response.statusCode}');
       }
     } catch (e) {
-      debugPrint('Error scanning text: $e');
-      await HapticFeedback.vibrate();
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error scanning: $e')),
-      );
+      debugPrint('Error scanning: $e');
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error: $e')));
     } finally {
-      if (mounted) {
-        setState(() => _isProcessing = false);
-      }
+      if (mounted) setState(() => _isProcessing = false);
     }
   }
 
-  // Confidence Storage
-  Map<String, double> _confidences = {};
+  void _updateField(String key, String text) {
+    switch (key) {
+      case 'name': _nameController.text = text; break;
+      case 'father': _fatherController.text = text; break;
+      case 'dob': _dobController.text = text; break;
+      case 'aadhaar': _idController.text = text; break;
+      case 'gender': _genderController.text = text; break;
+    }
+  }
 
-  void _fillForm(Map<String, dynamic> data) {
+  // ... (existing helper methods)
+
+  Widget _buildFieldWithConfidence(String label, TextEditingController controller, IconData icon, String fieldKey) {
+    Color statusColor = _getConfidenceColor(fieldKey);
+    final bool isDob = fieldKey == 'dob';
+    
+    return Row(
+      children: [
+        Expanded(
+          child: TextField(
+            controller: controller,
+            readOnly: isDob, 
+            onTap: isDob ? () async {
+              DateTime? picked = await showDatePicker(
+                context: context,
+                initialDate: DateTime.now(),
+                firstDate: DateTime(2015), // Assuming young children
+                lastDate: DateTime.now(),
+                builder: (context, child) {
+                  return Theme(
+                    data: Theme.of(context).copyWith(
+                      colorScheme: ColorScheme.light(primary: AppColors.primary),
+                    ),
+                    child: child!,
+                  );
+                },
+              );
+              if (picked != null) {
+                String formatted = "${picked.day.toString().padLeft(2, '0')}/${picked.month.toString().padLeft(2, '0')}/${picked.year}";
+                controller.text = formatted;
+                _calculateAge(formatted);
+              }
+            } : null,
+            decoration: InputDecoration(
+              labelText: label,
+              prefixIcon: Icon(icon, color: statusColor),
+              suffixIcon: IconButton(
+                 icon: const Icon(Icons.document_scanner_outlined), // Re-scan icon
+                 onPressed: () => _startFieldScan(fieldKey),
+                 tooltip: "Re-scan this field",
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(16),
+                borderSide: BorderSide(color: statusColor.withOpacity(0.5), width: 2),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(16),
+                borderSide: BorderSide(color: statusColor, width: 2),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+  Map<String, double> _confidences = {};
+  String _requestId = "";
+
+  void _fillForm(Map<String, dynamic> data, String requestId) {
     setState(() {
+      _requestId = requestId;
       _nameController.text = data['name']['value'] ?? "";
       _dobController.text = data['dob']['value'] ?? "";
       _idController.text = data['aadhaar']['value'] ?? "";
@@ -148,6 +221,32 @@ class _OCRDataEntryScreenState extends State<OCRDataEntryScreen> {
       
       _showForm = true;
     });
+  }
+
+  Future<void> _sendFeedback() async {
+    if (_requestId.isEmpty) return;
+    
+    try {
+      final feedbackData = {
+        "request_id": _requestId,
+        "corrected_data": {
+           "name": _nameController.text,
+           "dob": _dobController.text,
+           "aadhaar": _idController.text,
+           "gender": _genderController.text,
+           "father_name": _fatherController.text,
+           "age": _ageController.text,
+        }
+      };
+
+      await http.post(
+        Uri.parse('http://10.232.15.200:5000/feedback'),
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode(feedbackData),
+      );
+    } catch (e) {
+      debugPrint("Feedback error: $e");
+    }
   }
 
   Color _getConfidenceColor(String field) {
@@ -389,52 +488,7 @@ class _OCRDataEntryScreenState extends State<OCRDataEntryScreen> {
     );
   }
 
-  Widget _buildFieldWithConfidence(String label, TextEditingController controller, IconData icon, String fieldKey) {
-    Color statusColor = _getConfidenceColor(fieldKey);
-    final bool isDob = fieldKey == 'dob';
-    
-    return TextField(
-      controller: controller,
-      readOnly: isDob, // Open picker on tap for DOB
-      onTap: isDob ? () async {
-        DateTime? picked = await showDatePicker(
-          context: context,
-          initialDate: DateTime.now(),
-          firstDate: DateTime(2015), // Assuming young children
-          lastDate: DateTime.now(),
-          builder: (context, child) {
-            return Theme(
-              data: Theme.of(context).copyWith(
-                colorScheme: ColorScheme.light(primary: AppColors.primary),
-              ),
-              child: child!,
-            );
-          },
-        );
-        if (picked != null) {
-          String formatted = "${picked.day.toString().padLeft(2, '0')}/${picked.month.toString().padLeft(2, '0')}/${picked.year}";
-          controller.text = formatted;
-          _calculateAge(formatted);
-        }
-      } : null,
-      decoration: InputDecoration(
-        labelText: label,
-        prefixIcon: Icon(icon, color: statusColor),
-        suffixIcon: Icon(
-          statusColor == Colors.green ? Icons.check_circle : (statusColor == Colors.orange ? Icons.warning : Icons.error),
-          color: statusColor.withOpacity(0.5),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(16),
-          borderSide: BorderSide(color: statusColor.withOpacity(0.5), width: 2),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(16),
-          borderSide: BorderSide(color: statusColor, width: 2),
-        ),
-      ),
-    );
-  }
+
 
   void _calculateAge(String dob) {
     try {

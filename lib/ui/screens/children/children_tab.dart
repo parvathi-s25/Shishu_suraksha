@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shishu_suraksha/ui/widgets/health_indicator_widget.dart';
 import '../dashboard/tabs/child_report_screen.dart';
 import '../../../services/responsive_dashboard.dart';
 
@@ -28,25 +29,23 @@ class _ChildrenTabState extends State<ChildrenTab> {
   // Mock Data
   final Map<String, List<Map<String, dynamic>>> _mockChildren = {
     "0–6 months": [
-      {"name": "Aarav", "age": "4 months", "id": "A001"},
-      {"name": "Vihaan", "age": "5 months", "id": "A002"},
-      {"name": "Ishaan", "age": "2 months", "id": "A003"},
+      {"name": "Aarav", "age": "4 months", "id": "A001", "status": HealthStatus.good},
+      {"name": "Vihaan", "age": "5 months", "id": "A002", "status": HealthStatus.needsAttention},
+      {"name": "Ishaan", "age": "2 months", "id": "A003", "status": HealthStatus.excellent},
     ],
     "6 months–1 year": [
-      {"name": "Aditya", "age": "8 months", "id": "B001"},
-      {"name": "Sai", "age": "11 months", "id": "B002"},
+      {"name": "Aditya", "age": "8 months", "id": "B001", "status": HealthStatus.critical},
+      {"name": "Sai", "age": "11 months", "id": "B002", "status": HealthStatus.good},
     ],
     "1–2 years": [
-      {"name": "Reyansh", "age": "1.5 years", "id": "C001"},
-      {"name": "Arjun", "age": "1.2 years", "id": "C002"},
+      {"name": "Reyansh", "age": "1.5 years", "id": "C001", "status": HealthStatus.good},
+      {"name": "Arjun", "age": "1.2 years", "id": "C002", "status": HealthStatus.excellent},
     ],
-    // Add more if needed, default mostly empty for simplicity
   };
 
   @override
   void initState() {
     super.initState();
-    // Pre-select first age range optionally, or keep null
   }
 
   @override
@@ -226,19 +225,24 @@ class _ChildrenTabState extends State<ChildrenTab> {
                               ),
                               title: Text(
                                 child['name'],
-                                textAlign: TextAlign.center,
+                                textAlign: TextAlign.start,
                                 style: TextStyle(
                                   fontSize: responsive.getFontSize(14),
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
                               subtitle: Text(
-                                "ID: ${child['id']}",
-                                textAlign: TextAlign.center,
+                                "ID: ${child['id']} • Age: ${child['age']}",
+                                textAlign: TextAlign.start,
                                 style: TextStyle(
                                   fontSize: responsive.getFontSize(11),
                                   color: Colors.grey,
                                 ),
+                              ),
+                              trailing: HealthIndicatorWidget(
+                                status: child['status'] as HealthStatus,
+                                label: '',
+                                showBadge: true,
                               ),
                               onTap: () {
                                 Navigator.push(
