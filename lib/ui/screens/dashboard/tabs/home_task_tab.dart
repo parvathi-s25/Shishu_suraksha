@@ -55,7 +55,7 @@ class _HomeTaskTabState extends State<HomeTaskTab> {
                 physics: const NeverScrollableScrollPhysics(),
                 mainAxisSpacing: responsive.getSpacing(16),
                 crossAxisSpacing: responsive.getSpacing(16),
-                childAspectRatio: responsive.isMobile ? 1.3 : 1.5,
+                childAspectRatio: responsive.isMobile ? 1.0 : 1.5,
                 children: [
                   _buildSummaryCard(
                     icon: Icons.child_care,
@@ -333,7 +333,7 @@ class _HomeTaskTabState extends State<HomeTaskTab> {
             ),
           ],
         ),
-        padding: EdgeInsets.all(responsive.getSpacing(16)),
+        padding: EdgeInsets.all(responsive.getSpacing(12)),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -346,33 +346,45 @@ class _HomeTaskTabState extends State<HomeTaskTab> {
               ),
               child: Icon(icon, color: color, size: 24),
             ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  count,
-                  style: TextStyle(
-                    fontSize: responsive.getFontSize(24),
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black87,
+            Flexible(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    count,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: responsive.getFontSize(24),
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black87,
+                    ),
                   ),
-                ),
-                Text(
-                  title,
-                  style: TextStyle(
-                    fontSize: responsive.getFontSize(14),
-                    color: Colors.grey[600],
+                  Text(
+                    title,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: responsive.getFontSize(14),
+                      color: Colors.grey[600],
+                    ),
                   ),
-                ),
-                if (label != null)
-                  Padding(
-                      padding: const EdgeInsets.only(top: 4),
-                      child: Text(
-                        label,
-                        style: TextStyle(fontSize: 10, color: color, fontWeight: FontWeight.bold),
-                      )
-                  ),
-              ],
+                  if (label != null)
+                    Padding(
+                        padding: const EdgeInsets.only(top: 4),
+                        child: FittedBox(
+                          fit: BoxFit.scaleDown,
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            label,
+                            maxLines: 1,
+                            style: TextStyle(fontSize: 10, color: color, fontWeight: FontWeight.bold),
+                          ),
+                        )
+                    ),
+                ],
+              ),
             ),
           ],
         ),

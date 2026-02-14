@@ -158,7 +158,7 @@ class _ModernMenuDashboardState extends State<ModernMenuDashboard> {
           ),
           const SizedBox(height: 8),
           Text(
-            _getGreeting(),
+            _getGreeting(AppLocalizations.of(context)),
             style: const TextStyle(
               color: Color(0xFF2D3142),
               fontWeight: FontWeight.bold,
@@ -467,14 +467,14 @@ class _ModernMenuDashboardState extends State<ModernMenuDashboard> {
       ],
     );
   }
-  String _getGreeting() {
+  String _getGreeting(AppLocalizations t) {
     final hour = DateTime.now().hour;
     if (hour < 12) {
-      return 'Good Morning!';
+      return t.goodMorning;
     } else if (hour < 17) {
-      return 'Good Afternoon!';
+      return t.goodAfternoon;
     } else {
-      return 'Good Evening!';
+      return t.goodEvening;
     }
   }
 }

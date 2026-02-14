@@ -519,6 +519,17 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 
+  String _getLocalizedGreeting(AppLocalizations t) {
+    final hour = DateTime.now().hour;
+    if (hour < 12) {
+      return t.goodMorning;
+    } else if (hour < 17) {
+      return t.goodAfternoon;
+    } else {
+      return t.goodEvening;
+    }
+  }
+
   Widget _buildGreeting(AppLocalizations t, ResponsiveDashboard responsive) {
     return Container(
       padding: responsive.cardPadding,
@@ -540,7 +551,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           ),
           SizedBox(height: responsive.getSpacing(4)),
           Text(
-            t.goodMorning,
+            _getLocalizedGreeting(t),
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: responsive.getFontSize(24),
@@ -549,6 +560,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             ),
           ),
           SizedBox(height: responsive.getSpacing(8)),
+
           Text(
             t.startMonitoring,
             textAlign: TextAlign.center,

@@ -97,10 +97,7 @@ class _SplashScreenState extends State<SplashScreen>
                             children: [
                               // LOGO (LARGER SIZE)
                               Opacity(
-                                opacity: (anim.logoFadeIn.value -
-                                        anim.logoFadeOut.value +
-                                        anim.logoTaglineFadeIn.value)
-                                    .clamp(0.0, 1.0),
+                                opacity: anim.logoFadeIn.value,
                                 child: CroppedLogo(width: 220),
                               ),
 
@@ -108,9 +105,7 @@ class _SplashScreenState extends State<SplashScreen>
 
                               // TAGLINE (CLOSER TO LOGO)
                               Opacity(
-                                opacity: (anim.taglineFadeIn.value +
-                                        anim.logoTaglineFadeIn.value)
-                                    .clamp(0.0, 1.0),
+                                opacity: anim.taglineFadeIn.value,
                                 child: const Text(
                                   "మీ బిడ్డ భద్రత మా బాధ్యత",
                                   textAlign: TextAlign.center,
@@ -127,12 +122,12 @@ class _SplashScreenState extends State<SplashScreen>
                           ),
                         ),
 
-                        const SizedBox(height: 40), // Reduced from 120/40 logic for consistencty
+                        const SizedBox(height: 40), 
 
                         // GLASSMORPHISM CARD - LANGUAGE DROPDOWN
-                        if (anim.controller.value > 0.643)
+                        if (anim.controller.value > 0.6)
                           Opacity(
-                            opacity: ((anim.controller.value - 0.643) * 3).clamp(0.0, 1.0),
+                            opacity: ((anim.controller.value - 0.6) * 5).clamp(0.0, 1.0),
                             child: Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 32),
                               child: ClipRRect(
@@ -187,12 +182,12 @@ class _SplashScreenState extends State<SplashScreen>
                             ),
                           ),
 
-                        SizedBox(height: anim.controller.value > 0.643 ? 20 : 80), // Reduced gap
+                        SizedBox(height: anim.controller.value > 0.6 ? 20 : 80), // Reduced gap
 
                         // GLASSMORPHISM CARD - GET STARTED BUTTON
-                        if (anim.controller.value > 0.643)
+                        if (anim.controller.value > 0.6)
                           Opacity(
-                            opacity: ((anim.controller.value - 0.643) * 3)
+                            opacity: ((anim.controller.value - 0.6) * 5)
                                 .clamp(0.0, 1.0),
                             child: Padding(
                               padding:

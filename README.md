@@ -10,14 +10,18 @@ The application now features a "live" AI assistant capable of interacting in mul
 - **Intelligent Telugu Interaction**: Powered by Groq (Llama-3), providing fast and professional responses to ECD queries.
 - **Voice Response (TTS)**: The assistant reads aloud its responses in the selected language.
 - **Speech-to-Text (STT)**: Users can speak their queries directly in Telugu.
-- **Responsive Design**: Prevents UI overlap on mobile devices.
+- **Real-time Localized Greetings**: The dashboard banner dynamically updates based on the time of day (Morning/Afternoon/Evening) in both English and Telugu.
+- **Polished Startup Experience**: A seamless, high-performance startup flow using Lottie animations and optimized splash transitions for a premium feel.
+- **Responsive Design**: Prevents UI overlap on mobile devices and supports both Modern and Teacher dashboard layouts.
 
 ## 📊 System Flowchart
 
 ```mermaid
 graph TD
     %% Entry Point
-    User([Anganwadi Worker]) --> Login{Login / Auth}
+    User([Anganwadi Worker]) --> Intro[Lottie Opening Animation]
+    Intro --> Splash[Smooth Splash Transition]
+    Splash --> Login{Login / Auth}
     Login -->|Success| Dashboard[Modern Menu Dashboard]
 
     %% Dashboard Components

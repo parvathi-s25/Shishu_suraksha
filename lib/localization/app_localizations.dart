@@ -85,6 +85,9 @@ class AppLocalizations {
   // New Dashboard Getters
   String get welcome => t("welcome");
   String get goodMorning => t("goodMorning");
+  String get goodAfternoon => t("goodAfternoon");
+  String get goodEvening => t("goodEvening");
+
   String get startMonitoring => t("startMonitoring");
   String get growth => t("growth");
   String get reports => t("reports");

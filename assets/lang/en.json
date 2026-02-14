@@ -368,6 +368,9 @@
   "get_started": "Get Started",
   "welcome": "Welcome!",
   "goodMorning": "Good Morning!",
+  "goodAfternoon": "Good Afternoon!",
+  "goodEvening": "Good Evening!",
+
   "startMonitoring": "Start monitoring child health with these quick actions.",
   "growth": "Growth",
   "reports": "Reports",

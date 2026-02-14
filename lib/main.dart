@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'localization/app_localizations.dart';
 import 'ui/screens/splash/splash_screen.dart';
+import 'ui/screens/splash/opening_animation_screen.dart';
 import 'ui/screens/auth/authentication_screen.dart';
 import 'ui/screens/dashboard/teacher_dashboard.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -50,7 +51,7 @@ class _MyAppState extends State<MyApp> {
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      home: SplashScreen(),
+      home: OpeningAnimationScreen(),
       routes: {
         "/auth": (_) => AuthenticationScreen(),
         "/dashboard": (_) => DashboardScreen(),
@@ -58,3 +59,4 @@ class _MyAppState extends State<MyApp> {
     );
   }
 }
+
