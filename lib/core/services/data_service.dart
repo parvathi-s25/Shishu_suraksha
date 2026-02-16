@@ -6,6 +6,7 @@ import 'package:excel/excel.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import '../data/models/child_model.dart';
+import '../data/models/assessment_result_models.dart';
 
 class DataService extends ChangeNotifier {
   static final DataService _instance = DataService._internal();
@@ -14,7 +15,10 @@ class DataService extends ChangeNotifier {
 
   // In-memory storage (Replace with SQLite/Hive for persistence in future)
   final List<ChildModel> _children = [];
+  final List<AssessmentResult> _assessments = []; // Store assessments
+  
   List<ChildModel> get children => List.unmodifiable(_children);
+  List<AssessmentResult> get assessments => List.unmodifiable(_assessments);
 
   // Streams for counts
   final _childCountController = StreamController<int>.broadcast();
@@ -61,6 +65,25 @@ class DataService extends ChangeNotifier {
     _assessmentCount++;
     _assessmentCountController.add(_assessmentCount);
     notifyListeners();
+  }
+
+  void addAssessmentResult(AssessmentResult result) {
+    _assessments.add(result);
+    // Update assessment count
+    _assessmentCount++;
+    _assessmentCountController.add(_assessmentCount);
+    
+    // Check for high risk and update alert count
+    if (result is MotorAssessmentResult && result.totalScore < 50) {
+      addHighRiskChild();
+      addAlert();
+    } // Add other checks as needed
+    
+    notifyListeners();
+  }
+
+  List<AssessmentResult> getAssessmentsForChild(String childId) {
+    return _assessments.where((a) => a.childId == childId).toList();
   }
 
   void addTask() {

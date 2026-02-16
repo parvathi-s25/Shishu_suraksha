@@ -10,6 +10,11 @@ import 'tabs/intervene_tab.dart'; // Import Intervene Tab
 import 'tabs/insights_tab.dart'; // Import Insights Tab
 import '../../widgets/voice_assistant_widget.dart';
 import '../../../services/responsive_dashboard.dart'; // Import responsive utilities
+import '../../../modules/health_monitoring/screens/health_dashboard_screen.dart';
+import '../../../modules/classroom_monitoring/screens/classroom_dashboard_screen.dart';
+import '../../../modules/growth_tracking/screens/growth_monitoring_screen.dart';
+import '../../../modules/ai_alerts/screens/alerts_dashboard_screen.dart';
+import '../../../modules/admin_dashboard/screens/admin_dashboard_screen.dart';
 
 class DashboardScreen extends StatefulWidget {
   @override
@@ -128,22 +133,38 @@ class _DashboardScreenState extends State<DashboardScreen> {
       child: Column(
         children: [
           SizedBox(height: responsive.getSpacing(20)),
-          _buildSidebarItem(Icons.home, 0, responsive),
-          _buildSidebarItem(Icons.child_care, 1, responsive),
-          _buildSidebarItem(Icons.add_circle, 2, responsive),
-          _buildSidebarItem(Icons.medical_services, 3, responsive),
-          _buildSidebarItem(Icons.bar_chart, 4, responsive),
+          _buildSidebarItem(Icons.home, "Home", 0),
+          _buildSidebarItem(Icons.child_care, "Children", 1),
+          _buildSidebarItem(Icons.add_circle, "Start", 2),
+          _buildSidebarItem(Icons.medical_services, "Intervene", 3),
+          _buildSidebarItem(Icons.analytics, "Reports", 4),
+          const Divider(color: Colors.white24),
+          _buildSidebarItem(Icons.monitor_heart, "Health", 5), // Health
+          _buildSidebarItem(Icons.school, "Classroom", 6), // Classroom
+          _buildSidebarItem(Icons.show_chart, "Growth", 7), // Growth
+          _buildSidebarItem(Icons.warning, "Alerts", 8), // Alerts
+          const Divider(color: Colors.white24),
+          _buildSidebarItem(Icons.admin_panel_settings, "Admin", 9),
         ],
       ),
     );
   }
 
-  Widget _buildSidebarItem(IconData icon, int index, ResponsiveDashboard responsive) {
+  Widget _buildSidebarItem(IconData icon, String label, int index) {
+    // responsive is not available here unless passed or obtained from context
+    // But responsive was used in padding: responsive.getSpacing(12)
+    // We need to get responsive again or pass it. 
+    // The original method used 'responsive' from the class state or passed in?
+    // In _buildSidebar, responsive is passed.
+    // In _buildSidebarItem, it is NOT passed in the new signature.
+    // We need to get it from context.
+    final responsive = ResponsiveDashboard(context);
     final isActive = _selectedIndex == index;
+
     return Padding(
       padding: EdgeInsets.symmetric(vertical: responsive.getSpacing(12)),
       child: Tooltip(
-        message: ['Home', 'Children', 'Start', 'Intervene', 'Insights'][index],
+        message: label,
         child: IconButton(
           icon: Icon(icon, size: 28),
           color: isActive ? Colors.teal : Colors.grey,
@@ -176,6 +197,16 @@ class _DashboardScreenState extends State<DashboardScreen> {
               const Expanded(child: InterveneTab())
             else if (_selectedIndex == 4)
               const Expanded(child: InsightsTab())
+            else if (_selectedIndex == 5)
+              const Expanded(child: HealthDashboardScreen(initialChildId: "demo_01", initialChildName: "Rahul Kumar"))
+            else if (_selectedIndex == 6)
+              const Expanded(child: ClassroomDashboardScreen())
+            else if (_selectedIndex == 7)
+              const Expanded(child: GrowthMonitoringScreen(childId: "demo_01", childName: "Rahul Kumar"))
+            else if (_selectedIndex == 8)
+              const Expanded(child: AlertsDashboardScreen())
+            else if (_selectedIndex == 9)
+               const Expanded(child: AdminDashboardScreen())
             else
               Expanded(
                 child: Center(
@@ -190,9 +221,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ),
           ],
         ),
-
     );
   }
+
   Widget _buildDrawer(AppLocalizations t) {
     final responsive = ResponsiveDashboard(context);
 
@@ -252,7 +283,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
           ListTile(
             leading: const Icon(Icons.logout),
             title: const Text('Logout'),
-            onTap: () => Navigator.pop(context),
+            onTap: () {
+              Navigator.pushNamedAndRemoveUntil(context, "/auth", (route) => false);
+            },
           ),
         ],
       ),

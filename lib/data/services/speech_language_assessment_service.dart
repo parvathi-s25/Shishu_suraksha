@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+import 'dart:math';
 import '../models/assessment_models.dart';
 
 /// Speech & Language Assessment Service
@@ -67,7 +68,7 @@ class SpeechLanguageAssessmentService {
     final expectedPhonemes = expectedPhonemeCount[ageMonths] ?? 40;
     final detectedPhonemes = _detectPhonemes(mfccFeatures);
     final pronunciationAccuracy =
-        (detectedPhonemes / expectedPhonemes * 100).clamp(0, 100);
+        (detectedPhonemes / expectedPhonemes * 100).clamp(0.0, 100.0);
 
     return SpeechAnalysisResult(
       wordClarity: clarityScore,
@@ -223,8 +224,8 @@ class SpeechLanguageAssessmentService {
 
     // Articulation score
     final errorRate =
-        (unexpectedErrors.length / detectedPhonemes.length).clamp(0, 1);
-    final articulationScore = (100 - errorRate * 100).clamp(0, 100);
+        (unexpectedErrors.length / detectedPhonemes.length).clamp(0.0, 1.0);
+    final articulationScore = (100 - errorRate * 100).clamp(0.0, 100.0);
 
     return SpeechAnalysisResult(
       articulationScore: articulationScore,
@@ -281,7 +282,7 @@ class SpeechLanguageAssessmentService {
             .reduce((a, b) => a + b) /
         spectrogramData.length;
 
-    return 10 * (signal / (noise + 0.00001)).abs().log() / 2.303; // 20*log10
+    return 10 * log((signal / (noise + 0.00001)).abs()) / 2.303; // 20*log10
   }
 
   static int _detectPhonemes(List<double> mfccFeatures) {
@@ -373,13 +374,13 @@ class SpeechLanguageAssessmentService {
             .reduce((a, b) => a + b) /
         intervals.length;
 
-    final stdDev = variance.sqrt();
+    final stdDev = sqrt(variance);
 
     // CV (Coefficient of Variation) - lower is more regular
     final cv = stdDev / (mean + 0.00001);
 
     // Convert to 0-100 score (lower CV = higher regularity)
-    return (100 - (cv * 50).clamp(0, 100)).clamp(0, 100);
+    return (100 - (cv * 50).clamp(0.0, 100.0)).clamp(0.0, 100.0);
   }
 
   static List<String> _getExpectedArticulationErrors(int ageMonths) {

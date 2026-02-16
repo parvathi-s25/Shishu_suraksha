@@ -143,16 +143,16 @@ class TeacherActivityDashboardService {
     // Recommendations
     final recommendations = _generateActivityRecommendations(
       activityAnalyses: activityAnalyses,
-      overallPerformance: totalPerformance,
+      overallPerformance: totalPerformance.toDouble(),
     );
 
     return ChildActivityReport(
       childId: childId,
       reportDate: DateTime.now(),
       totalSessionsCompleted: totalCompletedSessions,
-      overallCompletionRate: overallCompletionRate,
-      averageEngagementScore: totalEngagement,
-      averagePerformanceScore: totalPerformance,
+      overallCompletionRate: overallCompletionRate.toDouble(),
+      averageEngagementScore: totalEngagement.toDouble(),
+      averagePerformanceScore: totalPerformance.toDouble(),
       mostEffectiveActivityId: mostEffectiveActivity.activityId,
       leastEffectiveActivityId: leastEffectiveActivity.activityId,
       activityAnalyses: activityAnalyses,

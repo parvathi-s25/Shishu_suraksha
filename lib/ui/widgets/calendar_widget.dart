@@ -200,7 +200,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
     final isSelected = _isSelected(date);
 
     return GestureDetector(
-        // Toggle selection or select
+      onTap: () {
         setState(() {
           if (_isSelected(date)) {
              _selectedDate = null;

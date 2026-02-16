@@ -321,7 +321,6 @@ class RiskStratificationService {
 
     // Simple BMI-based assessment
     final heightM = height / 100;
-    final bmi = weight / (heightM * heightM);
 
     // WHO weight-for-age standards (simplified)
     final expectedWeight = _getExpectedWeightForAge(ageMonths);
@@ -348,12 +347,12 @@ class RiskStratificationService {
       final previousAvg =
           previousWeights.reduce((a, b) => a + b) / previousWeights.length;
       if (weight < previousAvg * 0.95) {
-        riskScore = (riskScore + 0.2).clamp(0, 1);
+        riskScore = (riskScore + 0.2).clamp(0.0, 1.0);
         description += ' ALERT: Recent weight loss detected.';
       }
     }
 
-    return {'risk': riskScore.clamp(0, 1), 'description': description};
+    return {'risk': riskScore.clamp(0.0, 1.0), 'description': description};
   }
 
   static double _getExpectedWeightForAge(int ageMonths) {
@@ -489,13 +488,12 @@ class ComprehensiveAssessmentOrchestrator {
     required int cognitiveDevelopmentalAge,
   }) async {
     // Calculate overall developmental score (weighted average)
-    final overallScore =
-        (motorScore * 0.25 +
+    final overallScore = (motorScore * 0.25 +
             speechScore * 0.25 +
-            cognitiveScore * 0.25 +
-            socialEmotionalScore * 0.15 +
+            cognitiveScore * 0.20 +
+            socialEmotionalScore * 0.20 +
             healthScore * 0.10)
-        .clamp(0, 100);
+        .clamp(0.0, 100.0);
 
     // Determine risk level
     final riskLevel = RiskStratificationService.stratifyRisk(
@@ -533,7 +531,7 @@ class ComprehensiveAssessmentOrchestrator {
       cognitiveScore: cognitiveScore,
       socialEmotionalScore: socialEmotionalScore,
       healthScore: healthScore,
-      overallScore: overallScore,
+      overallScore: overallScore.toDouble(),
       riskLevel: riskLevel,
     );
 

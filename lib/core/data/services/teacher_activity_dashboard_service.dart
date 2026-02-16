@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import '../models/child_model.dart';
 
 class TeacherActivityDashboardService {
   Future<List<ActivityData>> getActivities() async {
@@ -13,7 +13,7 @@ class TeacherActivityDashboardService {
 class ActivityData {
   final String id;
   final String title;
-
+  
   ActivityData({
     required this.id,
     required this.title,

@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:shishu_suraksha/app/theme/colors.dart';
+import 'package:shishu_suraksha/localization/app_localizations.dart';
 import 'package:shishu_suraksha/ui/widgets/menu_card_widget.dart';
 import 'package:shishu_suraksha/ui/widgets/neumorphic_menu_card.dart';
 import 'package:shishu_suraksha/ui/widgets/glass_container.dart';

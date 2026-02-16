@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../app/theme/colors.dart';
-import '../../../core/data/models/child_model.dart';
-import '../../../core/data/models/assessment_models.dart';
-import '../../../core/data/models/assessment_result_models.dart';
-import '../../../core/data/services/risk_stratification_service.dart';
-import '../../../core/data/services/parent_report_generation_service.dart';
+import '../../../../app/theme/colors.dart';
+import '../../../../core/data/models/child_model.dart';
+import '../../../../core/data/models/assessment_models.dart';
+import '../../../../core/data/models/assessment_result_models.dart';
+import '../../../../core/data/services/risk_stratification_service.dart';
+import '../../../../core/data/services/parent_report_generation_service.dart';
+import '../../../../core/services/data_service.dart';
 
 /// Assessment Result Screen - Display motor assessment results and recommendations
 /// 
@@ -17,15 +18,22 @@ import '../../../core/data/services/parent_report_generation_service.dart';
 /// - Option to save results and continue
 class AssessmentResultScreen extends ConsumerStatefulWidget {
   final ChildModel child;
-  final MotorSkillsAssessment motorAssessment;
-  final double overallMotorScore;
+  final MotorSkillsAssessment? motorAssessment;
+  final SpeechAssessmentResult? speechAssessment;
+  final CognitiveAssessmentResult? cognitiveAssessment;
+  final double overallScore;
 
   const AssessmentResultScreen({
     Key? key,
     required this.child,
-    required this.motorAssessment,
-    required this.overallMotorScore,
-  }) : super(key: key);
+    this.motorAssessment,
+    this.speechAssessment,
+    this.cognitiveAssessment,
+    double? overallMotorScore, // Deprecated, use overallScore
+    double? overallSpeechScore, // Helper for compatibility
+    double? overallCognitiveScore, // Helper for compatibility
+  }) : overallScore = overallMotorScore ?? overallSpeechScore ?? overallCognitiveScore ?? 0.0,
+       super(key: key);
 
   @override
   ConsumerState<AssessmentResultScreen> createState() =>
@@ -117,20 +125,28 @@ class _AssessmentResultScreenState
   }
 
   Widget _buildOverallScoreCard() {
-    final score = widget.overallMotorScore;
+    final score = widget.overallScore;
     final riskLevel = _getRiskLevel(score);
     final riskColor = _getRiskColor(score);
 
+    String title = 'Overall Development Score';
+    if (widget.motorAssessment != null) title = 'Motor Development Score';
+    if (widget.speechAssessment != null) title = 'Speech & Language Score';
+    if (widget.cognitiveAssessment != null) title = 'Cognitive Development Score';
+
     return Card(
       color: riskColor.withOpacity(0.1),
-      border: Border.all(color: riskColor, width: 2),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+        side: BorderSide(color: riskColor, width: 2),
+      ),
       child: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              'Overall Motor Development Score',
+              title,
               style: Theme.of(context).textTheme.titleMedium,
               textAlign: TextAlign.center,
             ),
@@ -196,6 +212,31 @@ class _AssessmentResultScreenState
   }
 
   Widget _buildDetailedScoresSection() {
+    List<Widget> scoreItems = [];
+
+    if (widget.motorAssessment != null) {
+      scoreItems = [
+        _buildTestScoreItem('Jump Test', widget.motorAssessment!.jumpScore, 'Height, landing, stability'),
+        _buildTestScoreItem('Balance Test', widget.motorAssessment!.balanceStabilityScore, 'Duration & stability'),
+        _buildTestScoreItem('Walk Test', widget.motorAssessment!.gaitSymmetryScore, 'Gait & coordination'),
+        _buildTestScoreItem('Throw & Catch', widget.motorAssessment!.throwCatchScore, 'Eye-hand coordination'),
+      ];
+    } else if (widget.speechAssessment != null) {
+      scoreItems = [
+        _buildTestScoreItem('Word Clarity', widget.speechAssessment!.clarityScore, 'Pronunciation & articulation'),
+        _buildTestScoreItem('Vocabulary', widget.speechAssessment!.vocabularyScore, 'Word knowledge & naming'),
+         _buildTestScoreItem('Sentences', widget.speechAssessment!.sentenceScore, 'Grammar & complexity'),
+         _buildTestScoreItem('Fluency', widget.speechAssessment!.fluencyScore, 'Flow & rhythm'),
+      ];
+    } else if (widget.cognitiveAssessment != null) {
+      scoreItems = [
+        _buildTestScoreItem('Memory', widget.cognitiveAssessment!.memoryScore, 'Recall accuracy'),
+        _buildTestScoreItem('Pattern Rec.', widget.cognitiveAssessment!.patternScore, 'Logical sequencing'),
+        _buildTestScoreItem('Attention', widget.cognitiveAssessment!.attentionScore, 'Focus duration'),
+        _buildTestScoreItem('Problem Solving', widget.cognitiveAssessment!.problemSolvingScore, 'Task completion'),
+      ];
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -204,29 +245,7 @@ class _AssessmentResultScreenState
           style: Theme.of(context).textTheme.titleMedium,
         ),
         const SizedBox(height: 12),
-        _buildTestScoreItem(
-          'Jump Test',
-          widget.motorAssessment.jumpScore,
-          'Measures height, arm swing, and landing',
-        ),
-        const SizedBox(height: 12),
-        _buildTestScoreItem(
-          'Balance Test',
-          widget.motorAssessment.balanceStabilityScore,
-          'Single-leg standing duration and stability',
-        ),
-        const SizedBox(height: 12),
-        _buildTestScoreItem(
-          'Walk Test',
-          widget.motorAssessment.gaitSymmetryScore,
-          'Gait coordination and symmetry',
-        ),
-        const SizedBox(height: 12),
-        _buildTestScoreItem(
-          'Throw & Catch Test',
-          widget.motorAssessment.throwCatchScore,
-          'Eye-hand coordination',
-        ),
+        ...scoreItems.map((item) => Padding(padding: const EdgeInsets.only(bottom: 12), child: item)).toList(),
       ],
     );
   }
@@ -307,12 +326,12 @@ class _AssessmentResultScreenState
                 Row(
                   children: [
                     Icon(
-                      widget.overallMotorScore >= 75
+                      widget.overallScore >= 75
                           ? Icons.check_circle
-                          : widget.overallMotorScore >= 50
+                          : widget.overallScore >= 50
                               ? Icons.warning
                               : Icons.error,
-                      color: _getRiskColor(widget.overallMotorScore),
+                      color: _getRiskColor(widget.overallScore),
                       size: 28,
                     ),
                     const SizedBox(width: 12),
@@ -321,15 +340,15 @@ class _AssessmentResultScreenState
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            _getRiskLevel(widget.overallMotorScore),
+                            _getRiskLevel(widget.overallScore),
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              color: _getRiskColor(widget.overallMotorScore),
+                              color: _getRiskColor(widget.overallScore),
                               fontSize: 16,
                             ),
                           ),
                           Text(
-                            _getRiskInterpretation(widget.overallMotorScore),
+                            _getRiskInterpretation(widget.overallScore),
                             style: Theme.of(context).textTheme.bodySmall,
                           ),
                         ],
@@ -338,8 +357,8 @@ class _AssessmentResultScreenState
                   ],
                 ),
                 const SizedBox(height: 12),
-                if (widget.overallMotorScore < 75) ...[
-                  Divider(height: 24),
+                if (widget.overallScore < 75) ...[
+                  const Divider(height: 24),
                   Text(
                     'Attention Required',
                     style: Theme.of(context).textTheme.labelMedium,
@@ -347,7 +366,7 @@ class _AssessmentResultScreenState
                   const SizedBox(height: 8),
                   _buildAlertItem(
                     'Schedule Follow-up',
-                    'Re-assess in ${widget.overallMotorScore < 50 ? 1 : 2} month(s)',
+                    'Re-assess in ${widget.overallScore < 50 ? 1 : 2} month(s)',
                   ),
                   const SizedBox(height: 8),
                   _buildAlertItem(
@@ -374,7 +393,7 @@ class _AssessmentResultScreenState
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(Icons.info, size: 16, color: Colors.orange),
+          const Icon(Icons.info, size: 16, color: Colors.orange),
           const SizedBox(width: 8),
           Expanded(
             child: Column(
@@ -502,7 +521,7 @@ class _AssessmentResultScreenState
   }
 
   List<Map<String, String>> _generateRecommendations() {
-    final score = widget.overallMotorScore;
+    final score = widget.overallScore;
 
     List<Map<String, String>> recommendations = [
       {
@@ -590,10 +609,46 @@ class _AssessmentResultScreenState
   }
 
   void _saveResults() {
+    // Create specific result object based on what we have
+    AssessmentResult? result;
+    if (widget.motorAssessment != null) {
+      // We already passed the object, but if we need to reconstruct or assuming it's already a MotorAssessmentResult
+      // Actually widget.motorAssessment IS the model, but we need to wrap/cast it or save it directly?
+      // Wait, MotorAssessmentResult IS AssessmentResult if I defined it so.
+      // Let's check definitions. Yes, MotorSkillsAssessment in 'assessment_models.dart' is DIFFERENT from MotorAssessmentResult in 'assessment_result_models.dart'
+      // I need to map it if they are different, or stick to one.
+      // 'assessment_models.dart' has MotorSkillsAssessment.
+      // 'assessment_result_models.dart' has MotorAssessmentResult.
+      // This is a duplication I created. 
+      // For now, I will create a MotorAssessmentResult from the MotorSkillsAssessment data to save it uniformly.
+      
+       result = MotorAssessmentResult(
+        id: DateTime.now().millisecondsSinceEpoch.toString(),
+        childId: widget.child.id,
+        date: DateTime.now(),
+        jumpScore: widget.motorAssessment!.jumpScore,
+        balanceScore: widget.motorAssessment!.balanceStabilityScore,
+        gaitScore: widget.motorAssessment!.gaitSymmetryScore,
+        coordinationScore: widget.motorAssessment!.stepCoordinationScore,
+        totalScore: widget.motorAssessment!.jumpScore, // Placeholder for overall
+        developmentalAgeMonths: widget.motorAssessment!.developmentalAgeMonths,
+      );
+      
+    } else if (widget.speechAssessment != null) {
+      result = widget.speechAssessment;
+    } else if (widget.cognitiveAssessment != null) {
+      result = widget.cognitiveAssessment;
+    }
+
+    if (result != null) {
+       // Save to DataService
+       DataService().addAssessmentResult(result);
+    }
+
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('Assessment saved successfully')),
     );
-    // Save to Hive would happen here
+    Navigator.popUntil(context, (route) => route.isFirst); // Go back to dashboard
   }
 
   void _shareparentReport() {

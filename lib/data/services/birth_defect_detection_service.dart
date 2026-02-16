@@ -3,6 +3,8 @@
 /// Detects common congenital conditions using image analysis and facial features.
 /// Works with static images captured during assessment.
 /// CRITICAL: All detections must be validated by clinical professionals before diagnosis.
+import 'dart:math';
+
 class BirthDefectDetectionService {
   
   // Confidence thresholds
@@ -161,7 +163,7 @@ class BirthDefectDetectionService {
 
     // Down Syndrome facial characteristics
     bool hasBrachycephaly = false; // Rounded head shape
-    bool hasFlattened Nasal = false; // Flat nasal bridge
+    bool hasFlattenedNasal = false; // Flat nasal bridge
     bool hasInwardEyeSlant = false; // Upward slant of eyes
     bool hasLowSetEars = false; // Ears positioned lower
     bool hasTongueProtrusion = false; // Frequently protruding tongue
@@ -183,7 +185,7 @@ class BirthDefectDetectionService {
           (faceLandmarks[27].y - faceLandmarks[30].y).abs();
       final faceHeight = (faceLandmarks[0].y - faceLandmarks[8].y).abs();
 
-      hasFlattened Nasal = (nasalBridgeHeight / faceHeight) < 0.15;
+      hasFlattenedNasal = (nasalBridgeHeight / faceHeight) < 0.15;
     }
 
     // Face shape (brachycephaly)
@@ -214,7 +216,7 @@ class BirthDefectDetectionService {
       confidence += 0.25;
       indicators.add('Upward eye slant detected');
     }
-    if (hasFlattened Nasal) {
+    if (hasFlattenedNasal) {
       confidence += 0.20;
       indicators.add('Flattened nasal bridge');
     }
@@ -303,6 +305,34 @@ class BirthDefectDetectionService {
   // PRIVATE HELPER METHODS
   // ========================================================================
 
+
+  static double _calculateCurvature(
+    FacialLandmark p1,
+    FacialLandmark p2,
+    FacialLandmark p3,
+  ) {
+    // Calculate curvature using Menger curvature or simple angle deviation
+    // Here we use simple deviation from straight line
+    final x1 = p1.x;
+    final y1 = p1.y;
+    final x2 = p2.x;
+    final y2 = p2.y;
+    final x3 = p3.x;
+    final y3 = p3.y;
+    
+    // Area of triangle
+    final area = 0.5 * ((x1 * (y2 - y3) + x2 * (y3 - y1) + x3 * (y1 - y2))).abs();
+    
+    // Length of sides
+    final a = sqrt(pow(x2 - x3, 2) + pow(y2 - y3, 2));
+    final b = sqrt(pow(x1 - x3, 2) + pow(y1 - y3, 2));
+    final c = sqrt(pow(x1 - x2, 2) + pow(y1 - y2, 2));
+    
+    // Curvature = 4 * area / (a * b * c)
+    if (a * b * c == 0) return 0;
+    return (4 * area) / (a * b * c) * 100; // Scale up
+  }
+
   static double _calculateAngle(
     FacialLandmark p1,
     FacialLandmark p2,
@@ -312,8 +342,8 @@ class BirthDefectDetectionService {
     final v2 = (x: p3.x - p2.x, y: p3.y - p2.y);
 
     final dot = v1.x * v2.x + v1.y * v2.y;
-    final mag1 = (v1.x * v1.x + v1.y * v1.y).sqrt();
-    final mag2 = (v2.x * v2.x + v2.y * v2.y).sqrt();
+    final mag1 = sqrt(v1.x * v1.x + v1.y * v1.y);
+    final mag2 = sqrt(v2.x * v2.x + v2.y * v2.y);
 
     if (mag1 == 0 || mag2 == 0) return 0;
 
@@ -321,28 +351,10 @@ class BirthDefectDetectionService {
     return (acos(cosValue) * 180 / 3.14159).abs();
   }
 
-  static double _calculateCurvature(
-    FacialLandmark p1,
-    FacialLandmark p2,
-    FacialLandmark p3,
-  ) {
-    // Calculate curvature of three points
-    // Negative = concave (inward), Positive = convex (outward)
-
-    final a = _distance(p1, p2);
-    final b = _distance(p2, p3);
-    final c = _distance(p1, p3);
-
-    // Using law of cosines
-    final angle = acos((a * a + b * b - c * c) / (2 * a * b));
-
-    // Curvature = signed angle deviation from straight
-    return (angle - 3.14159) * 100; // Signed curvature
-  }
+// ...
 
   static double _distance(FacialLandmark p1, FacialLandmark p2) {
-    return ((p1.x - p2.x) * (p1.x - p2.x) + (p1.y - p2.y) * (p1.y - p2.y))
-        .sqrt();
+    return sqrt((p1.x - p2.x) * (p1.x - p2.x) + (p1.y - p2.y) * (p1.y - p2.y));
   }
 
   static bool _hasAbnormalHeartSoundFrequencies(

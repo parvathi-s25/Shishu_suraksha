@@ -1,6 +1,15 @@
+
+import '../../core/data/models/child_model.dart'
+    hide
+        Activity,
+        ActivitySession,
+        ActivityCategory,
+        ActivityDifficulty,
+        ActivityMaterial,
+        ProgressMilestone;
+import '../models/assessment_models.dart';
 import '../models/assessment_result_models.dart';
 import '../models/intervention_models.dart';
-import '../models/child_model.dart';
 
 /// Parent Report Generation Service
 /// 

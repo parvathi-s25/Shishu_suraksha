@@ -62,18 +62,18 @@ class CognitiveAssessmentService {
       }
     }
 
-    final recallRate = (correctRecalls / presentedItems.length).clamp(0, 1);
+    final recallRate = (correctRecalls / presentedItems.length).clamp(0.0, 1.0);
 
     // Get age benchmark
     final benchmark = cognitiveBenchmarks[_getClosestAge(ageMonths)]?['memory'] ?? 60.0;
 
     // Memory score (0-100)
-    double memoryScore = (recallRate * 100).clamp(0, 100);
+    double memoryScore = (recallRate * 100).clamp(0.0, 100.0);
 
     // Adjust for test type
     if (testType == 'delayed') {
       memoryScore = (memoryScore * 0.9)
-          .clamp(0, 100); // Delayed recall typically slightly lower
+          .clamp(0.0, 100.0); // Delayed recall typically slightly lower
     }
 
     return CognitiveAnalysisResult(
@@ -105,7 +105,7 @@ class CognitiveAssessmentService {
     }
 
     final patternAccuracy =
-        (correctPatterns / patterns.length).clamp(0, 1);
+        (correctPatterns / patterns.length).clamp(0.0, 1.0);
 
     // Pattern recognition score (0-100)
     double patternScore = (patternAccuracy * 100);
@@ -117,7 +117,7 @@ class CognitiveAssessmentService {
     patternScore = patternScore * (0.8 + averageDifficulty * 0.4);
 
     return CognitiveAnalysisResult(
-      patternRecognitionScore: (patternScore).clamp(0, 100),
+      patternRecognitionScore: (patternScore).clamp(0.0, 100.0),
       patternAccuracy: patternAccuracy,
       correctPatterns: correctPatterns,
       totalPatterns: patterns.length,
@@ -156,16 +156,16 @@ class CognitiveAssessmentService {
     }
 
     final solutionAccuracy =
-        (correctSolutions / problems.length).clamp(0, 1);
+        (correctSolutions / problems.length).clamp(0.0, 1.0);
     final timeEfficiency =
-        (totalTimeEfficiency / correctSolutions).clamp(0, 2);
+        (totalTimeEfficiency / correctSolutions).clamp(0.0, 2.0);
 
     // Problem-solving score combines accuracy and efficiency
     double problemScore =
         (solutionAccuracy * 80) + (timeEfficiency / 2 * 20);
 
     return CognitiveAnalysisResult(
-      problemSolvingScore: (problemScore).clamp(0, 100),
+      problemSolvingScore: (problemScore).clamp(0.0, 100.0),
       solutionAccuracy: solutionAccuracy,
       correctSolutions: correctSolutions,
       totalProblems: problems.length,
@@ -187,7 +187,7 @@ class CognitiveAssessmentService {
     final totalAttentive =
         attentionPoints.where((p) => p == 1).length;
     final attentionRate =
-        (totalAttentive / attentionPoints.length).clamp(0, 1);
+        (totalAttentive / attentionPoints.length).clamp(0.0, 1.0);
 
     // Get age benchmark
     final benchmark =
@@ -209,7 +209,7 @@ class CognitiveAssessmentService {
     }
 
     // Adjust based on sustained attention quality
-    attentionScore = (attentionScore * attentionRate).clamp(0, 100);
+    attentionScore = (attentionScore * attentionRate).clamp(0.0, 100.0);
 
     return CognitiveAnalysisResult(
       attentionScore: attentionScore,

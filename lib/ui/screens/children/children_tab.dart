@@ -1,270 +1,615 @@
 import 'package:flutter/material.dart';
-import 'package:shishu_suraksha/ui/widgets/health_indicator_widget.dart';
-import '../dashboard/tabs/child_report_screen.dart';
-import '../../../services/responsive_dashboard.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../../core/data/models/child_model.dart';
+import '../../../../core/data/models/assessment_result_models.dart';
+import '../../screens/monitor/health_monitoring_screen.dart';
+import '../../screens/monitor/growth_screen.dart';
+import '../screening/visual/visual_screening_screen.dart';
+import '../screening/audio/audio_screening_screen.dart';
+import '../assessment/assessment_flow_screen.dart';
+import 'package:shishu_suraksha/app/theme/colors.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:intl/intl.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:path_provider/path_provider.dart';
+import 'dart:io';
+import '../../../../core/services/data_service.dart';
 
-class ChildrenTab extends StatefulWidget {
+// Renamed from ChildAssessmentDashboard to match existing file usage
+class ChildrenTab extends ConsumerStatefulWidget {
   const ChildrenTab({Key? key}) : super(key: key);
 
   @override
-  _ChildrenTabState createState() => _ChildrenTabState();
+  ConsumerState<ChildrenTab> createState() => _ChildrenTabState();
 }
 
-enum SelectionMode { byAge, byChild }
-
-class _ChildrenTabState extends State<ChildrenTab> {
-  SelectionMode? _selectionMode = SelectionMode.byAge;
-  String? _selectedAgeRange;
-  
-  final List<String> _ageRanges = [
-    "0–6 months",
-    "6 months–1 year",
-    "1–2 years",
-    "2–3 years",
-    "3–4 years",
-    "4–5 years",
-    "5–6 years",
-  ];
-
-  // Mock Data
-  final Map<String, List<Map<String, dynamic>>> _mockChildren = {
-    "0–6 months": [
-      {"name": "Aarav", "age": "4 months", "id": "A001", "status": HealthStatus.good},
-      {"name": "Vihaan", "age": "5 months", "id": "A002", "status": HealthStatus.needsAttention},
-      {"name": "Ishaan", "age": "2 months", "id": "A003", "status": HealthStatus.excellent},
-    ],
-    "6 months–1 year": [
-      {"name": "Aditya", "age": "8 months", "id": "B001", "status": HealthStatus.critical},
-      {"name": "Sai", "age": "11 months", "id": "B002", "status": HealthStatus.good},
-    ],
-    "1–2 years": [
-      {"name": "Reyansh", "age": "1.5 years", "id": "C001", "status": HealthStatus.good},
-      {"name": "Arjun", "age": "1.2 years", "id": "C002", "status": HealthStatus.excellent},
-    ],
-  };
+class _ChildrenTabState extends ConsumerState<ChildrenTab> {
+  late TextEditingController _searchController;
+  List<ChildModel> _filteredChildren = [];
+  List<ChildModel> _allChildren = [];
 
   @override
   void initState() {
     super.initState();
+    _searchController = TextEditingController();
+    _loadChildren();
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  void _loadChildren() {
+    // This would load from Hive database
+    // For now, mock data
+    _allChildren = [
+      ChildModel(
+        id: '1',
+        name: 'Aditya Kumar',
+        dob: DateTime(2022, 6, 15),
+        gender: 'Male',
+        anganwadi: 'Anganwadi Center 1',
+      ),
+      ChildModel(
+        id: '2',
+        name: 'Priya Sharma',
+        dob: DateTime(2022, 9, 22),
+        gender: 'Female',
+        anganwadi: 'Anganwadi Center 1',
+      ),
+      ChildModel(
+        id: '3',
+        name: 'Rohan Singh',
+        dob: DateTime(2021, 11, 8),
+        gender: 'Male',
+        anganwadi: 'Anganwadi Center 1',
+      ),
+      ChildModel(
+        id: '4',
+        name: 'Divya Patel',
+        dob: DateTime(2023, 1, 19),
+        gender: 'Female',
+        anganwadi: 'Anganwadi Center 1',
+      ),
+      ChildModel(
+        id: '5',
+        name: 'Vikram Gupta',
+        dob: DateTime(2021, 4, 5),
+        gender: 'Male',
+        anganwadi: 'Anganwadi Center 1',
+      ),
+    ];
+    _filteredChildren = _allChildren;
+  }
+
+  void _filterChildren(String query) {
+    setState(() {
+      if (query.isEmpty) {
+        _filteredChildren = _allChildren;
+      } else {
+        _filteredChildren = _allChildren
+            .where((child) =>
+                child.name.toLowerCase().contains(query.toLowerCase()))
+            .toList();
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    final responsive = ResponsiveDashboard(context);
-    
-    List<Map<String, dynamic>> displayedChildren = [];
-    if (_selectedAgeRange != null && _mockChildren.containsKey(_selectedAgeRange)) {
-      displayedChildren = _mockChildren[_selectedAgeRange]!;
-    }
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Child Health & Development'),
+        automaticallyImplyLeading: false, // Hide back button if in tab
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.refresh),
+            onPressed: () => setState(() => _loadChildren()),
+            tooltip: 'Refresh',
+          ),
+          IconButton(
+            icon: const Icon(Icons.filter_list),
+            onPressed: _showFilterOptions,
+            tooltip: 'Filter',
+          ),
+        ],
+      ),
+      body: Column(
+        children: [
+          _buildSearchBar(),
+          _buildStatsBar(),
+          Expanded(
+            child: _filteredChildren.isEmpty
+                ? _buildEmptyState()
+                : _buildChildrenList(),
+          ),
+        ],
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: _addNewChild,
+        icon: const Icon(Icons.person_add),
+        label: const Text('Add Child'),
+      ),
+    );
+  }
 
-    final containerWidth = responsive.isMobile
-        ? MediaQuery.of(context).size.width - responsive.getSpacing(32)
-        : (responsive.isTablet ? 400.0 : 500.0);
+  Widget _buildSearchBar() {
+    return Padding(
+      padding: const EdgeInsets.all(16),
+      child: TextField(
+        controller: _searchController,
+        onChanged: _filterChildren,
+        decoration: InputDecoration(
+          hintText: 'Search child by name...',
+          prefixIcon: const Icon(Icons.search),
+          suffixIcon: _searchController.text.isNotEmpty
+              ? IconButton(
+                  icon: const Icon(Icons.clear),
+                  onPressed: () {
+                    _searchController.clear();
+                    _filterChildren('');
+                  },
+                )
+              : null,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          filled: true,
+          fillColor: Colors.grey[100],
+          contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+        ),
+      ),
+    );
+  }
 
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        return SingleChildScrollView(
-          child: ConstrainedBox(
-            constraints: BoxConstraints(minHeight: constraints.maxHeight),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
+  Widget _buildStatsBar() {
+    final totalChildren = _allChildren.length;
+    final needsAssessment =
+        _allChildren.where((c) => true).length; // Placeholder
+
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      color: AppColors.background,
+      child: Wrap(
+        alignment: WrapAlignment.spaceAround,
+        spacing: 16,
+        runSpacing: 12,
+        children: [
+          _buildStatCard(
+            icon: Icons.people,
+            label: 'Total Children',
+            value: '$totalChildren',
+            color: AppColors.primary,
+          ),
+          _buildStatCard(
+            icon: Icons.assignment,
+            label: 'Need Assessment',
+            value: '$needsAssessment',
+            color: AppColors.secondary,
+          ),
+          _buildStatCard(
+            icon: Icons.warning,
+            label: 'At Risk',
+            value: '2',
+            color: Colors.red,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildStatCard({
+    required IconData icon,
+    required String label,
+    required String value,
+    required Color color,
+  }) {
+    return Column(
+      children: [
+        Icon(icon, color: color, size: 20),
+        const SizedBox(height: 4),
+        Text(
+          value,
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            color: color,
+          ),
+        ),
+        Text(
+          label,
+          style: const TextStyle(fontSize: 10),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildEmptyState() {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.person_outline,
+            size: 64,
+            color: Colors.grey[300],
+          ),
+          const SizedBox(height: 16),
+          Text(
+            'No children found',
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
+          const SizedBox(height: 8),
+          Text(
+            'Add a child to get started',
+            style: Theme.of(context).textTheme.bodySmall,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildChildrenList() {
+    return ListView.builder(
+      padding: const EdgeInsets.all(16),
+      itemCount: _filteredChildren.length,
+      itemBuilder: (context, index) {
+        final child = _filteredChildren[index];
+        return _buildChildCard(child);
+      },
+    );
+  }
+
+  Widget _buildChildCard(ChildModel child) {
+    final riskLevel = _getChildRiskLevel(child);
+    final riskColor = _getRiskColor(riskLevel);
+    final ageMonths = child.ageMonths;
+    final years = ageMonths ~/ 12;
+    final months = ageMonths % 12;
+
+    return Card(
+      margin: const EdgeInsets.only(bottom: 12),
+      elevation: 2,
+      child: Padding(
+        padding: const EdgeInsets.all(12),
+        child: Column(
+          children: [
+            Row(
               children: [
-                SizedBox(height: responsive.getSpacing(20)),
-                Text(
-                  "Child Growth Monitoring",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: responsive.getFontSize(22),
-                    fontWeight: FontWeight.bold,
-                    color: Colors.teal,
+                CircleAvatar(
+                  radius: 28,
+                  backgroundColor: Colors.blue[100],
+                  child: Text(
+                    child.name[0].toUpperCase(),
+                    style: const TextStyle(fontSize: 20),
                   ),
                 ),
-                SizedBox(height: responsive.getSpacing(30)),
-
-                // Radio Option 1 -> Select by Age
-                SizedBox(
-                  width: containerWidth.toDouble(),
-                  child: RadioListTile<SelectionMode>(
-                    title: Text(
-                      "Select by Age",
-                      style: TextStyle(fontSize: responsive.getFontSize(14)),
-                    ),
-                    value: SelectionMode.byAge,
-                    groupValue: _selectionMode,
-                    activeColor: Colors.teal,
-                    contentPadding: EdgeInsets.symmetric(
-                      horizontal: responsive.getSpacing(12),
-                    ),
-                    onChanged: (SelectionMode? value) {
-                      setState(() => _selectionMode = value);
-                    },
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        child.name,
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                      Text(
+                        'Age: $years years $months months',
+                        style: Theme.of(context).textTheme.bodySmall,
+                      ),
+                      Text(
+                        'Gender: ${child.gender}',
+                        style: Theme.of(context).textTheme.bodySmall,
+                      ),
+                    ],
                   ),
                 ),
-
-                // Dropdown for Age Range
-                if (_selectionMode == SelectionMode.byAge) ...[
-                  Container(
-                    width: containerWidth.toDouble(),
-                    padding: EdgeInsets.symmetric(
-                      horizontal: responsive.getSpacing(12),
-                    ),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.teal),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: DropdownButtonHideUnderline(
-                      child: DropdownButton<String>(
-                        isExpanded: true,
-                        value: _selectedAgeRange,
-                        hint: Text(
-                          "Choose Age Range",
-                          style: TextStyle(fontSize: responsive.getFontSize(13)),
-                        ),
-                        items: _ageRanges.map((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Center(
-                              child: Text(
-                                value,
-                                style: TextStyle(
-                                  fontSize: responsive.getFontSize(13),
-                                ),
-                              ),
-                            ),
-                          );
-                        }).toList(),
-                        onChanged: (newValue) {
-                          setState(() => _selectedAgeRange = newValue);
-                        },
-                      ),
-                    ),
+                Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                  decoration: BoxDecoration(
+                    color: riskColor.withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: riskColor),
                   ),
-                ],
-                
-                SizedBox(height: responsive.getSpacing(20)),
-
-                // Radio Option 2 -> Select Child
-                SizedBox(
-                  width: containerWidth.toDouble(),
-                  child: RadioListTile<SelectionMode>(
-                    title: Text(
-                      "Select Child",
-                      style: TextStyle(fontSize: responsive.getFontSize(14)),
+                  child: Text(
+                    riskLevel,
+                    style: TextStyle(
+                      color: riskColor,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 12,
                     ),
-                    value: SelectionMode.byChild,
-                    groupValue: _selectionMode,
-                    activeColor: Colors.teal,
-                    contentPadding: EdgeInsets.symmetric(
-                      horizontal: responsive.getSpacing(12),
-                    ),
-                    onChanged: (SelectionMode? value) {
-                      setState(() => _selectionMode = value);
-                    },
                   ),
                 ),
-
-                // Child List
-                if (_selectionMode == SelectionMode.byChild || _selectedAgeRange != null) ...[
-                  if (_selectedAgeRange == null)
-                    Padding(
-                      padding: EdgeInsets.all(responsive.getSpacing(8)),
-                      child: Text(
-                        "Please select an age range first.",
-                        style: TextStyle(
-                          color: Colors.red,
-                          fontSize: responsive.getFontSize(12),
-                        ),
-                      ),
-                    )
-                  else if (displayedChildren.isEmpty)
-                    Padding(
-                      padding: EdgeInsets.all(responsive.getSpacing(8)),
-                      child: Text(
-                        "No children found in this age group.",
-                        style: TextStyle(
-                          color: Colors.grey,
-                          fontSize: responsive.getFontSize(12),
-                        ),
-                      ),
-                    )
-                  else
-                    Container(
-                      width: containerWidth.toDouble(),
-                      height: responsive.isMobile ? 250 : (responsive.isTablet ? 300 : 350),
-                      margin: EdgeInsets.only(top: responsive.getSpacing(10)),
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.grey.withOpacity(0.3)),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: ListView.builder(
-                        itemCount: displayedChildren.length,
-                        itemBuilder: (context, index) {
-                          final child = displayedChildren[index];
-                          return Card(
-                            margin: EdgeInsets.symmetric(
-                              horizontal: responsive.getSpacing(8),
-                              vertical: responsive.getSpacing(4),
-                            ),
-                            child: ListTile(
-                              contentPadding: EdgeInsets.symmetric(
-                                horizontal: responsive.getSpacing(12),
-                                vertical: 4,
-                              ),
-                              leading: CircleAvatar(
-                                backgroundColor: Colors.teal.shade100,
-                                radius: responsive.getSpacing(20),
-                                child: Text(
-                                  child['name'][0],
-                                  style: TextStyle(
-                                    color: Colors.teal,
-                                    fontSize: responsive.getFontSize(16),
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                              title: Text(
-                                child['name'],
-                                textAlign: TextAlign.start,
-                                style: TextStyle(
-                                  fontSize: responsive.getFontSize(14),
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                              subtitle: Text(
-                                "ID: ${child['id']} • Age: ${child['age']}",
-                                textAlign: TextAlign.start,
-                                style: TextStyle(
-                                  fontSize: responsive.getFontSize(11),
-                                  color: Colors.grey,
-                                ),
-                              ),
-                              trailing: HealthIndicatorWidget(
-                                status: child['status'] as HealthStatus,
-                                label: '',
-                                showBadge: true,
-                              ),
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => ChildReportScreen(child: child),
-                                  ),
-                                );
-                              },
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                ],
-
-                SizedBox(height: responsive.getSpacing(50)),
               ],
             ),
-          ),
+            const SizedBox(height: 16),
+            const Divider(),
+            
+            // HEALTH & DEVELOPMENT SUITE
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 8.0),
+              child: Text("HEALTH & DEVELOPMENT SUITE", style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.grey, letterSpacing: 1.0)),
+            ),
+            
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: [
+                // 1. LIVE VITALS
+                SizedBox(
+                  width: double.infinity,
+                  child: _buildTestButton(
+                    context,
+                    icon: Icons.monitor_heart,
+                    label: "HEART RATE & VITALS (LIVE)",
+                    color: Colors.purple,
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => HealthMonitoringScreen(child: child)));
+                    },
+                  ),
+                ),
+                
+                // 2. GROWTH
+                _buildTestButton(
+                  context,
+                  icon: Icons.show_chart,
+                  label: "GROWTH",
+                  color: Colors.blue,
+                  onTap: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => GrowthScreen(child: child)));
+                  },
+                ),
+                
+                // 3. DEVELOPMENTAL
+                _buildTestButton(
+                  context,
+                  icon: Icons.psychology,
+                  label: "DEVELOPMENTAL",
+                  color: Colors.teal,
+                  onTap: () => _startAssessment(child),
+                ),
+                
+                // 4. VISION
+                _buildTestButton(
+                  context,
+                  icon: Icons.visibility,
+                  label: "VISION TEST",
+                  color: Colors.orange,
+                  onTap: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => const VisualScreeningScreen()));
+                  },
+                ),
+                
+                // 5. HEARING
+                _buildTestButton(
+                  context,
+                  icon: Icons.hearing,
+                  label: "HEARING TEST",
+                  color: Colors.indigo,
+                  onTap: () {
+                     Navigator.push(context, MaterialPageRoute(builder: (context) => const AudioScreeningScreen()));
+                  },
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTestButton(BuildContext context, {required IconData icon, required String label, required Color color, required VoidCallback onTap}) {
+    return ElevatedButton.icon(
+      onPressed: onTap,
+      icon: Icon(icon, size: 18),
+      label: Text(label, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 11)),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: color.withOpacity(0.1),
+        foregroundColor: color,
+        elevation: 0,
+        alignment: Alignment.centerLeft,
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+        shape: RoundedRectangleBorder(
+           borderRadius: BorderRadius.circular(8),
+           side: BorderSide(color: color.withOpacity(0.3)),
+        )
+      ),
+    );
+  }
+
+  String _getChildRiskLevel(ChildModel child) {
+    // Check DataService for assessments
+    final assessments = DataService().getAssessmentsForChild(child.id);
+    
+    if (assessments.isEmpty) {
+      // Keep mock data for specific IDs for demo purposes, else return NO ASSESSMENT
+       if (child.id == '3') return 'HIGH RISK';
+       if (child.id == '5') return 'MEDIUM RISK';
+       return 'NO ASSESSMENT'; 
+    }
+    
+    // Sort by date descending
+    assessments.sort((a, b) => b.date.compareTo(a.date));
+    final latest = assessments.first;
+    
+    // Determine risk based on latest assessment type
+    double score = 0;
+    if (latest is MotorAssessmentResult) score = latest.totalScore;
+    if (latest is SpeechAssessmentResult) score = latest.totalScore;
+    if (latest is CognitiveAssessmentResult) score = latest.totalScore;
+    
+    if (score >= 75) return 'LOW RISK';
+    if (score >= 50) return 'MEDIUM RISK';
+    return 'HIGH RISK';
+  }
+
+  Color _getRiskColor(String riskLevel) {
+    if (riskLevel == 'HIGH RISK') return Colors.red;
+    if (riskLevel == 'MEDIUM RISK') return Colors.orange;
+    if (riskLevel == 'NO ASSESSMENT') return Colors.grey;
+    return Colors.green;
+  }
+
+  void _startAssessment(ChildModel child) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => AssessmentFlowScreen(child: child),
+      ),
+    );
+  }
+
+  String _getGreeting() {
+    final hour = DateTime.now().hour;
+    if (hour < 12) return 'Good Morning';
+    if (hour < 17) return 'Good Afternoon';
+    return 'Good Evening';
+  }
+
+  Future<void> _addNewChild() async {
+    final _nameController = TextEditingController();
+    final _dobController = TextEditingController(); 
+    String _gender = 'Male';
+    DateTime? _selectedDate;
+
+    await showDialog(
+      context: context,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return AlertDialog(
+              title: const Text('Add New Child'),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                   TextField(
+                    controller: _nameController,
+                    decoration: const InputDecoration(labelText: 'Child Name'),
+                  ),
+                  const SizedBox(height: 10),
+                  TextField(
+                    controller: _dobController,
+                    readOnly: true,
+                    decoration: const InputDecoration(
+                      labelText: 'Date of Birth (YYYY-MM-DD)',
+                      suffixIcon: Icon(Icons.calendar_today),
+                    ),
+                    onTap: () async {
+                      DateTime? picked = await showDatePicker(
+                        context: context,
+                        initialDate: DateTime.now(),
+                        firstDate: DateTime(2015),
+                        lastDate: DateTime.now(),
+                      );
+                      if (picked != null) {
+                        setState(() {
+                          _selectedDate = picked;
+                          _dobController.text = "${picked.year}-${picked.month.toString().padLeft(2, '0')}-${picked.day.toString().padLeft(2, '0')}";
+                        });
+                      }
+                    },
+                  ),
+                   const SizedBox(height: 10),
+                   DropdownButtonFormField<String>(
+                     value: _gender,
+                     items: ['Male', 'Female', 'Other'].map((String value) {
+                       return DropdownMenuItem<String>(
+                         value: value,
+                         child: Text(value),
+                       );
+                     }).toList(),
+                     onChanged: (newValue) {
+                       setState(() {
+                         _gender = newValue!;
+                       });
+                     },
+                     decoration: const InputDecoration(labelText: 'Gender'),
+                   ),
+                ],
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text('Cancel'),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    if (_nameController.text.isNotEmpty && _selectedDate != null) {
+                      final newChild = ChildModel(
+                        id: DateTime.now().millisecondsSinceEpoch.toString(),
+                        name: _nameController.text,
+                        dob: _selectedDate,
+                        gender: _gender,
+                        anganwadi: 'Current Center', 
+                      );
+                      
+                      this.setState(() {
+                        _allChildren.add(newChild);
+                        _filteredChildren = _allChildren; 
+                      });
+                      
+                      Navigator.pop(context);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('Added ${newChild.name}')),
+                      );
+                    }
+                  },
+                  child: const Text('Add'),
+                ),
+              ],
+            );
+          }
         );
       },
+    );
+  }
+
+  void _showFilterOptions() {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => Container(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Filter Options',
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
+            const SizedBox(height: 16),
+            ListTile(
+              title: const Text('All Children'),
+              onTap: () {
+                setState(() => _filteredChildren = _allChildren);
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: const Text('High Risk'),
+              onTap: () {
+                setState(() => _filteredChildren = _allChildren
+                    .where((c) => _getChildRiskLevel(c) == 'HIGH RISK')
+                    .toList());
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: const Text('Medium Risk'),
+              onTap: () {
+                setState(() => _filteredChildren = _allChildren
+                    .where((c) => _getChildRiskLevel(c) == 'MEDIUM RISK')
+                    .toList());
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

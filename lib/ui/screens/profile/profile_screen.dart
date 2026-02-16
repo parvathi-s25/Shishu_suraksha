@@ -35,7 +35,14 @@ class ProfileScreen extends StatelessWidget {
             _buildProfileOption(Icons.location_on, "My Center Details"),
             _buildProfileOption(Icons.history, "Activity Log"),
             _buildProfileOption(Icons.settings, "Settings"),
-            _buildProfileOption(Icons.logout, "Logout", color: Colors.red),
+            _buildProfileOption(
+              Icons.logout, 
+              "Logout", 
+              color: Colors.red,
+              onTap: () {
+                Navigator.pushNamedAndRemoveUntil(context, "/auth", (route) => false);
+              },
+            ),
           ],
         ),
       ),
@@ -62,12 +69,12 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildProfileOption(IconData icon, String title, {Color color = Colors.black}) {
+  Widget _buildProfileOption(IconData icon, String title, {Color color = Colors.black, VoidCallback? onTap}) {
     return ListTile(
       leading: Icon(icon, color: color),
       title: Text(title, style: TextStyle(color: color)),
       trailing: const Icon(Icons.chevron_right),
-      onTap: () {},
+      onTap: onTap ?? () {},
     );
   }
 }

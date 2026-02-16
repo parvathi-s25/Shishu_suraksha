@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/data/models/child_model.dart';
 import '../../../core/data/models/assessment_result_models.dart';
-import '../../app/theme/colors.dart';
+import '../../../app/theme/colors.dart';
+import 'motor_skills_assessment_screen.dart';
+import 'speech_assessment_screen.dart';
+import 'cognitive_assessment_screen.dart';
 
 /// Assessment Flow Screen - Main entry point for child assessments
 /// 
@@ -107,7 +110,7 @@ class _AssessmentFlowScreenState extends ConsumerState<AssessmentFlowScreen> {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'Age: ${widget.child.dob.difference(DateTime.now()).inDays ~/ 365} years',
+                    'Age: ${widget.child.dob?.difference(DateTime.now()).inDays.abs() ?? 0 ~/ 365} years',
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                   const SizedBox(height: 8),
@@ -676,21 +679,29 @@ class _AssessmentFlowScreenState extends ConsumerState<AssessmentFlowScreen> {
   }
 
   void _startMotorAssessment() {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Starting Motor Skills Assessment...')),
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => MotorSkillsAssessmentScreen(child: widget.child),
+      ),
     );
-    // Navigation to actual assessment screen would happen here
   }
 
   void _startSpeechAssessment() {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Starting Speech & Language Assessment...')),
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => SpeechAssessmentScreen(child: widget.child),
+      ),
     );
   }
 
   void _startCognitiveAssessment() {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Starting Cognitive Assessment...')),
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => CognitiveAssessmentScreen(child: widget.child),
+      ),
     );
   }
 }

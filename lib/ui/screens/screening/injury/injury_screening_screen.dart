@@ -1,6 +1,6 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import '../../../stubs/flutter_vision_stub.dart';
+import '../../../../stubs/flutter_vision_stub.dart';
 
 class InjuryScreeningScreen extends StatefulWidget {
   const InjuryScreeningScreen({super.key});

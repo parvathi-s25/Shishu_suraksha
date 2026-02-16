@@ -2,8 +2,9 @@
 /// 
 /// Main entry point for all AI screening assessments.
 /// Provides a unified interface for running comprehensive child development assessments.
-import 'assessment_models.dart';
-import 'risk_stratification_service.dart';
+import '../models/assessment_models.dart';
+import '../models/assessment_result_models.dart';
+
 import 'motor_skills_assessment_service.dart';
 import 'speech_language_assessment_service.dart';
 import 'cognitive_assessment_service.dart';
@@ -82,14 +83,6 @@ class AssessmentOrchestrationService {
       ageMonths: chronologicalAgeMonths,
     );
 
-    final delaySpeechData = SpeechLanguageAssessmentService.detectSpeechDelay(
-      vocabularyScore: vocabularyData.vocabularyScore ?? 50,
-      pronunciationAccuracy: wordClarityData.pronunciationAccuracy ?? 50,
-      sentenceFormation: sentenceData.sentenceFormation ?? 50,
-      fluencyScore: fluencyData.fluencyScore ?? 50,
-      ageMonths: chronologicalAgeMonths,
-    );
-
     final speechScore = (
       (wordClarityData.wordClarity ?? 50) * 0.2 +
       (vocabularyData.vocabularyScore ?? 50) * 0.3 +
@@ -149,18 +142,18 @@ class AssessmentOrchestrationService {
     final healthScore = (inputData.visionScore * 0.3 +
             inputData.hearingScore * 0.3 +
             inputData.anemiaScore * 0.4)
-        .clamp(0, 100);
+        .clamp(0.0, 100.0);
 
     // Generate comprehensive assessment result
     final result = await ComprehensiveAssessmentOrchestrator
         .generateComprehensiveAssessment(
       childId: childId,
       chronologicalAgeMonths: chronologicalAgeMonths,
-      motorScore: motorScore,
-      speechScore: speechScore,
-      cognitiveScore: cognitiveScore,
-      socialEmotionalScore: socialEmotionalScore,
-      healthScore: healthScore,
+      motorScore: motorScore.toDouble(),
+      speechScore: speechScore.toDouble(),
+      cognitiveScore: cognitiveScore.toDouble(),
+      socialEmotionalScore: socialEmotionalScore.toDouble(),
+      healthScore: healthScore.toDouble(),
       motorDevelopmentalAge: motorDevAge,
       speechDevelopmentalAge: speechDevAge,
       cognitiveDevelopmentalAge: cognitiveDevAge,
@@ -173,7 +166,7 @@ class AssessmentOrchestrationService {
 /// Assessment input data container
 class AssessmentInputData {
   // Motor Skills
-  final List<dynamic> motorPoseLandmarks;
+  final List<PoseLandmark> motorPoseLandmarks;
   final double jumpHeightCm;
   final double standDurationSeconds;
   final int wobbleCount;
@@ -195,9 +188,9 @@ class AssessmentInputData {
   // Cognitive
   final List<String> presentedItems;
   final List<String> recalledItems;
-  final List<dynamic> patterns;
+  final List<Pattern> patterns;
   final List<String> patternResponses;
-  final List<dynamic> problems;
+  final List<Problem> problems;
   final List<String> problemSolutions;
   final List<int> solutionTimes;
   final double taskDurationSeconds;
@@ -246,4 +239,103 @@ class AssessmentInputData {
     required this.hearingScore,
     required this.anemiaScore,
   });
+}
+
+/// Helper class to generate comprehensive assessment results
+class ComprehensiveAssessmentOrchestrator {
+  static Future<ComprehensiveAssessmentResult> generateComprehensiveAssessment({
+    required String childId,
+    required int chronologicalAgeMonths,
+    required double motorScore,
+    required double speechScore,
+    required double cognitiveScore,
+    required double socialEmotionalScore,
+    required double healthScore,
+    required int motorDevelopmentalAge,
+    required int speechDevelopmentalAge,
+    required int cognitiveDevelopmentalAge,
+  }) async {
+    // Calculate overall developmental score
+    final overallScore = (motorScore * 0.25 +
+            speechScore * 0.25 +
+            cognitiveScore * 0.25 +
+            socialEmotionalScore * 0.15 +
+            healthScore * 0.10)
+        .clamp(0.0, 100.0);
+
+    // Determine risk level
+    RiskLevel riskLevel = RiskLevel.low;
+    int delayedAreas = 0;
+
+    if (motorScore < 70) delayedAreas++;
+    if (speechScore < 70) delayedAreas++;
+    if (cognitiveScore < 70) delayedAreas++;
+    if (socialEmotionalScore < 70) delayedAreas++;
+
+    if (delayedAreas >= 3 || overallScore < 60) {
+      riskLevel = RiskLevel.high;
+    } else if (delayedAreas >= 1 || overallScore < 75) {
+      riskLevel = RiskLevel.medium;
+    }
+
+    // Generate summary and recommendations
+    final summary = _generateSummary(
+      overallScore,
+      riskLevel,
+      delayedAreas,
+    );
+
+    final recommendations = _generateRecommendations(
+      motorScore,
+      speechScore,
+      cognitiveScore,
+    );
+
+    return ComprehensiveAssessmentResult(
+      childId: childId,
+      assessmentDate: DateTime.now(),
+      chronologicalAgeMonths: chronologicalAgeMonths,
+      motorScore: motorScore,
+      speechScore: speechScore,
+      cognitiveScore: cognitiveScore,
+      socialEmotionalScore: socialEmotionalScore,
+      healthScore: healthScore,
+      overallDevelopmentalScore: overallScore,
+      overallRiskLevel: riskLevel,
+      numberOfDelayedAreas: delayedAreas,
+      assessmentSummary: summary,
+      recommendations: recommendations,
+      requiresReferral: riskLevel == RiskLevel.high,
+      referralSpecialist:
+          riskLevel == RiskLevel.high ? 'Pediatrician / Specialist' : 'None',
+    );
+  }
+
+  static String _generateSummary(
+    double score,
+    RiskLevel risk,
+    int delayedAreas,
+  ) {
+    if (risk == RiskLevel.high) {
+      return 'Critical delays identified in $delayedAreas areas. Immediate attention required.';
+    } else if (risk == RiskLevel.medium) {
+      return 'Mild delays detected. Targeted activities recommended.';
+    } else {
+      return 'Development is on track. Continue with routine engagement.';
+    }
+  }
+
+  static String _generateRecommendations(
+    double motor,
+    double speech,
+    double cognitive,
+  ) {
+    final recs = <String>[];
+    if (motor < 70) recs.add('Focus on gross motor activities like jumping/balancing.');
+    if (speech < 70) recs.add('Engage in more storytelling and conversation.');
+    if (cognitive < 70) recs.add('Practice puzzles and memory games.');
+    
+    if (recs.isEmpty) return 'Maintain current activity schedule.';
+    return recs.join(' ');
+  }
 }

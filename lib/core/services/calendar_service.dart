@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart'; // For kIsWeb
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:googleapis/calendar/v3.dart';
 import 'package:extension_google_sign_in_as_googleapis_auth/extension_google_sign_in_as_googleapis_auth.dart';
-import '../models/task_model.dart'; // Import for Task model if needed for conversion
+ // Import for Task model if needed for conversion
 
 class CalendarService {
   late final GoogleSignIn? _googleSignIn;

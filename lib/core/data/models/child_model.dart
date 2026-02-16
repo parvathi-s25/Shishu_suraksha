@@ -1,4 +1,14 @@
-import 'package:flutter/material.dart';
+
+
+class GrowthRecord {
+  final DateTime date;
+  final double height; // cm
+  final double weight; // kg
+  
+  GrowthRecord({required this.date, required this.height, required this.weight});
+  
+  double get bmi => weight / ((height / 100) * (height / 100));
+}
 
 class ChildModel {
   final String id;
@@ -7,6 +17,7 @@ class ChildModel {
   final DateTime? dob;
   final String? gender;
   final String? anganwadi;
+  final List<GrowthRecord> growthHistory; // New field
 
   ChildModel({
     required this.id,
@@ -15,7 +26,8 @@ class ChildModel {
     this.dob,
     this.gender,
     this.anganwadi,
-  });
+    List<GrowthRecord>? growthHistory,
+  }) : growthHistory = growthHistory ?? [];
 
   int get ageMonths {
     if (dob != null) {
@@ -29,7 +41,7 @@ class ChildModel {
   }
 }
 
-enum ActivityCategory { motorSkills, speechLanguage, cognitive }
+enum ActivityCategory { motorSkills, speechLanguage, cognitive, socialEmotional, creative }
 
 enum ActivityDifficulty { easy, medium, hard }
 
@@ -67,6 +79,7 @@ class Activity {
   final List<String> targetSkills;
   final List<ProgressMilestone> expectedImprovement;
   final double recommendationScore;
+  final int? durationMinutes;
 
   Activity({
     required this.activityId,
@@ -80,6 +93,7 @@ class Activity {
     required this.targetSkills,
     required this.expectedImprovement,
     required this.recommendationScore,
+    this.durationMinutes,
   });
 }
 

@@ -1,12 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/data/models/child_model.dart';
+import '../../../core/data/models/assessment_result_models.dart';
+import '../../screens/monitor/health_monitoring_screen.dart';
+import '../../screens/monitor/growth_screen.dart';
+import '../screening/visual/visual_screening_screen.dart';
+import '../screening/audio/audio_screening_screen.dart';
 import 'assessment_flow_screen.dart';
 import 'package:shishu_suraksha/app/theme/colors.dart';
-import 'package:excel/excel.dart';
+import 'package:excel/excel.dart' hide Border;
+import 'package:file_picker/file_picker.dart';
+import 'package:intl/intl.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
-import 'package:permission_handler/permission_handler.dart';
+import '../../../core/services/data_service.dart';
 
 /// Child Assessment Dashboard - Main screen for managing child assessments
 /// 
@@ -324,57 +332,86 @@ class _ChildAssessmentDashboardState
               ],
             ),
             const SizedBox(height: 12),
-            Divider(height: 1),
-            const SizedBox(height: 12),
-            SizedBox(
-              height: 40,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    child: OutlinedButton.icon(
-                      onPressed: () => _viewChildDetails(child),
-                      icon: const Icon(Icons.info_outline, size: 16),
-                      label: const Text(
-                        'Details',
-                        style: TextStyle(fontSize: 12),
-                      ),
-                      style: OutlinedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(horizontal: 8),
-                      ),
-                    ),
                   ),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: ElevatedButton.icon(
-                      onPressed: () => _startAssessment(child),
-                      icon: const Icon(Icons.play_arrow, size: 16),
-                      label: const Text(
-                        'Assessment',
-                        style: TextStyle(fontSize: 12),
-                      ),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.blue[700],
-                        padding: const EdgeInsets.symmetric(horizontal: 8),
-                      ),
-                    ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            const Divider(),
+            
+            // HEALTH & DEVELOPMENT SUITE
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 8.0),
+              child: Text("HEALTH & DEVELOPMENT SUITE", style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.grey, letterSpacing: 1.0)),
+            ),
+            
+            // 1. LIVE VITALS (Heart Rate, SpO2)
+            _buildTestButton(
+              context,
+              icon: Icons.monitor_heart,
+              label: "HEART RATE & VITALS (LIVE)",
+              color: Colors.purple,
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => HealthMonitoringScreen(child: child)));
+              },
+            ),
+            const SizedBox(height: 8),
+
+            // 2. GROWTH & DEVELOPMENT (Row)
+            Row(
+              children: [
+                Expanded(
+                  child: _buildTestButton(
+                    context,
+                    icon: Icons.show_chart,
+                    label: "GROWTH",
+                    color: Colors.blue,
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => GrowthScreen(child: child)));
+                    },
                   ),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: OutlinedButton.icon(
-                      onPressed: () => _viewAssessmentHistory(child),
-                      icon: const Icon(Icons.history, size: 16),
-                      label: const Text(
-                        'History',
-                        style: TextStyle(fontSize: 12),
-                      ),
-                      style: OutlinedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(horizontal: 8),
-                      ),
-                    ),
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: _buildTestButton(
+                    context,
+                    icon: Icons.psychology,
+                    label: "DEVELOPMENTAL",
+                    color: Colors.teal,
+                    onTap: () => _startAssessment(child),
                   ),
-                ],
-              ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 8),
+
+            // 3. SENSORY (Vision & Hearing)
+            Row(
+              children: [
+                Expanded(
+                  child: _buildTestButton(
+                    context,
+                    icon: Icons.visibility,
+                    label: "VISION TEST",
+                    color: Colors.orange,
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => const VisualScreeningScreen()));
+                    },
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: _buildTestButton(
+                    context,
+                    icon: Icons.hearing,
+                    label: "HEARING TEST",
+                    color: Colors.indigo,
+                    onTap: () {
+                       Navigator.push(context, MaterialPageRoute(builder: (context) => const AudioScreeningScreen()));
+                    },
+                  ),
+                ),
+              ],
             ),
           ],
         ),
@@ -382,17 +419,55 @@ class _ChildAssessmentDashboardState
     );
   }
 
+  Widget _buildTestButton(BuildContext context, {required IconData icon, required String label, required Color color, required VoidCallback onTap}) {
+    return ElevatedButton.icon(
+      onPressed: onTap,
+      icon: Icon(icon, size: 18),
+      label: Text(label, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 11)),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: color.withOpacity(0.1),
+        foregroundColor: color,
+        elevation: 0,
+        alignment: Alignment.centerLeft,
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+        shape: RoundedRectangleBorder(
+           borderRadius: BorderRadius.circular(8),
+           side: BorderSide(color: color.withOpacity(0.3)),
+        )
+      ),
+    );
+  }
+
   String _getChildRiskLevel(ChildModel child) {
-    // This would be determined from actual assessment results
-    // For now, return mock data
-    if (child.id == '3') return 'HIGH RISK';
-    if (child.id == '5') return 'MEDIUM RISK';
-    return 'LOW RISK';
+    // Check DataService for assessments
+    final assessments = DataService().getAssessmentsForChild(child.id);
+    
+    if (assessments.isEmpty) {
+      // Keep mock data for specific IDs for demo purposes, else return NO ASSESSMENT
+       if (child.id == '3') return 'HIGH RISK';
+       if (child.id == '5') return 'MEDIUM RISK';
+       return 'NO ASSESSMENT'; 
+    }
+    
+    // Sort by date descending
+    assessments.sort((a, b) => b.date.compareTo(a.date));
+    final latest = assessments.first;
+    
+    // Determine risk based on latest assessment type
+    double score = 0;
+    if (latest is MotorAssessmentResult) score = latest.totalScore;
+    if (latest is SpeechAssessmentResult) score = latest.totalScore;
+    if (latest is CognitiveAssessmentResult) score = latest.totalScore;
+    
+    if (score >= 75) return 'LOW RISK';
+    if (score >= 50) return 'MEDIUM RISK';
+    return 'HIGH RISK';
   }
 
   Color _getRiskColor(String riskLevel) {
     if (riskLevel == 'HIGH RISK') return Colors.red;
     if (riskLevel == 'MEDIUM RISK') return Colors.orange;
+    if (riskLevel == 'NO ASSESSMENT') return Colors.grey;
     return Colors.green;
   }
 

@@ -1,5 +1,4 @@
-import 'package:flutter/foundation.dart';
-import '../models/assessment_models.dart';
+import 'dart:math';
 
 /// Motor Skills Assessment Service
 /// 
@@ -100,7 +99,7 @@ class MotorSkillsAssessmentService {
 
     // Adjust based on wobbles
     final wobbleAdjustment = (wobbleCount * 5).clamp(0, 30).toDouble();
-    final adjustedBalanceScore = (balanceScore - wobbleAdjustment).clamp(0, 100);
+    final adjustedBalanceScore = (balanceScore - wobbleAdjustment).clamp(0.0, 100.0);
 
     return MotorSkillsAssessmentData(
       singleLegStandDuration: standDurationSeconds,
@@ -169,7 +168,7 @@ class MotorSkillsAssessmentService {
             balanceScore * 0.30 +
             walkScore * 0.25 +
             throwCatchScore * 0.15)
-        .clamp(0, 100);
+        .clamp(0.0, 100.0);
   }
 
   /// Calculates developmental age in months based on motor score
@@ -224,7 +223,7 @@ class MotorSkillsAssessmentService {
   }
 
   static double _vectorMagnitude(double x, double y) {
-    return (x * x + y * y).sqrt();
+    return sqrt(x * x + y * y);
   }
 
   static double _calculateArmSwingQuality(double shoulderAngle) {
@@ -269,7 +268,7 @@ class MotorSkillsAssessmentService {
     variance /= poseLandmarks.length;
 
     // Convert variance to 0-100 score (lower variance = higher score)
-    return (100 - (variance * 100).clamp(0, 100)).clamp(0, 100);
+    return (100 - (variance * 100).clamp(0.0, 100.0)).clamp(0.0, 100.0);
   }
 
   static double _calculateGaitSymmetry(List<PoseLandmark> poseLandmarks) {
@@ -300,7 +299,7 @@ class MotorSkillsAssessmentService {
     final symmetryRatio =
         1 - ((leftVariance - rightVariance).abs() / (leftVariance + rightVariance + 0.01));
 
-    return (symmetryRatio * 100).clamp(0, 100);
+    return (symmetryRatio * 100).clamp(0.0, 100.0);
   }
 
   static double _calculateStepCoordination(List<PoseLandmark> poseLandmarks) {
@@ -317,15 +316,14 @@ class MotorSkillsAssessmentService {
       final dy2 = poseLandmarks[i + 1].y - poseLandmarks[i].y;
 
       // Check for smooth transitions (acceleration should be minimal)
-      final acceleration = ((dx2 - dx1) * (dx2 - dx1) + (dy2 - dy1) * (dy2 - dy1))
-          .sqrt();
+      final acceleration = sqrt((dx2 - dx1) * (dx2 - dx1) + (dy2 - dy1) * (dy2 - dy1));
       smoothness += acceleration;
     }
 
     smoothness /= (poseLandmarks.length - 2);
 
     // Convert to 0-100 score (lower acceleration = higher score)
-    return (100 - (smoothness * 10).clamp(0, 100)).clamp(0, 100);
+    return (100 - (smoothness * 10).clamp(0.0, 100.0)).clamp(0.0, 100.0);
   }
 
   static double _normalizeScore(

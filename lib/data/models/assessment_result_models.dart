@@ -4,11 +4,12 @@ import 'package:hive/hive.dart';
 // RISK STRATIFICATION & ANALYSIS MODELS
 // ============================================================================
 
-enum RiskLevel {
-  low, // Green - All scores within normal range
-  medium, // Yellow - 1-2 areas below age expectations
-  high, // Red - Multiple severe delays or birth defect detected
-}
+import 'assessment_models.dart';
+
+// ============================================================================
+// RISK STRATIFICATION & ANALYSIS MODELS
+// ============================================================================
+
 
 @HiveType(typeId: 9)
 class RiskFactor extends HiveObject {

@@ -3,8 +3,8 @@ import 'package:speech_to_text/speech_to_text.dart' as stt;
 import '../../ui/screens/dashboard/tabs/assessment_screen.dart';
 import '../../ui/screens/screening/visual/visual_screening_screen.dart';
 import '../../ui/screens/screening/audio/audio_screening_screen.dart';
-import '../../screening/injury/injury_screening_screen.dart';
-import '../../screening/symptoms/symptom_screening_screen.dart';
+import '../../ui/screens/screening/injury/injury_screening_screen.dart';
+import '../../ui/screens/screening/symptoms/symptom_screening_screen.dart';
 
 class VoiceCommandManager {
   final stt.SpeechToText _speech = stt.SpeechToText();

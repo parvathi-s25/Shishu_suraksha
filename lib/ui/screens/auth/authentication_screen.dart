@@ -4,6 +4,7 @@ import '../../../../localization/app_localizations.dart';
 import 'dart:ui';
 import 'package:shishu_suraksha/data/auth_data.dart';
 import '../../widgets/cropped_logo.dart';
+import '../../admin/admin_dashboard_screen.dart';
 
 
 class AuthenticationScreen extends StatefulWidget {
@@ -223,7 +224,7 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                            value: selectedUserId,
                            hint: Text(t.userId),
                            // Look up User IDs using English District Key and Role
-                           items: getUserIds(selectedDistrict!, selectedRole ?? 'Anganwadi Teacher')
+                           items: AuthData.getUserIdsForDistrict(selectedDistrict!)
                                .map((id) => DropdownMenuItem(value: id, child: Text(id)))
                                .toList(),
                            onChanged: (value) {
@@ -256,10 +257,17 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                   ElevatedButton(
                     onPressed: () {
                       if (selectedRole != null && selectedDistrict != null && selectedVillage != null) {
-                         Navigator.pushNamed(context, "/dashboard");
+                         if (selectedRole == "Admin") { // Check against the value used in RadioListTile
+                           Navigator.pushReplacement(
+                             context,
+                             MaterialPageRoute(builder: (context) => const AdminDashboardScreen()),
+                           );
+                         } else {
+                           Navigator.pushReplacementNamed(context, "/dashboard");
+                         }
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text("Please fill all fields"))
+                          const SnackBar(content: Text("Please fill all fields"))
                         );
                       }
                     },

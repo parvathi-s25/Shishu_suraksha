@@ -2,67 +2,55 @@
 
 Shishu Suraksha is a comprehensive ECD (Early Childhood Development) application designed for Anganwadi teachers and ASHA workers to monitor and support child growth and development.
 
-## 🚀 New Features: Live AI Chatbot
+## 🚀 Newest Features: Health & Admin Suite
 
-The application now features a "live" AI assistant capable of interacting in multiple regional languages, with **Telugu** as the default.
+The application has been upgraded with a comprehensive and responsive suite for both field workers and regional administrators.
 
 ### Key Capabilities:
-- **Intelligent Telugu Interaction**: Powered by Groq (Llama-3), providing fast and professional responses to ECD queries.
-- **Voice Response (TTS)**: The assistant reads aloud its responses in the selected language.
-- **Speech-to-Text (STT)**: Users can speak their queries directly in Telugu.
-- **Real-time Localized Greetings**: The dashboard banner dynamically updates based on the time of day (Morning/Afternoon/Evening) in both English and Telugu.
-- **Polished Startup Experience**: A seamless, high-performance startup flow using Lottie animations and optimized splash transitions for a premium feel.
-- **Responsive Design**: Prevents UI overlap on mobile devices and supports both Modern and Teacher dashboard layouts.
+- **Health & Development Suite**: Integrated vitals monitoring (Heart Rate/SpO2), Growth Tracking (WHO Standards), and Developmental Assessments (Motor/Speech/Cognitive).
+- **National Admin Portal**: A high-fidelity dashboard for ministry-level oversight, featuring district performance comparison charts and critical school alerts.
+- **Responsive Design**: Zero-overflow UI architecture using `Wrap`, `Flexible`, and `FittedBox` widgets, ensuring a premium experience on any mobile device.
+- **Intelligent Search**: Real-time filtering for schools and children across the entire platform.
+- **Live AI Chatbot**: Real-time assistant interacting in regional languages (Telugu, Hindi, etc.) with Voice (TTS) and Speech (STT) capabilities.
+- **Automated Alerts**: Real-time risk stratification and automated red-flagging for malnourished or high-risk children.
 
 ## 📊 System Flowchart
 
 ```mermaid
 graph TD
     %% Entry Point
-    User([Anganwadi Worker]) --> Intro[Lottie Opening Animation]
+    User([User]) --> Intro[Lottie Opening Animation]
     Intro --> Splash[Smooth Splash Transition]
     Splash --> Login{Login / Auth}
-    Login -->|Success| Dashboard[Modern Menu Dashboard]
-
-    %% Dashboard Components
-    Dashboard -->|Realtime Streams| DataService[(DataService <br/> StreamControllers)]
-    Dashboard -->|Greeting| Welcome[Realtime Welcome Message]
-    Dashboard -->|Alerts| RedFlag[Red Flag Indicator <br/> High Risk Count]
-    Dashboard -->|Reminders| LastVisit[Last Visit Reminder <br/> >30 Days]
-
-    %% Main Features
-    Dashboard --> Features{Core Features}
-
-    %% Quick Actions
-    Features -->|Quick Actions| QA_Grid[Quick Actions Grid]
-    QA_Grid --> Tasks[Tasks Screen <br/> Smart Reminders]
-    QA_Grid --> Alerts[Alerts Screen <br/> Risk Badges]
-    QA_Grid --> Profile[Profile Screen]
-    QA_Grid --> Help[Help Center <br/> Emergency Guide]
-
-    %% Data Entry & OCR
-    Features -->|Add Child| EntryMode{Select Mode}
-    EntryMode -->|Manual Fast| QuickAdd[Quick Add Screen <br/> Name, Age, Weight]
-    EntryMode -->|Smart Scan| OCR[OCR Data Entry Screen]
     
-    %% OCR Pipeline
-    subgraph OCR_Pipeline [8-Stage OCR Architecture]
-        OCR -->|Capture| Camera[Stage 1: Smart Capture]
-        Camera -->|Image| Preprocess[Stage 2: Preprocessing <br/> OpenCV Denoise]
-        Preprocess -->|Clean Image| Zonal[Stage 3: Zonal Cropping]
-        Zonal -->|Regions| Extract[Stage 4: Smart Extraction <br/> Fuzzy Match]
-        Extract -->|Data| Confidence[Stage 5: Visual Confidence]
-        Confidence -->|Validation| Validate[Stage 6: Validation <br/> Aadhaar/DOB]
-        Validate -->|Edit| Correction[Stage 7: Assisted Correction <br/> Field Re-scan]
-        Correction -->|Submit| Learning[Stage 8: Learning Loop <br/> Feedback Log]
+    %% Role Branching
+    Login -->|Teacher| Dashboard[Anganwadi Dashboard]
+    Login -->|Admin| AdminDash[National Admin Portal]
+
+    %% Teacher Flow
+    subgraph Teacher_Module [Anganwadi Operations]
+        Dashboard -->|Vitals| LiveVitals[Heart Rate & Vitals Hub]
+        Dashboard -->|Search| ChildSearch[Search Children]
+        Dashboard -->|Assessment| Assess[Developmental Suite <br/> Motor/Speech/Cognitive]
+        Dashboard -->|Growth| Growth[Growth & Nutrition Charts]
     end
 
+    %% Admin Flow
+    subgraph Admin_Module [National Oversight]
+        AdminDash -->|Analytics| DistrictChart[District Performance Comparison]
+        AdminDash -->|Search| SchoolSearch[Find Specific Schools]
+        AdminDash -->|Drilldown| SchoolDetail[School Deep-Dive <br/> Performance & Students]
+        AdminDash -->|Management| Alerts[Alert Resolution Panel]
+    end
+
+    %% Data Core
+    AdminDash -->|Sync| DataService[(Unified Data Service)]
+    Dashboard -->|Sync| DataService
+    
     %% Screening Modules
-    Features -->|Screening| Screening[Screening Hub]
+    Dashboard -->|Screening| Screening[Screening Hub]
     Screening --> Visual[Visual Screening]
     Screening --> Audio[Audio Screening]
-    Screening --> Thermal[Thermal Screening]
-    Screening --> Injury[Injury Analysis]
 ```
 
 ## Getting Started

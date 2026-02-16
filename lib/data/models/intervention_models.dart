@@ -212,7 +212,7 @@ class Activity extends HiveObject {
   final String scientificBasis; // reference to methodology/guidelines
 
   @HiveField(18)
-  final double recommendationScore; // 0-1 based on child's profile match
+  double recommendationScore; // 0-1 based on child's profile match
 
   Activity({
     required this.activityId,
