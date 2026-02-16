@@ -1,4 +1,4 @@
-# 🏥 Shishu Suraksha (শিশুর সুরক্ষা)
+# 🏥 Shishu Suraksha (శిశు సురక్ష)
 ### *Empowering Early Childhood Development through AI & IoT*
 
 **Shishu Suraksha** is a mission-critical mobile platform designed for Anganwadi workers, ASHA personnel, and Health Administrators. It provides a robust, zero-overflow interface for monitoring, assessing, and intervening in child development across rural and urban India.
