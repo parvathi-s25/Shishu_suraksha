@@ -32,26 +32,36 @@ class AdminService {
   }
 
   // Actual Excel Export Integration
-  Future<String?> exportToExcel(String reportType) async {
+  // Fetch Report Data for UI Display or Export
+  Future<List<Map<String, dynamic>>> getReportData(String reportType) async {
     if (reportType == "HighRisk") {
       final data = await getHighRiskList();
-      final List<Map<String, dynamic>> exportData = data.map((e) => {
-        "name": e['name'],
-        "age": 4, // Mock age
-        "heart_rate": 140.0, // Mock
-        "spo2": 95.0,
-        "temp": 37.0,
-        "score": e['score'],
-        "status": e['risk'],
+      return data.map((e) => {
+        "Name": e['name'],
+        "Age": 4, // Mock age
+        "Heart Rate": 140.0, // Mock
+        "SpO2": 95.0,
+        "Temp": 37.0,
+        "Risk Score": e['score'],
+        "Status": e['risk'],
+        "School": e['school']
       }).toList();
-      
-      return await _exportService.generateHealthReport("Central_Admin", exportData);
     } else {
       // Generic growth report mock
-      final List<Map<String, dynamic>> growthData = [
-        {"name": "Rahul", "height": 110.0, "weight": 18.0, "bmi": 14.8, "status": "Normal", "date": "15/02/2026"},
+      return [
+        {"Name": "Rahul", "Height": 110.0, "Weight": 18.0, "BMI": 14.8, "Status": "Normal", "Date": "15/02/2026"},
+        {"Name": "Priya", "Height": 105.0, "Weight": 16.5, "BMI": 15.0, "Status": "Normal", "Date": "16/02/2026"},
+        {"Name": "Amit", "Height": 112.0, "Weight": 19.0, "BMI": 15.1, "Status": "Normal", "Date": "16/02/2026"},
       ];
-      return await _exportService.generateGrowthReport("Central_Admin", growthData);
+    }
+  }
+
+  Future<String?> exportToExcel(String reportType) async {
+    final data = await getReportData(reportType);
+    if (reportType == "HighRisk") {
+       return await _exportService.generateHealthReport("Central_Admin", data);
+    } else {
+       return await _exportService.generateGrowthReport("Central_Admin", data);
     }
   }
 }

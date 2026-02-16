@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:shishu_suraksha/app/theme/colors.dart'; // Import AppColors
 import 'dart:ui'; // Required for ImageFilter
-import '../../../../localization/app_localizations.dart';
+import 'package:shishu_suraksha/l10n/app_localizations.dart';
 import '../../../utils/permission_manager.dart';
 import '../../widgets/cropped_logo.dart';
 import 'tabs/home_task_tab.dart'; // Import the new tab
@@ -15,8 +16,14 @@ import '../../../modules/classroom_monitoring/screens/classroom_dashboard_screen
 import '../../../modules/growth_tracking/screens/growth_monitoring_screen.dart';
 import '../../../modules/ai_alerts/screens/alerts_dashboard_screen.dart';
 import '../../../modules/admin_dashboard/screens/admin_dashboard_screen.dart';
+import '../../../../main.dart'; // For language switching
+import '../../../../core/services/offline_data_service.dart';
 
 class DashboardScreen extends StatefulWidget {
+  final String role; // 'Admin' or 'Anganwadi Teacher'
+
+  const DashboardScreen({Key? key, this.role = 'Anganwadi Teacher'}) : super(key: key);
+
   @override
   _DashboardScreenState createState() => _DashboardScreenState();
 }
@@ -53,55 +60,57 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final t = AppLocalizations.of(context);
+    final t = AppLocalizations.of(context)!;
     final responsive = ResponsiveDashboard(context);
 
+    // If Admin, different Drawer/Sidebar logic
     return Scaffold(
       key: _scaffoldKey,
       drawer: responsive.isMobile ? _buildDrawer(t) : null,
       body: Stack(
         children: [
-          // Background with blur
+          // Minimalist Background (Solid Color from Theme)
           Positioned.fill(
-            child: Stack(
-              children: [
-                Opacity(
-                  opacity: 0.15,
-                  child: Image.asset(
-                    'assets/images/bg1.png',
-                    fit: BoxFit.cover,
-                    width: double.infinity,
-                    height: double.infinity,
-                  ),
-                ),
-                ClipRect(
-                  child: BackdropFilter(
-                    filter: ImageFilter.blur(sigmaX: 25, sigmaY: 25),
-                    child: Container(color: Colors.transparent),
-                  ),
-                ),
-              ],
-            ),
+              child: Container(color: AppColors.background),
           ),
 
           // Main content
           Positioned.fill(
-            child: Column(
-              children: [
-                _buildTopHeader(t, responsive),
-                Expanded(
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      if (responsive.isTablet || responsive.isDesktop)
-                        _buildSidebar(t, responsive),
-                      Expanded(
-                        child: _buildBodyContent(t, responsive),
+            child: AnimatedBuilder(
+              animation: OfflineDataService(),
+              builder: (context, child) {
+                final isOffline = OfflineDataService().isOfflineMode;
+                return Column(
+                  children: [
+                    _buildTopHeader(t, responsive),
+                    if (isOffline)
+                      Container(
+                        width: double.infinity,
+                        color: Colors.orangeAccent,
+                        padding: const EdgeInsets.symmetric(vertical: 4),
+                        child: Text(
+                          t.offlineModeActive,
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+                        ),
                       ),
-                    ],
-                  ),
-                ),
-              ],
+                    Expanded(
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          if (responsive.isTablet || responsive.isDesktop)
+                            _buildSidebar(t, responsive),
+                          Expanded(
+                            child: widget.role == 'Admin' 
+                                ? const AdminDashboardScreen() // Admin always shows Admin Dashboard for now
+                                : _buildBodyContent(t, responsive),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                );
+              }
             ),
           ),
 
@@ -133,18 +142,24 @@ class _DashboardScreenState extends State<DashboardScreen> {
       child: Column(
         children: [
           SizedBox(height: responsive.getSpacing(20)),
-          _buildSidebarItem(Icons.home, "Home", 0),
-          _buildSidebarItem(Icons.child_care, "Children", 1),
-          _buildSidebarItem(Icons.add_circle, "Start", 2),
-          _buildSidebarItem(Icons.medical_services, "Intervene", 3),
-          _buildSidebarItem(Icons.analytics, "Reports", 4),
-          const Divider(color: Colors.white24),
-          _buildSidebarItem(Icons.monitor_heart, "Health", 5), // Health
-          _buildSidebarItem(Icons.school, "Classroom", 6), // Classroom
-          _buildSidebarItem(Icons.show_chart, "Growth", 7), // Growth
-          _buildSidebarItem(Icons.warning, "Alerts", 8), // Alerts
-          const Divider(color: Colors.white24),
-          _buildSidebarItem(Icons.admin_panel_settings, "Admin", 9),
+          if (widget.role == 'Admin') ...[
+             _buildSidebarItem(Icons.admin_panel_settings, t.adminPanel, 0),
+             // Add more Admin sidebar items here if needed
+          ] else ...[
+            _buildSidebarItem(Icons.home, t.home, 0),
+            _buildSidebarItem(Icons.child_care, t.children, 1),
+            _buildSidebarItem(Icons.add_circle, t.start, 2),
+            _buildSidebarItem(Icons.medical_services, t.intervene, 3),
+            _buildSidebarItem(Icons.analytics, t.reports, 4),
+            const Divider(color: Colors.white24),
+            _buildSidebarItem(Icons.monitor_heart, t.health, 5), // Health
+            _buildSidebarItem(Icons.school, t.classroom, 6), // Classroom
+            _buildSidebarItem(Icons.show_chart, t.growth, 7), // Growth
+            _buildSidebarItem(Icons.warning, t.alerts, 8), // Alerts
+            const Divider(color: Colors.white24),
+            // _buildSidebarItem(Icons.admin_panel_settings, t.adminPanel, 9), // Hiding Admin link from Teacher view for clean separation? Or keep as toggle? 
+            // Keeping it for now if they switch roles, but for this task let's focus on role-based separation
+          ],
         ],
       ),
     );
@@ -211,7 +226,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               Expanded(
                 child: Center(
                   child: Text(
-                    "Feature under development",
+                    t.featureUnderDevelopment,
                     style: TextStyle(
                       fontSize: responsive.getFontSize(16),
                       color: Colors.grey,
@@ -244,7 +259,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 ),
                 SizedBox(height: responsive.getSpacing(10)),
                 Text(
-                  'Anganwadi Teacher',
+                  widget.role == 'Admin' ? t.admin : t.anganwadiTeacher, // Dynamic Role
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: responsive.getFontSize(18),
@@ -280,6 +295,20 @@ class _DashboardScreenState extends State<DashboardScreen> {
             onTap: () => Navigator.pop(context),
           ),
           const Divider(),
+          AnimatedBuilder(
+            animation: OfflineDataService(),
+            builder: (context, child) {
+              return SwitchListTile(
+                secondary: const Icon(Icons.wifi_off),
+                title: const Text('Offline Mode'),
+                value: OfflineDataService().isOfflineMode,
+                onChanged: (bool value) {
+                  OfflineDataService().setOfflineMode(value);
+                },
+                activeColor: Colors.teal,
+              );
+            }
+          ),
           ListTile(
             leading: const Icon(Icons.logout),
             title: const Text('Logout'),
@@ -417,7 +446,23 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   /// Build bottom navigation for mobile
   BottomNavigationBar _buildBottomNav() {
-    final t = AppLocalizations.of(context);
+    final t = AppLocalizations.of(context)!;
+    
+    if (widget.role == 'Admin') {
+       return BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        selectedItemColor: Colors.teal,
+        unselectedItemColor: Colors.grey,
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
+        items: [
+          BottomNavigationBarItem(icon: const Icon(Icons.dashboard), label: t.adminPanel),
+          BottomNavigationBarItem(icon: const Icon(Icons.school), label: t.totalSchools), // Using 'Total Schools' as label for Schools tab
+          BottomNavigationBarItem(icon: const Icon(Icons.warning), label: t.alerts),
+          BottomNavigationBarItem(icon: const Icon(Icons.analytics), label: t.reports),
+        ],
+      );
+    }
 
     return BottomNavigationBar(
       type: BottomNavigationBarType.fixed,
@@ -505,46 +550,45 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Widget _buildTopHeader(AppLocalizations t, ResponsiveDashboard responsive) {
     return Container(
       padding: EdgeInsets.only(
-        left: responsive.getSpacing(8),
+        left: responsive.contentPadding.left,
         right: responsive.contentPadding.right,
-        top: MediaQuery.of(context).viewPadding.top + responsive.getSpacing(5),
-        bottom: responsive.getSpacing(5),
+        top: MediaQuery.of(context).viewPadding.top + responsive.getSpacing(10),
+        bottom: responsive.getSpacing(10),
       ),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.03),
-            blurRadius: 2,
-            offset: const Offset(0, 1),
-          ),
-        ],
-      ),
+      color: AppColors.surface, // Clean white background
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           if (responsive.isMobile)
             IconButton(
-              icon: const Icon(Icons.menu, color: Colors.teal),
+              icon: const Icon(Icons.menu, color: AppColors.textPrimary),
               onPressed: () => _scaffoldKey.currentState?.openDrawer(),
             ),
-          const Spacer(),
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Flexible(
-                child: Text(
-                  "ShishuSuraksha AI",
+          
+          Expanded(
+            child: Row(
+              children: [
+                const CroppedLogo(width: 32),
+                SizedBox(width: responsive.getSpacing(12)),
+                Text(
+                  "ShishuSuraksha AI", // App name usually stays constant or has a specific key if needed
                   style: TextStyle(
-                    fontSize: responsive.getFontSize(16),
+                    fontSize: responsive.getFontSize(18),
                     fontWeight: FontWeight.bold,
-                    color: Colors.teal,
+                    color: AppColors.primary, // Teal
+                    letterSpacing: 0.5,
                   ),
-                  overflow: TextOverflow.ellipsis,
                 ),
-              ),
-              SizedBox(width: responsive.getSpacing(8)),
-              const CroppedLogo(width: 36),
+              ],
+            ),
+          ),
+          
+          // Language Toggle (Minimal)
+          PopupMenuButton<String>(
+            icon: const Icon(Icons.language, color: AppColors.textSecondary),
+            onSelected: (String langCode) => MyApp.setLocale(context, Locale(langCode)),
+            itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+              const PopupMenuItem<String>(value: 'en', child: Text('English')),
+              const PopupMenuItem<String>(value: 'te', child: Text('తెలుగు')),
             ],
           ),
         ],
@@ -595,7 +639,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           SizedBox(height: responsive.getSpacing(8)),
 
           Text(
-            t.startMonitoring,
+            t.startMonitoringSubtitle,
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: responsive.getFontSize(14),

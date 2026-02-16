@@ -7,11 +7,14 @@ import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import '../data/models/child_model.dart';
 import '../data/models/assessment_result_models.dart';
+import 'offline_data_service.dart';
 
 class DataService extends ChangeNotifier {
   static final DataService _instance = DataService._internal();
   factory DataService() => _instance;
   DataService._internal();
+
+  final OfflineDataService _offlineService = OfflineDataService();
 
   // In-memory storage (Replace with SQLite/Hive for persistence in future)
   final List<ChildModel> _children = [];
@@ -43,7 +46,22 @@ class DataService extends ChangeNotifier {
   int _overdueCount = 5;
 
   void init() {
+    // Load offline data on init
+    _loadOfflineData();
     _emitAll();
+  }
+  
+  Future<void> _loadOfflineData() async {
+    // Load Children
+    final localChildren = _offlineService.getAllChildren();
+    if (localChildren.isNotEmpty) {
+      _children.clear();
+      _children.addAll(localChildren.map((e) => ChildModel.fromJson(e)));
+      
+      // Update counts based on local data
+      _childCountController.add(_children.length > 42 ? _children.length : 42);
+      notifyListeners();
+    }
   }
 
   void _emitAll() {
@@ -57,6 +75,10 @@ class DataService extends ChangeNotifier {
 
   void addChild(ChildModel child) {
     _children.add(child);
+    
+    // Save to Offline Storage
+    _offlineService.saveChild(child.toJson());
+    
     _childCountController.add(_children.length + 42); // Adding to mock baseline
     notifyListeners();
   }

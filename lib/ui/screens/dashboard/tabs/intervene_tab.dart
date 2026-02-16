@@ -3,6 +3,7 @@ import '../../../../services/alert_generator.dart';
 import '../../../../models/alert_model.dart';
 import '../../../widgets/alert_card.dart';
 import '../../../../services/responsive_dashboard.dart';
+import 'package:shishu_suraksha/l10n/app_localizations.dart';
 
 class InterveneTab extends StatefulWidget {
   const InterveneTab({Key? key}) : super(key: key);
@@ -36,6 +37,7 @@ class _InterveneTabState extends State<InterveneTab> {
   @override
   Widget build(BuildContext context) {
     final responsive = ResponsiveDashboard(context);
+    final t = AppLocalizations.of(context)!;
     
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -57,7 +59,7 @@ class _InterveneTabState extends State<InterveneTab> {
                 ),
                 SizedBox(height: responsive.getSpacing(16)),
                 Text(
-                  'No alerts at this time',
+                  t.noAlerts,
                   style: TextStyle(
                     fontSize: responsive.getFontSize(20),
                     fontWeight: FontWeight.bold,
@@ -66,7 +68,7 @@ class _InterveneTabState extends State<InterveneTab> {
                 ),
                 SizedBox(height: responsive.getSpacing(8)),
                 Text(
-                  'All children are being monitored.',
+                  t.allMonitored,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: responsive.getFontSize(14),
@@ -117,7 +119,7 @@ class _InterveneTabState extends State<InterveneTab> {
                           ),
                           SizedBox(width: responsive.getSpacing(12)),
                           Text(
-                            'Child Alerts',
+                            t.childAlerts,
                             style: TextStyle(
                               fontSize: responsive.getFontSize(24),
                               fontWeight: FontWeight.bold,
@@ -128,7 +130,7 @@ class _InterveneTabState extends State<InterveneTab> {
                       ),
                       SizedBox(height: responsive.getSpacing(8)),
                       Text(
-                        '${_alerts.length} alert${_alerts.length != 1 ? 's' : ''} require${_alerts.length == 1 ? 's' : ''} attention',
+                        '${_alerts.length} ${t.alertsAttention}',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: responsive.getFontSize(14),
@@ -152,25 +154,25 @@ class _InterveneTabState extends State<InterveneTab> {
                     runSpacing: responsive.getSpacing(8),
                     children: [
                       _buildRiskBadge(
-                        '🔴 High Risk',
+                        '🔴 ${t.riskHigh}',
                         _alerts.where((a) => a.riskLevel == RiskLevel.high).length,
                         Colors.red,
                         responsive,
                       ),
                       _buildRiskBadge(
-                        '🟠 Moderate',
+                        '🟠 ${t.riskModerate}',
                         _alerts.where((a) => a.riskLevel == RiskLevel.moderate).length,
                         Colors.orange,
                         responsive,
                       ),
                       _buildRiskBadge(
-                        '🟡 Mild',
+                        '🟡 ${t.riskMild}',
                         _alerts.where((a) => a.riskLevel == RiskLevel.mild).length,
                         Colors.amber,
                         responsive,
                       ),
                       _buildRiskBadge(
-                        '🟢 Normal',
+                        '🟢 ${t.riskNormal}',
                         _alerts.where((a) => a.riskLevel == RiskLevel.normal).length,
                         Colors.green,
                         responsive,

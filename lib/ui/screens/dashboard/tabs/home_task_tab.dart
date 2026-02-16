@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../../localization/app_localizations.dart';
+import 'package:shishu_suraksha/l10n/app_localizations.dart';
 import '../../../../services/responsive_dashboard.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart';
@@ -10,6 +10,8 @@ import '../../alerts/alerts_screen.dart';
 import '../../profile/profile_screen.dart';
 import '../../help/help_center_screen.dart';
 import '../../student/quick_add_screen.dart';
+
+
 
 class HomeTaskTab extends StatefulWidget {
   final Function(int) onTabChange;
@@ -34,14 +36,14 @@ class _HomeTaskTabState extends State<HomeTaskTab> {
   @override
   Widget build(BuildContext context) {
     final responsive = ResponsiveDashboard(context);
-    // final t = AppLocalizations.of(context); // Localization
+    final t = AppLocalizations.of(context)!; // Localization
 
     return SingleChildScrollView(
       padding: responsive.contentPadding,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildSectionTitle(context, "Overview", responsive),
+          _buildSectionTitle(context, t.overview, responsive),
           SizedBox(height: responsive.getSpacing(16)),
           
           // Top Summary Grid
@@ -60,7 +62,7 @@ class _HomeTaskTabState extends State<HomeTaskTab> {
                   _buildSummaryCard(
                     icon: Icons.child_care,
                     color: Colors.purple,
-                    title: "Children",
+                    title: t.children,
                     count: snapshot.data.toString(),
                     onTap: () => widget.onTabChange(1),
                     responsive: responsive,
@@ -71,9 +73,9 @@ class _HomeTaskTabState extends State<HomeTaskTab> {
                     builder: (context, snap) => _buildSummaryCard(
                       icon: Icons.assessment,
                       color: Colors.orange,
-                      title: "Assessments",
+                      title: t.assessments,
                       count: snap.data.toString(),
-                      label: "Pending",
+                      label: t.pending,
                       onTap: () => widget.onTabChange(2),
                       responsive: responsive,
                     ),
@@ -84,9 +86,9 @@ class _HomeTaskTabState extends State<HomeTaskTab> {
                     builder: (context, snap) => _buildSummaryCard(
                       icon: Icons.medical_services,
                       color: Colors.blue,
-                      title: "Interventions",
+                      title: t.interventions,
                       count: snap.data.toString(),
-                      label: "Active",
+                      label: t.active,
                       onTap: () => widget.onTabChange(3),
                       responsive: responsive,
                     ),
@@ -97,9 +99,9 @@ class _HomeTaskTabState extends State<HomeTaskTab> {
                     builder: (context, snap) => _buildSummaryCard(
                       icon: Icons.flag, // Red Flag Icon
                       color: Colors.red,
-                      title: "Red Flags",
+                      title: t.redFlags,
                       count: snap.data.toString(),
-                      label: "High Risk",
+                      label: t.highRisk,
                       onTap: () => widget.onTabChange(4),
                       responsive: responsive,
                     ),
@@ -112,7 +114,7 @@ class _HomeTaskTabState extends State<HomeTaskTab> {
           SizedBox(height: responsive.getSpacing(32)),
           
           // --- CALENDAR SECTION (NEW) ---
-          _buildSectionTitle(context, "Schedule", responsive),
+          _buildSectionTitle(context, t.schedule, responsive),
           SizedBox(height: responsive.getSpacing(16)),
           Card(
             elevation: 2,
@@ -190,19 +192,19 @@ class _HomeTaskTabState extends State<HomeTaskTab> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "${snap.data} children not seen in >30 days",
+                            "${snap.data} ${t.lastVisitReminder}",
                             style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                           ),
-                          const Text(
-                            "Schedule a home visit soon.",
-                            style: TextStyle(color: Colors.grey, fontSize: 12),
+                          Text(
+                            t.scheduleVisit,
+                            style: const TextStyle(color: Colors.grey, fontSize: 12),
                           ),
                         ],
                       ),
                     ),
                     TextButton(
                        onPressed: () {}, // Navigate to filtered list (future)
-                       child: const Text("VIEW", style: TextStyle(fontWeight: FontWeight.bold)),
+                       child: Text(t.view, style: const TextStyle(fontWeight: FontWeight.bold)),
                     )
                   ],
                 ),
@@ -211,7 +213,7 @@ class _HomeTaskTabState extends State<HomeTaskTab> {
           ),
 
           SizedBox(height: responsive.getSpacing(32)),
-          _buildSectionTitle(context, "Quick Actions", responsive),
+          _buildSectionTitle(context, t.quickActions, responsive),
           SizedBox(height: responsive.getSpacing(16)),
 
           // Secondary Action Grid
@@ -225,32 +227,32 @@ class _HomeTaskTabState extends State<HomeTaskTab> {
             children: [
               _buildActionCard(
                 icon: Icons.task_alt,
-                title: "Tasks",
+                title: t.tasks,
                  onTap: () => Navigator.push(context, MaterialPageRoute(builder: (c) => const TasksScreen())),
                 responsive: responsive,
               ),
                _buildActionCard(
                 icon: Icons.notifications_none,
-                title: "Alerts",
+                title: t.alerts,
                 badgeCount: 3,
                  onTap: () => Navigator.push(context, MaterialPageRoute(builder: (c) => const AlertsScreen())),
                 responsive: responsive,
               ),
                _buildActionCard(
                 icon: Icons.person_outline,
-                title: "Profile",
+                title: t.profile,
                  onTap: () => Navigator.push(context, MaterialPageRoute(builder: (c) => const ProfileScreen())),
                 responsive: responsive,
               ),
                _buildActionCard(
                 icon: Icons.help_outline,
-                title: "Help Center",
+                title: t.helpCenter,
                  onTap: () => Navigator.push(context, MaterialPageRoute(builder: (c) => const HelpCenterScreen())),
                 responsive: responsive,
               ),
                _buildActionCard(
                 icon: Icons.add_circle_outline,
-                title: "Quick Add",
+                title: t.quickAdd,
                 color: Colors.teal,
                  onTap: () {
                     showModalBottomSheet(
@@ -261,12 +263,12 @@ class _HomeTaskTabState extends State<HomeTaskTab> {
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            const Text("Select Mode", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                            Text(t.selectMode, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                             const SizedBox(height: 24),
                             ListTile(
                               leading: const CircleAvatar(backgroundColor: Colors.teal, child: Icon(Icons.document_scanner, color: Colors.white)),
-                              title: const Text("Scan Document", style: TextStyle(fontWeight: FontWeight.bold)),
-                              subtitle: const Text("Auto-fill details from ID card"),
+                              title: Text(t.scanDocument, style: const TextStyle(fontWeight: FontWeight.bold)),
+                              subtitle: Text(t.scanDocSubtitle),
                               onTap: () {
                                 Navigator.pop(context);
                                 Navigator.push(context, MaterialPageRoute(builder: (c) => const OCRDataEntryScreen()));
@@ -275,8 +277,8 @@ class _HomeTaskTabState extends State<HomeTaskTab> {
                             const Divider(),
                             ListTile(
                               leading: const CircleAvatar(backgroundColor: Colors.blueAccent, child: Icon(Icons.flash_on, color: Colors.white)),
-                              title: const Text("Quick Add (Ultra Fast)", style: TextStyle(fontWeight: FontWeight.bold)),
-                              subtitle: const Text("Enter Name, Age, Weight only"),
+                              title: Text(t.quickAddFast, style: const TextStyle(fontWeight: FontWeight.bold)),
+                              subtitle: Text(t.quickAddSubtitle),
                               onTap: () {
                                 Navigator.pop(context);
                                 Navigator.push(context, MaterialPageRoute(builder: (c) => const QuickAddScreen()));
@@ -320,71 +322,58 @@ class _HomeTaskTabState extends State<HomeTaskTab> {
   }) {
     return InkWell(
       onTap: onTap,
-      borderRadius: BorderRadius.circular(16),
+      borderRadius: BorderRadius.circular(12),
       child: Container(
+        padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(16),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.04),
-              blurRadius: 10,
-              offset: const Offset(0, 4),
-            ),
-          ],
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: Colors.grey[200]!), // Subtle border
         ),
-        padding: EdgeInsets.all(responsive.getSpacing(12)),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Container(
-              padding: EdgeInsets.all(responsive.getSpacing(8)),
-              decoration: BoxDecoration(
-                color: color.withOpacity(0.1),
-                shape: BoxShape.circle,
-              ),
-              child: Icon(icon, color: color, size: 24),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Icon(icon, color: color, size: 28),
+                if (label != null)
+                   Container(
+                     padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                     decoration: BoxDecoration(
+                       color: color.withOpacity(0.1),
+                       borderRadius: BorderRadius.circular(4),
+                     ),
+                     child: Text(
+                       label,
+                       style: TextStyle(
+                         color: color, 
+                         fontSize: 10, 
+                         fontWeight: FontWeight.bold
+                       ),
+                     ),
+                   ),
+              ],
             ),
-            Flexible(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    count,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      fontSize: responsive.getFontSize(24),
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black87,
-                    ),
-                  ),
-                  Text(
-                    title,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      fontSize: responsive.getFontSize(14),
-                      color: Colors.grey[600],
-                    ),
-                  ),
-                  if (label != null)
-                    Padding(
-                        padding: const EdgeInsets.only(top: 4),
-                        child: FittedBox(
-                          fit: BoxFit.scaleDown,
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            label,
-                            maxLines: 1,
-                            style: TextStyle(fontSize: 10, color: color, fontWeight: FontWeight.bold),
-                          ),
-                        )
-                    ),
-                ],
+            const SizedBox(height: 12),
+            Text(
+              count,
+              style: const TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: Colors.black87,
               ),
+            ),
+            Text(
+              title,
+              style: TextStyle(
+                fontSize: 12,
+                color: Colors.grey[600],
+                fontWeight: FontWeight.w500,
+              ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
             ),
           ],
         ),
@@ -395,64 +384,59 @@ class _HomeTaskTabState extends State<HomeTaskTab> {
   Widget _buildActionCard({
     required IconData icon,
     required String title,
-    Color color = Colors.grey,
+    Color color = Colors.indigoAccent,
     int? badgeCount,
     required VoidCallback onTap,
     required ResponsiveDashboard responsive,
   }) {
-      final iconColor = (title == "Quick Add") ? Colors.teal : Colors.indigoAccent;
-
     return InkWell(
       onTap: onTap,
-      borderRadius: BorderRadius.circular(16),
+      borderRadius: BorderRadius.circular(12),
       child: Container(
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(16),
-           boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.04),
-              blurRadius: 10,
-              offset: const Offset(0, 4),
-            ),
-          ],
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: Colors.grey[200]!),
         ),
-        child: Stack(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(icon, size: 32, color: iconColor.withOpacity(0.8)),
-                  SizedBox(height: responsive.getSpacing(12)),
-                  Text(
-                    title,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: responsive.getFontSize(14),
-                      fontWeight: FontWeight.w500,
-                      color: Colors.grey[800],
+            Stack(
+              clipBehavior: Clip.none,
+              children: [
+                Icon(icon, size: 28, color: color),
+                if (badgeCount != null && badgeCount > 0)
+                  Positioned(
+                    right: -4,
+                    top: -4,
+                    child: Container(
+                      padding: const EdgeInsets.all(4),
+                      decoration: const BoxDecoration(
+                        color: Colors.red,
+                        shape: BoxShape.circle,
+                      ),
+                      child: Text(
+                        badgeCount.toString(),
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 10,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
                   ),
-                ],
+              ],
+            ),
+            const SizedBox(height: 8),
+            Text(
+              title,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w500,
+                color: Colors.grey[800],
               ),
             ),
-            if (badgeCount != null && badgeCount > 0)
-              Positioned(
-                top: 12,
-                right: 12,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                  decoration: BoxDecoration(
-                    color: Colors.red,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Text(
-                    badgeCount.toString(),
-                    style: const TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold),
-                  ),
-                ),
-              ),
           ],
         ),
       ),

@@ -5,7 +5,7 @@ import '../../widgets/cropped_logo.dart';
 import 'splash_animation_controller.dart';
 import '../../admin/admin_dashboard_screen.dart';
 
-import 'package:shishu_suraksha/localization/app_localizations.dart';
+import 'package:shishu_suraksha/l10n/app_localizations.dart';
 import 'package:shishu_suraksha/main.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -156,7 +156,7 @@ class _SplashScreenState extends State<SplashScreen>
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          AppLocalizations.of(context)!.select_language,
+                                          AppLocalizations.of(context)!.selectLanguage,
                                           style: const TextStyle(
                                             fontSize: 14,
                                             color: Color(0xFF005F66),
@@ -236,7 +236,7 @@ class _SplashScreenState extends State<SplashScreen>
                                           ),
                                           alignment: Alignment.center,
                                           child: Text(
-                                            AppLocalizations.of(context)!.get_started,
+                                            AppLocalizations.of(context)!.getStarted,
                                             style: const TextStyle(
                                               color: Colors.white,
                                               fontSize: 18,

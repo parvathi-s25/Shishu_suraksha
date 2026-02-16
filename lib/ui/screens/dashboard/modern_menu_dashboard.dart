@@ -1,7 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:shishu_suraksha/app/theme/colors.dart';
-import 'package:shishu_suraksha/localization/app_localizations.dart';
+import 'package:shishu_suraksha/l10n/app_localizations.dart';
 import 'package:shishu_suraksha/ui/widgets/menu_card_widget.dart';
 import 'package:shishu_suraksha/ui/widgets/neumorphic_menu_card.dart';
 import 'package:shishu_suraksha/ui/widgets/glass_container.dart';
@@ -159,7 +159,7 @@ class _ModernMenuDashboardState extends State<ModernMenuDashboard> {
           ),
           const SizedBox(height: 8),
           Text(
-            _getGreeting(AppLocalizations.of(context)),
+            _getGreeting(AppLocalizations.of(context)!),
             style: const TextStyle(
               color: Color(0xFF2D3142),
               fontWeight: FontWeight.bold,

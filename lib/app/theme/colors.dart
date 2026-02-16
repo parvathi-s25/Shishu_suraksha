@@ -14,4 +14,8 @@ class AppColors {
   static const Color onSurface = Color(0xFF000000);
   static const Color disabled = Color(0xFFBDBDBD);
   static const Color hint = Color(0xFFA8A8A8);
+  static const Color textPrimary = Color(0xFF2D3436);
+  static const Color textSecondary = Color(0xFF636E72);
+  static const Color border = Color(0xFFDFE6E9);
+  static const Color cardBackground = Color(0xFFFFFFFF);
 }

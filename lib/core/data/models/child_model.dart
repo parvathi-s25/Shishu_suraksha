@@ -8,6 +8,18 @@ class GrowthRecord {
   GrowthRecord({required this.date, required this.height, required this.weight});
   
   double get bmi => weight / ((height / 100) * (height / 100));
+
+  Map<String, dynamic> toJson() => {
+    'date': date.toIso8601String(),
+    'height': height,
+    'weight': weight,
+  };
+
+  factory GrowthRecord.fromJson(Map<String, dynamic> json) => GrowthRecord(
+    date: DateTime.parse(json['date']),
+    height: json['height'].toDouble(),
+    weight: json['weight'].toDouble(),
+  );
 }
 
 class ChildModel {
@@ -39,6 +51,28 @@ class ChildModel {
     }
     return 0;
   }
+
+  Map<String, dynamic> toJson() => {
+    'id': id,
+    'name': name,
+    'age': age,
+    'dob': dob?.toIso8601String(),
+    'gender': gender,
+    'anganwadi': anganwadi,
+    'growthHistory': growthHistory.map((e) => e.toJson()).toList(),
+  };
+
+  factory ChildModel.fromJson(Map<String, dynamic> json) => ChildModel(
+    id: json['id'],
+    name: json['name'],
+    age: json['age'],
+    dob: json['dob'] != null ? DateTime.parse(json['dob']) : null,
+    gender: json['gender'],
+    anganwadi: json['anganwadi'],
+    growthHistory: json['growthHistory'] != null 
+      ? (json['growthHistory'] as List).map((e) => GrowthRecord.fromJson(e)).toList() 
+      : [],
+  );
 }
 
 enum ActivityCategory { motorSkills, speechLanguage, cognitive, socialEmotional, creative }
