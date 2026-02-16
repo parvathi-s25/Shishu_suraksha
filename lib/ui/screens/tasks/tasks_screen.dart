@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:shishu_suraksha/app/theme/colors.dart';
 
+import '../../../core/services/data_service.dart';
+
 class TasksScreen extends StatelessWidget {
   const TasksScreen({Key? key}) : super(key: key);
 
@@ -15,6 +17,18 @@ class TasksScreen extends StatelessWidget {
           icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () => Navigator.pop(context),
         ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.download, color: Colors.green),
+            tooltip: 'Export to Excel',
+            onPressed: () async {
+              String path = await DataService().exportToExcel();
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('Data Exported to $path')),
+              );
+            },
+          ),
+        ],
       ),
       body: ListView(
         padding: const EdgeInsets.all(16),

@@ -10,8 +10,8 @@ class CroppedLogo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // 662x757 aspect ratio
-    final double aspectRatio = 662.0 / 757.0;
+    // 662x775 aspect ratio
+    final double aspectRatio = 662.0 / 775.0;
     final double height = width / aspectRatio;
 
     return SizedBox(

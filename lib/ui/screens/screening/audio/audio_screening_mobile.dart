@@ -68,7 +68,12 @@ class _AudioScreeningScreenState extends State<AudioScreeningScreen> {
         
         if (mounted) {
           setState(() {
-            _sound = label;
+            // Map "Finger snapping" or similar classes to user preferred terms
+            if (label.contains("Finger snapping") || label.contains("Snap")) {
+              _sound = "Chutki / Pinch (Finger snap) / Chitikedu";
+            } else {
+              _sound = label;
+            }
             // Extracting confidence if implied or simulating for this demo if raw model doesn't output it directly in simple mode
             // Assuming the model sends "Label accuracy" string or similar?
             // Actually, TfliteAudio stream often gives just the label in some configs.
@@ -153,7 +158,7 @@ class _AudioScreeningScreenState extends State<AudioScreeningScreen> {
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 40),
               child: Text(
-                "Instruct the child to clap or make a sound. Verify if the app detects it accurately.",
+                "Instruct the child to listen for the 'Chutki / Pinch (Finger snap) / Chitikedu' sound. Verify if the app detects it accurately.",
                 textAlign: TextAlign.center,
                 style: TextStyle(color: Colors.grey),
               ),

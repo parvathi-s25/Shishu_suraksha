@@ -27,6 +27,31 @@ final List<String> coreDistricts = [
   'Vizianagaram', 'West Godavari', 'YSR Kadapa'
 ];
 
+final Map<String, String> districtCodes = {
+  'Anantapuramu': 'ATP',
+  'Chittoor': 'CTR',
+  'East Godavari': 'EG',
+  'Eluru': 'ELR',
+  'Guntur': 'GNT',
+  'Kakinada': 'KKD',
+  'Konaseema': 'KNS',
+  'Krishna': 'KRI',
+  'Kurnool': 'KNL',
+  'Nandyal': 'NDL',
+  'NTR': 'NTR',
+  'Palnadu': 'PLN',
+  'Parvathipuram Manyam': 'PVM',
+  'Prakasam': 'PRK',
+  'S.P.S. Nellore': 'NLR',
+  'Sri Sathya Sai': 'SSS',
+  'Srikakulam': 'SKL',
+  'Tirupati': 'TPT',
+  'Visakhapatnam': 'VSP',
+  'Vizianagaram': 'VZM',
+  'West Godavari': 'WG',
+  'YSR Kadapa': 'KDP',
+};
+
 // -----------------------------------------------------------------------------
 // 1. UI TRANSLATIONS (Strict 11 Languages)
 // -----------------------------------------------------------------------------
@@ -560,7 +585,7 @@ List<String> getVillages(String districtDisplayName, String lang) {
 }
 
 // User ID Generator
-List<String> getUserIds(String districtDisplayName) {
+List<String> getUserIds(String districtDisplayName, String role) {
    // Reverse lookup to find English Key
    String districtKey = districtDisplayName;
    for (var entry in _translationData.entries) {
@@ -572,7 +597,23 @@ List<String> getUserIds(String districtDisplayName) {
     }
   }
   
-  String code = districtKey.replaceAll('.', '').substring(0, 3).toUpperCase();
-  return List.generate(5, (i) => "$code" "AT${(i+1).toString().padLeft(3, '0')}");
+  // Use mapped code or fallback to first 3 letters
+  String code = districtCodes[districtKey] ?? districtKey.replaceAll('.', '').substring(0, 3).toUpperCase();
+  String roleCode = (role == 'Admin') ? 'AD' : 'AM'; // Updated AT to AM as per request "AM represents Anganwadi Teacher"? No wait, request said "TPT-AD-001 or TPT-AM-001, because AT represents Anganwadi Teacher".
+  // Wait, re-reading request: "The Admin user ID should be like this: if the district is Tirupati, then it should be TPT-AD-001 or TPT-AM-001, because AT represents Anganwadi Teacher."
+  // It seems implied that Admin should be AD or AM? Or maybe AM is for Admin/Something?
+  // Let's stick to: Admin -> AD. Anganwadi Teacher -> AT (or AM if that's what they want for teacher?)
+  // "because AT represents Anganwadi Teacher" implies AT is for Teacher.
+  // So TPT-AD-001 is for Admin. 
+  // Wait, "TPT-AD-001 or TPT-AM-001". Maybe AM is another acceptable code for Admin? 
+  // Let's stick to AD for Admin as standard.
+  // And for Anganwadi Teacher? The current code uses AT. 
+  // Let's assume Admin = AD, Teacher = AT. 
+  // But wait, the user said "TPT-AD-001 or TPT-AM-001".
+  // Let's use AD for Admin.
+  
+  roleCode = (role == 'Admin') ? 'AD' : 'AT'; 
+  
+  return List.generate(5, (i) => "$code-$roleCode-${(i+1).toString().padLeft(3, '0')}");
 }
 

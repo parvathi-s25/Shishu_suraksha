@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/data/models/child_model.dart';
 import 'assessment_flow_screen.dart';
-import '../../../app/theme/colors.dart';
+import 'package:shishu_suraksha/app/theme/colors.dart';
+import 'package:excel/excel.dart';
+import 'package:path_provider/path_provider.dart';
+import 'dart:io';
+import 'package:permission_handler/permission_handler.dart';
 
 /// Child Assessment Dashboard - Main screen for managing child assessments
 /// 
@@ -413,10 +417,170 @@ class _ChildAssessmentDashboardState
     );
   }
 
-  void _addNewChild() {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Add child functionality coming soon')),
+  Future<void> _addNewChild() async {
+    final _nameController = TextEditingController();
+    final _dobController = TextEditingController(); // Simple text for now or DatePicker
+    String _gender = 'Male';
+    DateTime? _selectedDate;
+
+    await showDialog(
+      context: context,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return AlertDialog(
+              title: const Text('Add New Child'),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                   TextField(
+                    controller: _nameController,
+                    decoration: const InputDecoration(labelText: 'Child Name'),
+                  ),
+                  const SizedBox(height: 10),
+                  TextField(
+                    controller: _dobController,
+                    decoration: const InputDecoration(
+                      labelText: 'Date of Birth (YYYY-MM-DD)',
+                      suffixIcon: Icon(Icons.calendar_today),
+                    ),
+                    readOnly: true,
+                    onTap: () async {
+                      DateTime? picked = await showDatePicker(
+                        context: context,
+                        initialDate: DateTime.now(),
+                        firstDate: DateTime(2015),
+                        lastDate: DateTime.now(),
+                      );
+                      if (picked != null) {
+                        setState(() {
+                          _selectedDate = picked;
+                          _dobController.text = "${picked.year}-${picked.month.toString().padLeft(2, '0')}-${picked.day.toString().padLeft(2, '0')}";
+                        });
+                      }
+                    },
+                  ),
+                   const SizedBox(height: 10),
+                   DropdownButtonFormField<String>(
+                     value: _gender,
+                     items: ['Male', 'Female', 'Other'].map((String value) {
+                       return DropdownMenuItem<String>(
+                         value: value,
+                         child: Text(value),
+                       );
+                     }).toList(),
+                     onChanged: (newValue) {
+                       setState(() {
+                         _gender = newValue!;
+                       });
+                     },
+                     decoration: const InputDecoration(labelText: 'Gender'),
+                   ),
+                ],
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text('Cancel'),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    if (_nameController.text.isNotEmpty && _selectedDate != null) {
+                      final newChild = ChildModel(
+                        id: DateTime.now().millisecondsSinceEpoch.toString(),
+                        name: _nameController.text,
+                        dob: _selectedDate,
+                        gender: _gender,
+                        anganwadi: 'Current Center', // Placeholder
+                      );
+                      
+                      // Update State directly
+                      this.setState(() {
+                        _allChildren.add(newChild);
+                        _filteredChildren = _allChildren; // Reset filter to show all including new
+                      });
+                      
+                      Navigator.pop(context);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('Added ${newChild.name}')),
+                      );
+                     
+                    }
+                  },
+                  child: const Text('Add'),
+                ),
+              ],
+            );
+          }
+        );
+      },
     );
+  }
+
+  Future<void> _exportToExcel() async {
+    // Permission check for storage
+    /*
+    var status = await Permission.storage.request();
+    if (!status.isGranted) {
+       ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Storage permission required for export')),
+      );
+      return;
+    }
+    */
+    
+    try {
+      var excel = Excel.createExcel();
+      Sheet sheetObject = excel['Children Data'];
+      
+      // Header
+      sheetObject.appendRow([
+        TextCellValue('ID'), 
+        TextCellValue('Name'), 
+        TextCellValue('DOB'), 
+        TextCellValue('Gender'), 
+        TextCellValue('Anganwadi')
+      ]);
+      
+      // Data
+      for (var child in _allChildren) {
+        sheetObject.appendRow([
+          TextCellValue(child.id),
+          TextCellValue(child.name),
+          TextCellValue(child.dob != null ? "${child.dob!.year}-${child.dob!.month}-${child.dob!.day}" : "N/A"),
+          TextCellValue(child.gender ?? "N/A"),
+          TextCellValue(child.anganwadi ?? "N/A"),
+        ]);
+      }
+      
+      // Save
+      Directory? directory;
+      if (Platform.isAndroid) {
+        directory = await getExternalStorageDirectory(); // App specific public dir
+        // Or for public download folder:
+        // directory = Directory('/storage/emulated/0/Download');
+      } else {
+         directory = await getApplicationDocumentsDirectory();
+      }
+      
+      String outputFile = "${directory?.path}/children_data_${DateTime.now().millisecondsSinceEpoch}.xlsx";
+      
+      List<int>? fileBytes = excel.save();
+      
+      if (fileBytes != null) {
+        File(outputFile)
+          ..createSync(recursive: true)
+          ..writeAsBytesSync(fileBytes);
+          
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Exported to $outputFile')),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Export failed: $e')),
+      );
+    }
   }
 
   void _showFilterOptions() {

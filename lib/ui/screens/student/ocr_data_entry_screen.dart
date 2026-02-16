@@ -8,6 +8,7 @@ import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import 'package:shishu_suraksha/app/theme/colors.dart';
 import '../../../core/services/data_service.dart';
+import '../../../core/data/models/child_model.dart';
 
 class OCRDataEntryScreen extends StatefulWidget {
   const OCRDataEntryScreen({super.key});
@@ -436,7 +437,16 @@ class _OCRDataEntryScreenState extends State<OCRDataEntryScreen> {
                                 return;
                               }
 
-                              DataService().addChild();
+                              // Create Child Model from OCR Data
+                              final newChild = ChildModel(
+                                id: _idController.text.isNotEmpty ? _idController.text : DateTime.now().millisecondsSinceEpoch.toString(),
+                                name: _nameController.text,
+                                age: int.tryParse(_ageController.text.replaceAll(RegExp(r'[^0-9]'), '')) ?? 0,
+                                gender: _genderController.text,
+                                anganwadi: 'Default',
+                              );
+
+                              DataService().addChild(newChild);
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(content: Text('✓ Success: Stored in Realtime Database')),
                               );

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import '../../../core/services/data_service.dart';
 import '../../../app/theme/colors.dart';
 
+import '../../../core/data/models/child_model.dart';
+
 class QuickAddScreen extends StatefulWidget {
   const QuickAddScreen({Key? key}) : super(key: key);
 
@@ -28,8 +30,18 @@ class _QuickAddScreenState extends State<QuickAddScreen> {
     // Simulate network delay
     await Future.delayed(const Duration(seconds: 1));
     
+    // Create Child Model
+    final newChild = ChildModel(
+      id: DateTime.now().millisecondsSinceEpoch.toString(),
+      name: _nameController.text,
+      age: int.tryParse(_ageController.text) ?? 0,
+      gender: 'Unknown', // Quick add doesn't have gender
+      anganwadi: 'Default',
+    );
+
     // Update DataService
-    DataService().addChild();
+    DataService().addChild(newChild);
+    
     if (double.tryParse(_weightController.text)! < 10) { 
        // Example logic: Low weight = High Risk
        DataService().addHighRiskChild();
@@ -37,7 +49,7 @@ class _QuickAddScreenState extends State<QuickAddScreen> {
 
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('✅ Child Added Quickly!')),
+        const SnackBar(content: Text('✅ Child Added & Saved!')),
       );
       Navigator.pop(context);
     }

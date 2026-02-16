@@ -222,8 +222,8 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                            isExpanded: true,
                            value: selectedUserId,
                            hint: Text(t.userId),
-                           // Look up User IDs using English District Key
-                           items: (t.map("user_ids")[selectedDistrict] ?? [])
+                           // Look up User IDs using English District Key and Role
+                           items: getUserIds(selectedDistrict!, selectedRole ?? 'Anganwadi Teacher')
                                .map((id) => DropdownMenuItem(value: id, child: Text(id)))
                                .toList(),
                            onChanged: (value) {
