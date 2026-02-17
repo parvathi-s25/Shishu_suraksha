@@ -310,23 +310,27 @@ class _ChildrenTabState extends ConsumerState<ChildrenTab> {
                     ],
                   ),
                 ),
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                  decoration: BoxDecoration(
-                    color: riskColor.withOpacity(0.2),
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: riskColor),
-                  ),
-                  child: Text(
-                  _getLocalizedRiskLabel(riskLevel, t),
-                  style: TextStyle(
-                    color: riskColor,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 12,
+                Flexible(
+                  child: Container(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                    decoration: BoxDecoration(
+                      color: riskColor.withOpacity(0.2),
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(color: riskColor),
+                    ),
+                    child: Text(
+                      _getLocalizedRiskLabel(riskLevel, t),
+                      style: TextStyle(
+                        color: riskColor,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 12,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
                 ),
-              ),
             ],
           ),
             const SizedBox(height: 16),

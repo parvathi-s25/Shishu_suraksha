@@ -1,0 +1,605 @@
+Analyzing Shishu_suraksha...                                    
+
+warning - Unused import: 'package:flutter/material.dart' - lib\core\data\models\admin_models.dart:1:8 - unused_import
+warning - Unused import: 'package:flutter/material.dart' - lib\core\data\models\assessment_result_models.dart:1:8 - unused_import
+   info - Parameters ''id', 'childId', and 'date'' could be super parameters - lib\core\data\models\assessment_result_models.dart:29:3 - use_super_parameters
+   info - Parameters ''id', 'childId', and 'date'' could be super parameters - lib\core\data\models\assessment_result_models.dart:51:3 - use_super_parameters
+   info - Parameters ''id', 'childId', and 'date'' could be super parameters - lib\core\data\models\assessment_result_models.dart:73:3 - use_super_parameters
+   info - Parameters ''id', 'childId', and 'date'' could be super parameters - lib\core\data\models\assessment_result_models.dart:94:3 - use_super_parameters
+   info - Parameter 'childId' could be a super parameter - lib\core\data\models\assessment_result_models.dart:169:3 - use_super_parameters
+   info - Use 'const' with the constructor to improve performance - lib\core\data\services\admin_data_service.dart:20:179 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\core\data\services\admin_data_service.dart:21:164 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\core\data\services\admin_data_service.dart:22:165 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\core\data\services\admin_data_service.dart:23:156 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\core\data\services\admin_data_service.dart:28:26 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\core\data\services\admin_data_service.dart:52:26 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\core\data\services\admin_data_service.dart:69:26 - prefer_const_constructors
+   info - Use 'const' for final variables initialized to a constant value - lib\core\database\task_database.dart:86:5 - prefer_const_declarations
+   info - Don't invoke 'print' in production code - lib\core\repositories\task_repository.dart:28:7 - avoid_print
+   info - Don't invoke 'print' in production code - lib\core\repositories\task_repository.dart:52:7 - avoid_print
+   info - Don't invoke 'print' in production code - lib\core\services\calendar_service.dart:24:7 - avoid_print
+warning - The '!' will have no effect because the receiver can't be null - lib\core\services\calendar_service.dart:28:42 - unnecessary_non_null_assertion
+warning - The '!' will have no effect because the receiver can't be null - lib\core\services\calendar_service.dart:30:47 - unnecessary_non_null_assertion
+   info - Don't invoke 'print' in production code - lib\core\services\calendar_service.dart:37:7 - avoid_print
+warning - The '!' will have no effect because the receiver can't be null - lib\core\services\calendar_service.dart:44:26 - unnecessary_non_null_assertion
+   info - Don't invoke 'print' in production code - lib\core\services\calendar_service.dart:63:7 - avoid_print
+   info - Don't invoke 'print' in production code - lib\core\services\calendar_service.dart:86:7 - avoid_print
+warning - Unused import: 'dart:convert' - lib\core\services\offline_data_service.dart:4:8 - unused_import
+warning - The value of the field '_assessmentsBox' isn't used - lib\core\services\offline_data_service.dart:17:13 - unused_field
+   info - 'background' is deprecated and shouldn't be used. Use surface instead. This feature was deprecated after v3.18.0-0.1.pre - lib\core\theme\app_theme.dart:32:9 - deprecated_member_use
+warning - Unused import: '../../ui/screens/dashboard/tabs/assessment_screen.dart' - lib\core\utils\voice_command_manager.dart:3:8 - unused_import
+   info - Unnecessary braces in a string interpolation - lib\data\auth_data.dart:41:8 - unnecessary_brace_in_string_interps
+   info - Unnecessary braces in a string interpolation - lib\data\auth_data.dart:42:8 - unnecessary_brace_in_string_interps
+   info - Unnecessary braces in a string interpolation - lib\data\auth_data.dart:43:8 - unnecessary_brace_in_string_interps
+   info - Dangling library doc comment - lib\data\services\assessment_orchestration_service.dart:1:1 - dangling_library_doc_comments
+   info - Dangling library doc comment - lib\data\services\birth_defect_detection_service.dart:1:1 - dangling_library_doc_comments
+warning - The declaration '_distance' isn't referenced - lib\data\services\birth_defect_detection_service.dart:356:17 - unused_element
+warning - The value of the local variable 'benchmark' isn't used - lib\data\services\cognitive_assessment_service.dart:68:11 - unused_local_variable
+   info - Use 'const' with the constructor to improve performance - lib\data\services\intervention_recommendation_engine.dart:60:38 - prefer_const_constructors
+   info - Unnecessary braces in a string interpolation - lib\data\services\parent_report_generation_service.dart:93:27 - unnecessary_brace_in_string_interps
+   info - Unnecessary braces in a string interpolation - lib\data\services\parent_report_generation_service.dart:94:29 - unnecessary_brace_in_string_interps
+   info - Unnecessary braces in a string interpolation - lib\data\services\parent_report_generation_service.dart:95:25 - unnecessary_brace_in_string_interps
+   info - Unnecessary braces in a string interpolation - lib\data\services\parent_report_generation_service.dart:97:55 - unnecessary_brace_in_string_interps
+   info - Unnecessary braces in a string interpolation - lib\data\services\parent_report_generation_service.dart:116:1 - unnecessary_brace_in_string_interps
+   info - Unnecessary braces in a string interpolation - lib\data\services\parent_report_generation_service.dart:124:1 - unnecessary_brace_in_string_interps
+   info - Unnecessary braces in a string interpolation - lib\data\services\parent_report_generation_service.dart:132:1 - unnecessary_brace_in_string_interps
+warning - The value of the local variable 'recommendations' isn't used - lib\data\services\parent_report_generation_service.dart:183:11 - unused_local_variable
+warning - The value of the local variable 'heightM' isn't used - lib\data\services\risk_stratification_service.dart:323:11 - unused_local_variable
+   info - Use 'const' with the constructor to improve performance - lib\data\services\risk_stratification_service.dart:546:57 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\data\services\risk_stratification_service.dart:546:98 - prefer_const_constructors
+warning - Unused import: 'dart:typed_data' - lib\data\services\speech_language_assessment_service.dart:1:8 - unused_import
+warning - Unused import: '../models/assessment_models.dart' - lib\data\services\speech_language_assessment_service.dart:3:8 - unused_import
+warning - Unused import: '../models/assessment_result_models.dart' - lib\data\services\teacher_activity_dashboard_service.dart:2:8 - unused_import
+   info - Use 'const' with the constructor to improve performance - lib\data\services\teacher_activity_dashboard_service.dart:249:33 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\data\services\teacher_activity_dashboard_service.dart:251:33 - prefer_const_constructors
+warning - Unused import: 'package:hive_flutter/hive_flutter.dart' - lib\features\admin\admin_dashboard.dart:2:8 - unused_import
+warning - Unused import: 'widgets/live_vital_card.dart' - lib\features\admin\admin_dashboard.dart:5:8 - unused_import
+warning - Duplicate import - lib\features\admin\admin_dashboard.dart:6:8 - duplicate_import
+warning - Unused import: 'widgets/live_vital_card.dart' - lib\features\admin\admin_dashboard.dart:6:8 - unused_import
+warning - Unused import: 'widgets/admin_sidebar.dart' - lib\features\admin\admin_dashboard.dart:8:8 - unused_import
+warning - Unused import: '../../core/constants/app_constants.dart' - lib\features\admin\admin_dashboard.dart:10:8 - unused_import
+warning - Unused import: '../../models/child_model.dart' - lib\features\admin\admin_dashboard.dart:11:8 - unused_import
+warning - Unused import: '../../services/analytics_engine.dart' - lib\features\admin\admin_dashboard.dart:12:8 - unused_import
+warning - Unused import: '../../ui/widgets/cropped_logo.dart' - lib\features\admin\admin_dashboard.dart:14:8 - unused_import
+warning - Unused import: '../../../main.dart' - lib\features\admin\admin_dashboard.dart:15:8 - unused_import
+warning - Unused import: '../../core/theme/app_theme.dart' - lib\features\admin\admin_dashboard.dart:16:8 - unused_import
+   info - 'MaterialStateProperty' is deprecated and shouldn't be used. Use WidgetStateProperty instead. Moved to the Widgets layer to make code available outside of Material. This feature was deprecated after v3.19.0-0.3.pre - lib\features\admin\report_viewer_screen.dart:77:36 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\admin\report_viewer_screen.dart:77:84 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\admin\widgets\admin_analytics_chart.dart:59:33 - deprecated_member_use
+   info - Use 'const' with the constructor to improve performance - lib\features\admin\widgets\admin_analytics_chart.dart:132:30 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\features\admin\widgets\admin_analytics_chart.dart:132:53 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\features\admin\widgets\admin_analytics_chart.dart:133:32 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\features\admin\widgets\admin_analytics_chart.dart:133:55 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\features\admin\widgets\admin_analytics_chart.dart:135:27 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\features\admin\widgets\admin_sidebar.dart:24:11 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\features\admin\widgets\admin_sidebar.dart:26:20 - prefer_const_constructors
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\admin\widgets\live_vital_card.dart:27:33 - deprecated_member_use
+   info - The variable name 'select_language' isn't a lowerCamelCase identifier - lib\localization\legacy_app_localizations.dart:82:14 - non_constant_identifier_names
+   info - The variable name 'get_started' isn't a lowerCamelCase identifier - lib\localization\legacy_app_localizations.dart:83:14 - non_constant_identifier_names
+warning - Unused import: 'package:shishu_suraksha/ui/screens/splash/splash_screen.dart' - lib\main.dart:10:8 - unused_import
+warning - Unused import: 'package:flutter/material.dart' - lib\models\dashboard_data.dart:1:8 - unused_import
+   info - Parameter 'key' could be a super parameter - lib\modules\admin_dashboard\screens\admin_dashboard_screen.dart:10:9 - use_super_parameters
+   info - Invalid use of a private type in a public API - lib\modules\admin_dashboard\screens\admin_dashboard_screen.dart:13:3 - library_private_types_in_public_api
+   info - Use 'const' with the constructor to improve performance - lib\modules\admin_dashboard\screens\admin_dashboard_screen.dart:122:11 - prefer_const_constructors
+   info - Statements in an if should be enclosed in a block - lib\modules\admin_dashboard\screens\admin_dashboard_screen.dart:308:11 - curly_braces_in_flow_control_structures
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\modules\admin_dashboard\screens\admin_dashboard_screen.dart:327:62 - deprecated_member_use
+   info - Use 'const' with the constructor to improve performance - lib\modules\admin_dashboard\screens\admin_dashboard_screen.dart:328:36 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\modules\admin_dashboard\screens\admin_dashboard_screen.dart:331:38 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\modules\admin_dashboard\screens\admin_dashboard_screen.dart:334:38 - prefer_const_constructors
+warning - Unused import: 'package:shishu_suraksha/l10n/app_localizations.dart' - lib\modules\admin_dashboard\screens\admin_reports_screen.dart:2:8 - unused_import
+   info - Parameter 'key' could be a super parameter - lib\modules\admin_dashboard\screens\admin_reports_screen.dart:7:9 - use_super_parameters
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\modules\admin_dashboard\screens\admin_reports_screen.dart:92:42 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\modules\admin_dashboard\screens\admin_reports_screen.dart:100:31 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\modules\admin_dashboard\screens\admin_reports_screen.dart:102:50 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\modules\admin_dashboard\screens\admin_reports_screen.dart:112:86 - deprecated_member_use
+warning - Unused import: '../../../../app/theme/colors.dart' - lib\modules\admin_dashboard\screens\admin_schools_screen.dart:4:8 - unused_import
+   info - Parameter 'key' could be a super parameter - lib\modules\admin_dashboard\screens\admin_schools_screen.dart:7:9 - use_super_parameters
+warning - The value of the local variable 't' isn't used - lib\modules\admin_dashboard\screens\admin_schools_screen.dart:11:11 - unused_local_variable
+   info - Parameter 'key' could be a super parameter - lib\modules\admin_dashboard\screens\excel_view_screen.dart:10:9 - use_super_parameters
+   info - 'MaterialStateProperty' is deprecated and shouldn't be used. Use WidgetStateProperty instead. Moved to the Widgets layer to make code available outside of Material. This feature was deprecated after v3.19.0-0.3.pre - lib\modules\admin_dashboard\screens\excel_view_screen.dart:41:30 - deprecated_member_use
+warning - Duplicate import - lib\modules\admin_dashboard\services\admin_service.dart:6:8 - duplicate_import
+warning - Unused import: 'package:intl/intl.dart' - lib\modules\admin_dashboard\services\admin_service.dart:8:8 - unused_import
+warning - Duplicate import - lib\modules\admin_dashboard\services\admin_service.dart:9:8 - duplicate_import
+warning - The declaration '_generateRandom' isn't referenced - lib\modules\admin_dashboard\services\admin_service.dart:16:7 - unused_element
+   info - Unnecessary braces in a string interpolation - lib\modules\admin_dashboard\services\admin_service.dart:106:61 - unnecessary_brace_in_string_interps
+warning - Duplicate import - lib\modules\ai_alerts\screens\alerts_dashboard_screen.dart:4:8 - duplicate_import
+   info - Parameter 'key' could be a super parameter - lib\modules\ai_alerts\screens\alerts_dashboard_screen.dart:9:9 - use_super_parameters
+   info - Invalid use of a private type in a public API - lib\modules\ai_alerts\screens\alerts_dashboard_screen.dart:12:3 - library_private_types_in_public_api
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\modules\ai_alerts\screens\alerts_dashboard_screen.dart:87:33 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\modules\ai_alerts\screens\alerts_dashboard_screen.dart:106:38 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\modules\ai_alerts\screens\alerts_dashboard_screen.dart:154:32 - deprecated_member_use
+   info - Don't use 'BuildContext's across async gaps - lib\modules\ai_alerts\screens\alerts_dashboard_screen.dart:212:26 - use_build_context_synchronously
+   info - Parameter 'key' could be a super parameter - lib\modules\ai_audio\screens\hearing_test_screen.dart:7:9 - use_super_parameters
+   info - Don't invoke 'print' in production code - lib\modules\ai_audio\screens\hearing_test_screen.dart:75:7 - avoid_print
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\modules\ai_audio\screens\hearing_test_screen.dart:135:56 - deprecated_member_use
+   info - Parameter 'key' could be a super parameter - lib\modules\ai_audio\screens\speech_assessment_screen.dart:6:9 - use_super_parameters
+   info - Don't invoke 'print' in production code - lib\modules\ai_audio\screens\speech_assessment_screen.dart:24:28 - avoid_print
+   info - Don't invoke 'print' in production code - lib\modules\ai_audio\screens\speech_assessment_screen.dart:25:27 - avoid_print
+warning - Unused import: '../../growth_tracking/models/growth_record.dart' - lib\modules\ai_engine\services\risk_engine_service.dart:3:8 - unused_import
+warning - Unused import: '../../classroom_monitoring/models/classroom_environment.dart' - lib\modules\ai_engine\services\risk_engine_service.dart:4:8 - unused_import
+   info - Parameter 'key' could be a super parameter - lib\modules\ai_motor\screens\pose_detector_view.dart:10:9 - use_super_parameters
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\modules\ai_motor\screens\pose_detector_view.dart:63:27 - deprecated_member_use
+warning - The declaration '_getAngle' isn't referenced - lib\modules\ai_motor\services\motor_assessment_service.dart:58:10 - unused_element
+   info - Statements in an if should be enclosed in a block - lib\modules\classroom_monitoring\models\classroom_environment.dart:71:20 - curly_braces_in_flow_control_structures
+   info - Statements in an if should be enclosed in a block - lib\modules\classroom_monitoring\models\classroom_environment.dart:72:25 - curly_braces_in_flow_control_structures
+   info - Statements in an if should be enclosed in a block - lib\modules\classroom_monitoring\models\classroom_environment.dart:73:24 - curly_braces_in_flow_control_structures
+   info - Statements in an if should be enclosed in a block - lib\modules\classroom_monitoring\models\classroom_environment.dart:76:26 - curly_braces_in_flow_control_structures
+   info - Statements in an if should be enclosed in a block - lib\modules\classroom_monitoring\models\classroom_environment.dart:77:31 - curly_braces_in_flow_control_structures
+   info - Statements in an if should be enclosed in a block - lib\modules\classroom_monitoring\models\classroom_environment.dart:80:47 - curly_braces_in_flow_control_structures
+   info - Statements in an if should be enclosed in a block - lib\modules\classroom_monitoring\models\classroom_environment.dart:81:52 - curly_braces_in_flow_control_structures
+warning - Unused import: '../../../../services/responsive_dashboard.dart' - lib\modules\classroom_monitoring\screens\classroom_dashboard_screen.dart:3:8 - unused_import
+   info - Parameter 'key' could be a super parameter - lib\modules\classroom_monitoring\screens\classroom_dashboard_screen.dart:9:9 - use_super_parameters
+   info - Invalid use of a private type in a public API - lib\modules\classroom_monitoring\screens\classroom_dashboard_screen.dart:12:3 - library_private_types_in_public_api
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\modules\classroom_monitoring\screens\classroom_dashboard_screen.dart:142:44 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\modules\classroom_monitoring\screens\classroom_dashboard_screen.dart:166:35 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\modules\classroom_monitoring\screens\classroom_dashboard_screen.dart:200:28 - deprecated_member_use
+   info - Statements in an if should be enclosed in a block - lib\modules\growth_tracking\models\growth_record.dart:59:28 - curly_braces_in_flow_control_structures
+   info - Statements in an if should be enclosed in a block - lib\modules\growth_tracking\models\growth_record.dart:60:34 - curly_braces_in_flow_control_structures
+   info - Statements in an if should be enclosed in a block - lib\modules\growth_tracking\models\growth_record.dart:61:34 - curly_braces_in_flow_control_structures
+   info - Statements in an if should be enclosed in a block - lib\modules\growth_tracking\models\growth_record.dart:64:19 - curly_braces_in_flow_control_structures
+   info - Statements in an if should be enclosed in a block - lib\modules\growth_tracking\models\growth_record.dart:65:24 - curly_braces_in_flow_control_structures
+   info - Parameter 'key' could be a super parameter - lib\modules\growth_tracking\screens\growth_monitoring_screen.dart:10:9 - use_super_parameters
+   info - Invalid use of a private type in a public API - lib\modules\growth_tracking\screens\growth_monitoring_screen.dart:17:3 - library_private_types_in_public_api
+   info - Don't use 'BuildContext's across async gaps - lib\modules\growth_tracking\screens\growth_monitoring_screen.dart:44:21 - use_build_context_synchronously
+   info - Don't use 'BuildContext's across async gaps - lib\modules\growth_tracking\screens\growth_monitoring_screen.dart:48:28 - use_build_context_synchronously
+   info - Statements in an if should be enclosed in a block - lib\modules\growth_tracking\screens\growth_monitoring_screen.dart:138:21 - curly_braces_in_flow_control_structures
+   info - Statements in an if should be enclosed in a block - lib\modules\growth_tracking\screens\growth_monitoring_screen.dart:139:26 - curly_braces_in_flow_control_structures
+   info - Statements in an if should be enclosed in a block - lib\modules\growth_tracking\screens\growth_monitoring_screen.dart:140:26 - curly_braces_in_flow_control_structures
+   info - Statements in an if should be enclosed in a block - lib\modules\growth_tracking\screens\growth_monitoring_screen.dart:141:10 - curly_braces_in_flow_control_structures
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\modules\growth_tracking\screens\growth_monitoring_screen.dart:148:41 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\modules\growth_tracking\screens\growth_monitoring_screen.dart:151:26 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\modules\growth_tracking\screens\growth_monitoring_screen.dart:167:42 - deprecated_member_use
+warning - The declaration '_buildStatRow' isn't referenced - lib\modules\growth_tracking\screens\growth_monitoring_screen.dart:246:10 - unused_element
+warning - Unused import: 'dart:async' - lib\modules\health_monitoring\screens\health_dashboard_screen.dart:2:8 - unused_import
+warning - Unused import: '../../../../services/responsive_dashboard.dart' - lib\modules\health_monitoring\screens\health_dashboard_screen.dart:4:8 - unused_import
+   info - Parameter 'key' could be a super parameter - lib\modules\health_monitoring\screens\health_dashboard_screen.dart:17:9 - use_super_parameters
+   info - Invalid use of a private type in a public API - lib\modules\health_monitoring\screens\health_dashboard_screen.dart:24:3 - library_private_types_in_public_api
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\modules\health_monitoring\screens\health_dashboard_screen.dart:195:45 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\modules\health_monitoring\screens\health_dashboard_screen.dart:206:70 - deprecated_member_use
+   info - Use 'const' with the constructor to improve performance - lib\modules\health_monitoring\screens\health_dashboard_screen.dart:234:13 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\modules\health_monitoring\screens\health_dashboard_screen.dart:237:13 - prefer_const_constructors
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\modules\health_monitoring\screens\health_dashboard_screen.dart:252:51 - deprecated_member_use
+   info - Don't invoke 'print' in production code - lib\services\ai_service.dart:46:9 - avoid_print
+   info - Don't invoke 'print' in production code - lib\services\ai_service.dart:50:7 - avoid_print
+warning - Unused import: 'dart:math' - lib\services\analytics_service.dart:1:8 - unused_import
+warning - Unused import: '../models/alert_model.dart' - lib\services\analytics_service.dart:3:8 - unused_import
+   info - Parameter 'key' could be a super parameter - lib\services\error_handling_service.dart:95:9 - use_super_parameters
+   info - Parameter 'key' could be a super parameter - lib\services\error_handling_service.dart:163:9 - use_super_parameters
+warning - The value of the field '_hearingFallback' isn't used - lib\services\error_handling_service.dart:182:23 - unused_field
+warning - The value of the field '_speakingFallback' isn't used - lib\services\error_handling_service.dart:183:23 - unused_field
+warning - The value of the field '_visualFallback' isn't used - lib\services\error_handling_service.dart:184:23 - unused_field
+warning - The value of the field '_thermalFallback' isn't used - lib\services\error_handling_service.dart:185:23 - unused_field
+warning - Unused import: 'package:cloud_firestore/cloud_firestore.dart' - lib\services\iot_data_simulator.dart:4:8 - unused_import
+   info - Use 'const' with the constructor to improve performance - lib\services\iot_data_simulator.dart:152:39 - prefer_const_constructors
+   info - The private field _audioBuffer could be 'final' - lib\services\ml\realtime_audio_service.dart:34:13 - prefer_final_fields
+   info - 'partialResults' is deprecated and shouldn't be used. Use SpeechListenOptions.partialResults instead - lib\services\ml\realtime_audio_service.dart:89:9 - deprecated_member_use
+   info - 'onDevice' is deprecated and shouldn't be used. Use SpeechListenOptions.onDevice instead - lib\services\ml\realtime_audio_service.dart:90:9 - deprecated_member_use
+   info - The private field _frequencyResponses could be 'final' - lib\services\ml\realtime_audio_service.dart:241:16 - prefer_final_fields
+   info - Parameter 'key' could be a super parameter - lib\services\responsive_dashboard.dart:156:9 - use_super_parameters
+   info - Parameter 'key' could be a super parameter - lib\services\responsive_dashboard.dart:193:9 - use_super_parameters
+   info - Parameter 'key' could be a super parameter - lib\services\responsive_dashboard.dart:224:9 - use_super_parameters
+   info - Parameter 'key' could be a super parameter - lib\services\responsive_dashboard.dart:260:9 - use_super_parameters
+   info - Parameter 'key' could be a super parameter - lib\services\responsive_dashboard.dart:321:9 - use_super_parameters
+   info - Parameter 'key' could be a super parameter - lib\services\responsive_dashboard.dart:371:9 - use_super_parameters
+   info - Parameter 'key' could be a super parameter - lib\services\responsive_dashboard.dart:437:9 - use_super_parameters
+warning - Unused import: 'package:flutter/foundation.dart' - lib\services\responsive_design_service.dart:3:8 - unused_import
+warning - The declaration '_processQueue' isn't referenced - lib\services\responsive_design_service.dart:232:16 - unused_element
+warning - The declaration '_heavyComputationBridge' isn't referenced - lib\services\responsive_design_service.dart:262:3 - unused_element
+   info - Statements in an if should be enclosed in a block - lib\services\risk_engine.dart:17:46 - curly_braces_in_flow_control_structures
+   info - Statements in an if should be enclosed in a block - lib\services\risk_engine.dart:18:51 - curly_braces_in_flow_control_structures
+   info - Statements in an if should be enclosed in a block - lib\services\risk_engine.dart:23:22 - curly_braces_in_flow_control_structures
+   info - Statements in an if should be enclosed in a block - lib\services\risk_engine.dart:24:27 - curly_braces_in_flow_control_structures
+   info - Statements in an if should be enclosed in a block - lib\services\risk_engine.dart:29:31 - curly_braces_in_flow_control_structures
+   info - Statements in an if should be enclosed in a block - lib\services\risk_engine.dart:30:36 - curly_braces_in_flow_control_structures
+   info - Parameter 'key' could be a super parameter - lib\ui\admin\admin_dashboard_screen.dart:9:9 - use_super_parameters
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\admin\admin_dashboard_screen.dart:74:37 - deprecated_member_use
+   info - Unnecessary use of 'toList' in a spread - lib\ui\admin\admin_dashboard_screen.dart:251:21 - unnecessary_to_list_in_spreads
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\admin\admin_dashboard_screen.dart:266:54 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\admin\admin_dashboard_screen.dart:273:52 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\admin\admin_dashboard_screen.dart:298:62 - deprecated_member_use
+   info - Use 'const' with the constructor to improve performance - lib\ui\admin\admin_dashboard_screen.dart:303:11 - prefer_const_constructors
+   info - Use 'const' literals as arguments to constructors of '@immutable' classes - lib\ui\admin\admin_dashboard_screen.dart:304:23 - prefer_const_literals_to_create_immutables
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\admin\admin_dashboard_screen.dart:340:59 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\admin\admin_dashboard_screen.dart:358:51 - deprecated_member_use
+   info - Use 'const' with the constructor to improve performance - lib\ui\admin\admin_dashboard_screen.dart:393:31 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\ui\admin\admin_dashboard_screen.dart:393:54 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\ui\admin\admin_dashboard_screen.dart:394:33 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\ui\admin\admin_dashboard_screen.dart:394:56 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\ui\admin\admin_dashboard_screen.dart:396:28 - prefer_const_constructors
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\admin\admin_dashboard_screen.dart:430:51 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\admin\admin_dashboard_screen.dart:494:50 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\admin\admin_dashboard_screen.dart:522:81 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\admin\admin_dashboard_screen.dart:522:114 - deprecated_member_use
+   info - Parameter 'key' could be a super parameter - lib\ui\admin\alert_management_screen.dart:7:9 - use_super_parameters
+   info - Don't use 'BuildContext's across async gaps - lib\ui\admin\alert_management_screen.dart:39:26 - use_build_context_synchronously
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\admin\alert_management_screen.dart:115:87 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\admin\alert_management_screen.dart:120:80 - deprecated_member_use
+   info - Parameter 'key' could be a super parameter - lib\ui\admin\school_detail_screen.dart:9:9 - use_super_parameters
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\admin\school_detail_screen.dart:101:43 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\admin\school_detail_screen.dart:109:35 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\admin\school_detail_screen.dart:111:54 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\admin\school_detail_screen.dart:167:22 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\admin\school_detail_screen.dart:169:41 - deprecated_member_use
+   info - Use 'const' with the constructor to improve performance - lib\ui\admin\school_detail_screen.dart:208:25 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\ui\admin\school_detail_screen.dart:208:48 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\ui\admin\school_detail_screen.dart:209:25 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\ui\admin\school_detail_screen.dart:209:48 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\ui\admin\school_detail_screen.dart:210:26 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\ui\admin\school_detail_screen.dart:210:49 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\ui\admin\school_detail_screen.dart:213:21 - prefer_const_constructors
+   info - Parameter 'key' could be a super parameter - lib\ui\screens\ai_assistant\ai_assistant_screen.dart:4:9 - use_super_parameters
+   info - Parameter 'key' could be a super parameter - lib\ui\screens\alerts\alerts_screen.dart:4:9 - use_super_parameters
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\alerts\alerts_screen.dart:36:26 - deprecated_member_use
+warning - Unused import: '../../../core/data/models/assessment_result_models.dart' - lib\ui\screens\assessment\assessment_flow_screen.dart:4:8 - unused_import
+   info - Parameter 'key' could be a super parameter - lib\ui\screens\assessment\assessment_flow_screen.dart:17:9 - use_super_parameters
+   info - Unnecessary use of 'toList' in a spread - lib\ui\screens\assessment\assessment_flow_screen.dart:150:14 - unnecessary_to_list_in_spreads
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\assessment\assessment_flow_screen.dart:182:36 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\assessment\assessment_flow_screen.dart:217:44 - deprecated_member_use
+   info - Unnecessary use of 'toList' in a spread - lib\ui\screens\assessment\assessment_flow_screen.dart:588:16 - unnecessary_to_list_in_spreads
+   info - Unnecessary use of 'toList' in a spread - lib\ui\screens\assessment\assessment_flow_screen.dart:626:16 - unnecessary_to_list_in_spreads
+   info - Parameter 'key' could be a super parameter - lib\ui\screens\assessment\assessment_result_screen.dart:26:9 - use_super_parameters
+warning - The value of the field '_riskService' isn't used - lib\ui\screens\assessment\assessment_result_screen.dart:45:34 - unused_field
+warning - The value of the field '_reportService' isn't used - lib\ui\screens\assessment\assessment_result_screen.dart:46:38 - unused_field
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\assessment\assessment_result_screen.dart:138:24 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\assessment\assessment_result_screen.dart:159:34 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\assessment\assessment_result_screen.dart:189:34 - deprecated_member_use
+   info - Unnecessary use of 'toList' in a spread - lib\ui\screens\assessment\assessment_result_screen.dart:248:103 - unnecessary_to_list_in_spreads
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\assessment\assessment_result_screen.dart:281:34 - deprecated_member_use
+   info - Unnecessary use of 'toList' in a spread - lib\ui\screens\assessment\assessment_result_screen.dart:475:12 - unnecessary_to_list_in_spreads
+warning - Unused import: 'package:file_picker/file_picker.dart' - lib\ui\screens\assessment\child_assessment_dashboard.dart:12:8 - unused_import
+warning - Unused import: 'package:intl/intl.dart' - lib\ui\screens\assessment\child_assessment_dashboard.dart:13:8 - unused_import
+warning - Unused import: 'package:permission_handler/permission_handler.dart' - lib\ui\screens\assessment\child_assessment_dashboard.dart:14:8 - unused_import
+   info - Parameter 'key' could be a super parameter - lib\ui\screens\assessment\child_assessment_dashboard.dart:27:9 - use_super_parameters
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\assessment\child_assessment_dashboard.dart:319:38 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\assessment\child_assessment_dashboard.dart:423:32 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\assessment\child_assessment_dashboard.dart:430:42 - deprecated_member_use
+warning - The declaration '_viewChildDetails' isn't referenced - lib\ui\screens\assessment\child_assessment_dashboard.dart:478:8 - unused_element
+warning - The declaration '_viewAssessmentHistory' isn't referenced - lib\ui\screens\assessment\child_assessment_dashboard.dart:484:8 - unused_element
+   info - The local variable '_nameController' starts with an underscore - lib\ui\screens\assessment\child_assessment_dashboard.dart:491:11 - no_leading_underscores_for_local_identifiers
+   info - The local variable '_dobController' starts with an underscore - lib\ui\screens\assessment\child_assessment_dashboard.dart:492:11 - no_leading_underscores_for_local_identifiers
+   info - The local variable '_gender' starts with an underscore - lib\ui\screens\assessment\child_assessment_dashboard.dart:493:12 - no_leading_underscores_for_local_identifiers
+   info - The local variable '_selectedDate' starts with an underscore - lib\ui\screens\assessment\child_assessment_dashboard.dart:494:15 - no_leading_underscores_for_local_identifiers
+warning - The declaration '_exportToExcel' isn't referenced - lib\ui\screens\assessment\child_assessment_dashboard.dart:590:16 - unused_element
+   info - Don't use 'BuildContext's across async gaps - lib\ui\screens\assessment\child_assessment_dashboard.dart:645:30 - use_build_context_synchronously
+   info - Don't use 'BuildContext's across async gaps - lib\ui\screens\assessment\child_assessment_dashboard.dart:650:28 - use_build_context_synchronously
+   info - Parameter 'key' could be a super parameter - lib\ui\screens\assessment\cognitive_assessment_screen.dart:13:9 - use_super_parameters
+   info - The private field _memoryIcons could be 'final' - lib\ui\screens\assessment\cognitive_assessment_screen.dart:34:18 - prefer_final_fields
+   info - Use 'const' with the constructor to improve performance - lib\ui\screens\assessment\cognitive_assessment_screen.dart:192:15 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\ui\screens\assessment\cognitive_assessment_screen.dart:193:15 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\ui\screens\assessment\cognitive_assessment_screen.dart:194:15 - prefer_const_constructors
+   info - The 'child' argument should be last in widget constructor invocations - lib\ui\screens\assessment\cognitive_assessment_screen.dart:265:13 - sort_child_properties_last
+warning - Unused import: '../../../app/theme/colors.dart' - lib\ui\screens\assessment\motor_skills_assessment_screen.dart:6:8 - unused_import
+   info - Parameter 'key' could be a super parameter - lib\ui\screens\assessment\motor_skills_assessment_screen.dart:19:9 - use_super_parameters
+   info - Unnecessary use of 'toList' in a spread - lib\ui\screens\assessment\motor_skills_assessment_screen.dart:646:16 - unnecessary_to_list_in_spreads
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\assessment\motor_skills_assessment_screen.dart:690:30 - deprecated_member_use
+   info - Parameter 'key' could be a super parameter - lib\ui\screens\assessment\speech_assessment_screen.dart:14:9 - use_super_parameters
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\assessment\speech_assessment_screen.dart:191:68 - deprecated_member_use
+   info - Parameter 'key' could be a super parameter - lib\ui\screens\assessment\start_assessment_tab.dart:13:9 - use_super_parameters
+   info - Invalid use of a private type in a public API - lib\ui\screens\assessment\start_assessment_tab.dart:16:3 - library_private_types_in_public_api
+   info - The private field _selectionMode could be 'final' - lib\ui\screens\assessment\start_assessment_tab.dart:22:23 - prefer_final_fields
+warning - The value of the field '_selectionMode' isn't used - lib\ui\screens\assessment\start_assessment_tab.dart:22:23 - unused_field
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\assessment\start_assessment_tab.dart:178:34 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\assessment\start_assessment_tab.dart:280:58 - deprecated_member_use
+   info - Use 'const' with the constructor to improve performance - lib\ui\screens\assessment\start_assessment_tab.dart:299:55 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\ui\screens\assessment\start_assessment_tab.dart:304:51 - prefer_const_constructors
+warning - Unused import: 'package:shishu_suraksha/app/theme/colors.dart' - lib\ui\screens\auth\anganwadi_login_screen.dart:2:8 - unused_import
+warning - The value of the field '_password' isn't used - lib\ui\screens\auth\anganwadi_login_screen.dart:20:10 - unused_field
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\auth\anganwadi_login_screen.dart:62:50 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\auth\anganwadi_login_screen.dart:211:62 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\auth\anganwadi_login_screen.dart:270:62 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\auth\anganwadi_login_screen.dart:335:63 - deprecated_member_use
+warning - Unused import: 'package:shishu_suraksha/app/theme/colors.dart' - lib\ui\screens\auth\asha_login_screen.dart:2:8 - unused_import
+warning - The value of the field '_userId' isn't used - lib\ui\screens\auth\asha_login_screen.dart:14:10 - unused_field
+warning - The value of the field '_password' isn't used - lib\ui\screens\auth\asha_login_screen.dart:15:10 - unused_field
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\auth\asha_login_screen.dart:43:50 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\auth\asha_login_screen.dart:154:62 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\auth\asha_login_screen.dart:211:63 - deprecated_member_use
+warning - Unused import: '../../../../main.dart' - lib\ui\screens\auth\authentication_screen.dart:4:8 - unused_import
+   info - Constructors for public widgets should have a named 'key' parameter - lib\ui\screens\auth\authentication_screen.dart:11:7 - use_key_in_widget_constructors
+warning - The value of the local variable 'districts' isn't used - lib\ui\screens\auth\authentication_screen.dart:53:18 - unused_local_variable
+warning - The value of the local variable 'villagesMap' isn't used - lib\ui\screens\auth\authentication_screen.dart:65:31 - unused_local_variable
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\auth\authentication_screen.dart:90:52 - deprecated_member_use
+   info - Use 'const' with the constructor to improve performance - lib\ui\screens\auth\authentication_screen.dart:95:11 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\ui\screens\auth\authentication_screen.dart:98:20 - prefer_const_constructors
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\auth\authentication_screen.dart:167:43 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\auth\authentication_screen.dart:202:45 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\auth\authentication_screen.dart:233:46 - deprecated_member_use
+   info - The import of 'dart:ui' is unnecessary because all of the used elements are also provided by the import of 'package:flutter/material.dart' - lib\ui\screens\auth\role_selection_screen.dart:1:8 - unnecessary_import
+warning - Unused import: 'package:shishu_suraksha/ui/widgets/glass_container.dart' - lib\ui\screens\auth\role_selection_screen.dart:6:8 - unused_import
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\auth\role_selection_screen.dart:40:37 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\auth\role_selection_screen.dart:52:37 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\auth\role_selection_screen.dart:71:47 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\auth\role_selection_screen.dart:102:43 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\auth\role_selection_screen.dart:147:43 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\auth\role_selection_screen.dart:171:33 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\auth\role_selection_screen.dart:190:34 - deprecated_member_use
+   info - Parameter 'key' could be a super parameter - lib\ui\screens\calendar\calendar_screen.dart:4:9 - use_super_parameters
+warning - Unused import: 'package:file_picker/file_picker.dart' - lib\ui\screens\children\children_tab.dart:12:8 - unused_import
+warning - Unused import: 'package:intl/intl.dart' - lib\ui\screens\children\children_tab.dart:13:8 - unused_import
+warning - Unused import: 'package:permission_handler/permission_handler.dart' - lib\ui\screens\children\children_tab.dart:14:8 - unused_import
+warning - Unused import: 'package:path_provider/path_provider.dart' - lib\ui\screens\children\children_tab.dart:15:8 - unused_import
+warning - Unused import: 'dart:io' - lib\ui\screens\children\children_tab.dart:16:8 - unused_import
+   info - Parameter 'key' could be a super parameter - lib\ui\screens\children\children_tab.dart:21:9 - use_super_parameters
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\children\children_tab.dart:317:38 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\children\children_tab.dart:424:32 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\children\children_tab.dart:431:42 - deprecated_member_use
+warning - The declaration '_getGreeting' isn't referenced - lib\ui\screens\children\children_tab.dart:479:10 - unused_element
+   info - The local variable '_nameController' starts with an underscore - lib\ui\screens\children\children_tab.dart:488:11 - no_leading_underscores_for_local_identifiers
+   info - The local variable '_dobController' starts with an underscore - lib\ui\screens\children\children_tab.dart:489:11 - no_leading_underscores_for_local_identifiers
+   info - The local variable '_gender' starts with an underscore - lib\ui\screens\children\children_tab.dart:490:12 - no_leading_underscores_for_local_identifiers
+   info - The local variable '_selectedDate' starts with an underscore - lib\ui\screens\children\children_tab.dart:491:15 - no_leading_underscores_for_local_identifiers
+   info - Parameter 'key' could be a super parameter - lib\ui\screens\dashboard\dashboard_screen.dart:4:9 - use_super_parameters
+   info - The import of 'dart:ui' is unnecessary because all of the used elements are also provided by the import of 'package:flutter/material.dart' - lib\ui\screens\dashboard\modern_menu_dashboard.dart:1:8 - unnecessary_import
+warning - Unused import: 'package:shishu_suraksha/app/theme/colors.dart' - lib\ui\screens\dashboard\modern_menu_dashboard.dart:3:8 - unused_import
+warning - Unused import: 'package:shishu_suraksha/ui/widgets/menu_card_widget.dart' - lib\ui\screens\dashboard\modern_menu_dashboard.dart:5:8 - unused_import
+warning - Unused import: 'package:shishu_suraksha/ui/widgets/glass_container.dart' - lib\ui\screens\dashboard\modern_menu_dashboard.dart:7:8 - unused_import
+warning - Unused import: 'package:shishu_suraksha/ui/widgets/quick_stats_card.dart' - lib\ui\screens\dashboard\modern_menu_dashboard.dart:11:8 - unused_import
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\dashboard\modern_menu_dashboard.dart:171:46 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\dashboard\modern_menu_dashboard.dart:373:33 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\dashboard\modern_menu_dashboard.dart:431:26 - deprecated_member_use
+warning - The declaration '_MenuItem' isn't referenced - lib\ui\screens\dashboard\modern_menu_dashboard.dart:480:7 - unused_element
+warning - Unused import: '../../../core/data/models/intervention_models.dart' - lib\ui\screens\dashboard\session_recording_screen.dart:2:8 - unused_import
+warning - Unused import: '../../../app/theme/colors.dart' - lib\ui\screens\dashboard\session_recording_screen.dart:5:8 - unused_import
+   info - Parameter 'key' could be a super parameter - lib\ui\screens\dashboard\session_recording_screen.dart:13:9 - use_super_parameters
+   info - Parameter 'key' could be a super parameter - lib\ui\screens\dashboard\tabs\assessment_report_screen.dart:6:9 - use_super_parameters
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\dashboard\tabs\assessment_report_screen.dart:64:35 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\dashboard\tabs\assessment_report_screen.dart:66:54 - deprecated_member_use
+   info - Use 'const' with the constructor to improve performance - lib\ui\screens\dashboard\tabs\assessment_report_screen.dart:68:22 - prefer_const_constructors
+   info - Use 'const' literals as arguments to constructors of '@immutable' classes - lib\ui\screens\dashboard\tabs\assessment_report_screen.dart:69:27 - prefer_const_literals_to_create_immutables
+   info - Use 'const' with the constructor to improve performance - lib\ui\screens\dashboard\tabs\assessment_report_screen.dart:70:19 - prefer_const_constructors
+   info - Use 'const' literals as arguments to constructors of '@immutable' classes - lib\ui\screens\dashboard\tabs\assessment_report_screen.dart:72:31 - prefer_const_literals_to_create_immutables
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\dashboard\tabs\assessment_report_screen.dart:93:36 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\dashboard\tabs\assessment_report_screen.dart:95:55 - deprecated_member_use
+   info - Use 'const' with the constructor to improve performance - lib\ui\screens\dashboard\tabs\assessment_report_screen.dart:97:22 - prefer_const_constructors
+   info - Use 'const' literals as arguments to constructors of '@immutable' classes - lib\ui\screens\dashboard\tabs\assessment_report_screen.dart:98:27 - prefer_const_literals_to_create_immutables
+   info - Use 'const' with the constructor to improve performance - lib\ui\screens\dashboard\tabs\assessment_report_screen.dart:99:19 - prefer_const_constructors
+   info - Use 'const' literals as arguments to constructors of '@immutable' classes - lib\ui\screens\dashboard\tabs\assessment_report_screen.dart:101:31 - prefer_const_literals_to_create_immutables
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\dashboard\tabs\assessment_report_screen.dart:152:35 - deprecated_member_use
+warning - Unused import: '../../screening/audio/audio_screening_screen.dart' - lib\ui\screens\dashboard\tabs\assessment_screen.dart:4:8 - unused_import
+warning - Unused import: '../../../../services/ml/ml_models_manager.dart' - lib\ui\screens\dashboard\tabs\assessment_screen.dart:7:8 - unused_import
+   info - Parameter 'key' could be a super parameter - lib\ui\screens\dashboard\tabs\assessment_screen.dart:16:9 - use_super_parameters
+   info - Invalid use of a private type in a public API - lib\ui\screens\dashboard\tabs\assessment_screen.dart:19:3 - library_private_types_in_public_api
+   info - The private field _assessmentScores could be 'final' - lib\ui\screens\dashboard\tabs\assessment_screen.dart:67:20 - prefer_final_fields
+   info - Use 'const' with the constructor to improve performance - lib\ui\screens\dashboard\tabs\assessment_screen.dart:300:11 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\ui\screens\dashboard\tabs\assessment_screen.dart:303:13 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\ui\screens\dashboard\tabs\assessment_screen.dart:346:12 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\ui\screens\dashboard\tabs\assessment_screen.dart:356:26 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\ui\screens\dashboard\tabs\assessment_screen.dart:366:30 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\ui\screens\dashboard\tabs\assessment_screen.dart:388:9 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\ui\screens\dashboard\tabs\assessment_screen.dart:389:69 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\ui\screens\dashboard\tabs\assessment_screen.dart:394:74 - prefer_const_constructors
+   info - Don't use 'BuildContext's across async gaps - lib\ui\screens\dashboard\tabs\assessment_screen.dart:413:32 - use_build_context_synchronously
+   info - Use 'const' with the constructor to improve performance - lib\ui\screens\dashboard\tabs\assessment_screen.dart:413:54 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\ui\screens\dashboard\tabs\assessment_screen.dart:413:72 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\ui\screens\dashboard\tabs\assessment_screen.dart:445:22 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\ui\screens\dashboard\tabs\assessment_screen.dart:558:12 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\ui\screens\dashboard\tabs\assessment_screen.dart:591:17 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\ui\screens\dashboard\tabs\assessment_screen.dart:592:18 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\ui\screens\dashboard\tabs\assessment_screen.dart:595:9 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\ui\screens\dashboard\tabs\assessment_screen.dart:598:17 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\ui\screens\dashboard\tabs\assessment_screen.dart:599:18 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\ui\screens\dashboard\tabs\assessment_screen.dart:607:30 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\ui\screens\dashboard\tabs\assessment_screen.dart:607:59 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\ui\screens\dashboard\tabs\assessment_screen.dart:618:32 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\ui\screens\dashboard\tabs\assessment_screen.dart:643:27 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\ui\screens\dashboard\tabs\assessment_screen.dart:646:11 - prefer_const_constructors
+   info - Parameter 'key' could be a super parameter - lib\ui\screens\dashboard\tabs\child_report_screen.dart:7:9 - use_super_parameters
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\dashboard\tabs\child_report_screen.dart:67:36 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\dashboard\tabs\child_report_screen.dart:69:55 - deprecated_member_use
+warning - Unused import: 'package:intl/intl.dart' - lib\ui\screens\dashboard\tabs\home_task_tab.dart:5:8 - unused_import
+   info - Parameter 'key' could be a super parameter - lib\ui\screens\dashboard\tabs\home_task_tab.dart:19:9 - use_super_parameters
+   info - Invalid use of a private type in a public API - lib\ui\screens\dashboard\tabs\home_task_tab.dart:22:3 - library_private_types_in_public_api
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\dashboard\tabs\home_task_tab.dart:150:40 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\dashboard\tabs\home_task_tab.dart:184:59 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\dashboard\tabs\home_task_tab.dart:345:37 - deprecated_member_use
+   info - Parameter 'key' could be a super parameter - lib\ui\screens\dashboard\tabs\insights_tab.dart:13:9 - use_super_parameters
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\dashboard\tabs\insights_tab.dart:305:38 - deprecated_member_use
+warning - The value of the local variable 't' isn't used - lib\ui\screens\dashboard\tabs\insights_tab.dart:316:11 - unused_local_variable
+   info - Parameter 'key' could be a super parameter - lib\ui\screens\dashboard\tabs\intervene_tab.dart:9:9 - use_super_parameters
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\dashboard\tabs\intervene_tab.dart:108:59 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\dashboard\tabs\intervene_tab.dart:222:22 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\dashboard\tabs\intervene_tab.dart:224:41 - deprecated_member_use
+warning - Unnecessary cast - lib\ui\screens\dashboard\tabs\intervene_tab.dart:231:44 - unnecessary_cast
+   info - Parameter 'key' could be a super parameter - lib\ui\screens\dashboard\teacher_activity_dashboard.dart:19:9 - use_super_parameters
+warning - The value of the field '_dashboardService' isn't used - lib\ui\screens\dashboard\teacher_activity_dashboard.dart:31:40 - unused_field
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\dashboard\teacher_activity_dashboard.dart:310:42 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\dashboard\teacher_activity_dashboard.dart:363:58 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\dashboard\teacher_activity_dashboard.dart:477:26 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\dashboard\teacher_activity_dashboard.dart:479:45 - deprecated_member_use
+   info - Unnecessary use of 'toList' in a spread - lib\ui\screens\dashboard\teacher_activity_dashboard.dart:639:16 - unnecessary_to_list_in_spreads
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\dashboard\teacher_activity_dashboard.dart:701:30 - deprecated_member_use
+   info - Unnecessary use of 'toList' in a spread - lib\ui\screens\dashboard\teacher_activity_dashboard.dart:731:20 - unnecessary_to_list_in_spreads
+warning - The receiver can't be null, so the null-aware operator '?.' is unnecessary - lib\ui\screens\dashboard\teacher_activity_dashboard.dart:845:40 - invalid_null_aware_operator
+warning - The '!' will have no effect because the receiver can't be null - lib\ui\screens\dashboard\teacher_activity_dashboard.dart:865:46 - unnecessary_non_null_assertion
+warning - This default clause is covered by the previous cases - lib\ui\screens\dashboard\teacher_activity_dashboard.dart:892:7 - unreachable_switch_default
+warning - This default clause is covered by the previous cases - lib\ui\screens\dashboard\teacher_activity_dashboard.dart:909:7 - unreachable_switch_default
+warning - This default clause is covered by the previous cases - lib\ui\screens\dashboard\teacher_activity_dashboard.dart:926:7 - unreachable_switch_default
+   info - Parameter 'key' could be a super parameter - lib\ui\screens\dashboard\teacher_dashboard.dart:27:9 - use_super_parameters
+   info - Invalid use of a private type in a public API - lib\ui\screens\dashboard\teacher_dashboard.dart:30:3 - library_private_types_in_public_api
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\dashboard\teacher_dashboard.dart:300:41 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\dashboard\teacher_dashboard.dart:390:35 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\dashboard\teacher_dashboard.dart:392:54 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\dashboard\teacher_dashboard.dart:395:39 - deprecated_member_use
+warning - The declaration '_buildChatMessage' isn't referenced - lib\ui\screens\dashboard\teacher_dashboard.dart:511:10 - unused_element
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\dashboard\teacher_dashboard.dart:523:31 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\dashboard\teacher_dashboard.dart:524:31 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\dashboard\teacher_dashboard.dart:551:30 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\dashboard\teacher_dashboard.dart:660:36 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\dashboard\teacher_dashboard.dart:662:55 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\dashboard\teacher_dashboard.dart:692:28 - deprecated_member_use
+   info - Parameter 'key' could be a super parameter - lib\ui\screens\help\help_center_screen.dart:4:9 - use_super_parameters
+   info - Use 'const' with the constructor to improve performance - lib\ui\screens\help\help_center_screen.dart:45:24 - prefer_const_constructors
+   info - Parameter 'key' could be a super parameter - lib\ui\screens\monitor\growth_screen.dart:8:9 - use_super_parameters
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\monitor\growth_screen.dart:64:34 - deprecated_member_use
+   info - Use 'const' with the constructor to improve performance - lib\ui\screens\monitor\growth_screen.dart:98:29 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\ui\screens\monitor\growth_screen.dart:112:33 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\ui\screens\monitor\growth_screen.dart:112:56 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\ui\screens\monitor\growth_screen.dart:113:32 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\ui\screens\monitor\growth_screen.dart:113:55 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\ui\screens\monitor\growth_screen.dart:114:34 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\ui\screens\monitor\growth_screen.dart:114:57 - prefer_const_constructors
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\monitor\growth_screen.dart:116:94 - deprecated_member_use
+   info - Use 'const' with the constructor to improve performance - lib\ui\screens\monitor\growth_screen.dart:124:32 - prefer_const_constructors
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\monitor\growth_screen.dart:147:39 - deprecated_member_use
+   info - Parameter 'key' could be a super parameter - lib\ui\screens\monitor\health_monitoring_screen.dart:11:9 - use_super_parameters
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\monitor\health_monitoring_screen.dart:139:22 - deprecated_member_use
+   info - Unnecessary use of 'toList' in a spread - lib\ui\screens\monitor\health_monitoring_screen.dart:170:15 - unnecessary_to_list_in_spreads
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\monitor\health_monitoring_screen.dart:184:50 - deprecated_member_use
+   info - Use 'const' with the constructor to improve performance - lib\ui\screens\monitor\health_monitoring_screen.dart:201:27 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\ui\screens\monitor\health_monitoring_screen.dart:202:29 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\ui\screens\monitor\health_monitoring_screen.dart:214:30 - prefer_const_constructors
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\monitor\health_monitoring_screen.dart:215:72 - deprecated_member_use
+warning - Unused import: '../../screens/splash/splash_screen.dart' - lib\ui\screens\opening\opening_animation_screen.dart:9:8 - unused_import
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\opening\opening_animation_screen.dart:196:34 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\opening\opening_animation_screen.dart:202:34 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\opening\opening_animation_screen.dart:350:54 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\opening\opening_animation_screen.dart:412:28 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\opening\opening_animation_screen.dart:466:32 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\opening\opening_animation_screen.dart:467:32 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\opening\opening_animation_screen.dart:468:32 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\opening\opening_animation_screen.dart:484:45 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\opening\opening_animation_screen.dart:487:47 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\opening\opening_animation_screen.dart:492:49 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\opening\opening_animation_screen.dart:562:57 - deprecated_member_use
+   info - Use 'const' for final variables initialized to a constant value - lib\ui\screens\opening\opening_animation_screen.dart:612:5 - prefer_const_declarations
+   info - Use 'const' with the constructor to improve performance - lib\ui\screens\opening\opening_animation_screen.dart:635:13 - prefer_const_constructors
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\opening\opening_animation_screen.dart:635:31 - deprecated_member_use
+   info - Use 'const' with the constructor to improve performance - lib\ui\screens\opening\opening_animation_screen.dart:637:17 - prefer_const_constructors
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\opening\opening_animation_screen.dart:637:35 - deprecated_member_use
+   info - Use 'const' with the constructor to improve performance - lib\ui\screens\opening\opening_animation_screen.dart:638:17 - prefer_const_constructors
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\opening\opening_animation_screen.dart:638:35 - deprecated_member_use
+   info - Parameter 'key' could be a super parameter - lib\ui\screens\profile\profile_screen.dart:4:9 - use_super_parameters
+   info - Parameter 'key' could be a super parameter - lib\ui\screens\reports\reports_tab.dart:4:9 - use_super_parameters
+warning - Unused import: 'dart:math' - lib\ui\screens\screening\audio\audio_screening_mobile.dart:3:8 - unused_import
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\screening\audio\audio_screening_mobile.dart:75:40 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\screening\audio\audio_screening_mobile.dart:76:41 - deprecated_member_use
+warning - Unused import: 'dart:io' - lib\ui\screens\screening\symptoms\symptom_screening_screen.dart:1:8 - unused_import
+   info - The import of 'package:flutter/services.dart' is unnecessary because all of the used elements are also provided by the import of 'package:flutter/material.dart' - lib\ui\screens\screening\symptoms\symptom_screening_screen.dart:5:8 - unnecessary_import
+warning - The value of the field '_inputSize' isn't used - lib\ui\screens\screening\symptoms\symptom_screening_screen.dart:21:20 - unused_field
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\screening\symptoms\symptom_screening_screen.dart:102:37 - deprecated_member_use
+   info - The import of 'dart:ui' is unnecessary because all of the used elements are also provided by the import of 'package:flutter/material.dart' - lib\ui\screens\screening\thermal\thermal_screening_screen.dart:1:8 - unnecessary_import
+warning - The value of the local variable 'image' isn't used - lib\ui\screens\screening\thermal\thermal_screening_screen.dart:98:13 - unused_local_variable
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\screening\thermal\thermal_screening_screen.dart:143:37 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\screening\thermal\thermal_screening_screen.dart:145:56 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\screening\thermal\thermal_screening_screen.dart:247:36 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\screening\thermal\thermal_screening_screen.dart:248:36 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\screening\thermal\thermal_screening_screen.dart:268:36 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\screening\thermal\thermal_screening_screen.dart:346:47 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\screening\thermal\thermal_screening_screen.dart:424:36 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\screening\thermal\thermal_screening_screen.dart:455:60 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\splash\splash_screen.dart:73:37 - deprecated_member_use
+   info - Use 'const' with the constructor to improve performance - lib\ui\screens\splash\splash_screen.dart:102:40 - prefer_const_constructors
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\splash\splash_screen.dart:141:59 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\splash\splash_screen.dart:144:61 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\splash\splash_screen.dart:149:63 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\splash\splash_screen.dart:231:54 - deprecated_member_use
+   info - The imported package 'http_parser' isn't a dependency of the importing package - lib\ui\screens\student\ocr_data_entry_screen.dart:8:8 - depend_on_referenced_packages
+   info - Don't use 'BuildContext's across async gaps - lib\ui\screens\student\ocr_data_entry_screen.dart:122:32 - use_build_context_synchronously
+   info - Don't use 'BuildContext's across async gaps - lib\ui\screens\student\ocr_data_entry_screen.dart:133:28 - use_build_context_synchronously
+   info - Use 'const' with the constructor to improve performance - lib\ui\screens\student\ocr_data_entry_screen.dart:170:36 - prefer_const_constructors
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\student\ocr_data_entry_screen.dart:192:59 - deprecated_member_use
+   info - The private field _confidences could be 'final' - lib\ui\screens\student\ocr_data_entry_screen.dart:204:23 - prefer_final_fields
+warning - The declaration '_sendFeedback' isn't referenced - lib\ui\screens\student\ocr_data_entry_screen.dart:227:16 - unused_element
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\student\ocr_data_entry_screen.dart:287:58 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\student\ocr_data_entry_screen.dart:302:69 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\student\ocr_data_entry_screen.dart:311:83 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\student\ocr_data_entry_screen.dart:347:35 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\student\ocr_data_entry_screen.dart:361:60 - deprecated_member_use
+   info - Parameter 'key' could be a super parameter - lib\ui\screens\student\quick_add_screen.dart:8:9 - use_super_parameters
+   info - Invalid use of a private type in a public API - lib\ui\screens\student\quick_add_screen.dart:11:3 - library_private_types_in_public_api
+   info - Parameter 'key' could be a super parameter - lib\ui\screens\tasks\tasks_screen.dart:7:9 - use_super_parameters
+   info - Don't use 'BuildContext's across async gaps - lib\ui\screens\tasks\tasks_screen.dart:26:36 - use_build_context_synchronously
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\tasks\tasks_screen.dart:71:34 - deprecated_member_use
+   info - The import of 'package:flutter/foundation.dart' is unnecessary because all of the used elements are also provided by the import of 'package:flutter/material.dart' - lib\ui\widgets\ai\camera_view.dart:4:8 - unnecessary_import
+warning - Unused import: 'package:flutter/services.dart' - lib\ui\widgets\ai\camera_view.dart:6:8 - unused_import
+   info - Parameter 'key' could be a super parameter - lib\ui\widgets\ai\camera_view.dart:16:9 - use_super_parameters
+warning - The value of the field '_zoomLevel' isn't used - lib\ui\widgets\ai\camera_view.dart:33:10 - unused_field
+warning - The value of the field '_minZoomLevel' isn't used - lib\ui\widgets\ai\camera_view.dart:34:10 - unused_field
+warning - The value of the field '_maxZoomLevel' isn't used - lib\ui\widgets\ai\camera_view.dart:35:10 - unused_field
+warning - The operand can't be 'null', so the condition is always 'true' - lib\ui\widgets\ai\camera_view.dart:150:28 - unnecessary_null_comparison
+warning - The value of the local variable 'sensorOrientation' isn't used - lib\ui\widgets\ai\camera_view.dart:183:11 - unused_local_variable
+   info - Parameter 'key' could be a super parameter - lib\ui\widgets\alert_card.dart:9:9 - use_super_parameters
+warning - The value of the local variable 'isHighlighted' isn't used - lib\ui\widgets\calendar_widget.dart:198:11 - unused_local_variable
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\widgets\calendar_widget.dart:220:45 - deprecated_member_use
+   info - Parameter 'key' could be a super parameter - lib\ui\widgets\charts\age_distribution_chart.dart:8:9 - use_super_parameters
+   info - Use 'const' with the constructor to improve performance - lib\ui\widgets\charts\age_distribution_chart.dart:76:33 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\ui\widgets\charts\age_distribution_chart.dart:76:56 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\ui\widgets\charts\age_distribution_chart.dart:77:32 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\ui\widgets\charts\age_distribution_chart.dart:77:55 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\ui\widgets\charts\age_distribution_chart.dart:78:34 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\ui\widgets\charts\age_distribution_chart.dart:78:57 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\ui\widgets\charts\age_distribution_chart.dart:80:29 - prefer_const_constructors
+   info - Parameter 'key' could be a super parameter - lib\ui\widgets\charts\assessment_trend_chart.dart:8:9 - use_super_parameters
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\widgets\charts\assessment_trend_chart.dart:47:44 - deprecated_member_use
+   info - Use 'const' with the constructor to improve performance - lib\ui\widgets\charts\assessment_trend_chart.dart:54:34 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\ui\widgets\charts\assessment_trend_chart.dart:54:57 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\ui\widgets\charts\assessment_trend_chart.dart:55:32 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\ui\widgets\charts\assessment_trend_chart.dart:55:55 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\ui\widgets\charts\assessment_trend_chart.dart:104:32 - prefer_const_constructors
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\widgets\charts\assessment_trend_chart.dart:107:44 - deprecated_member_use
+   info - Parameter 'key' could be a super parameter - lib\ui\widgets\charts\intervention_outcome_chart.dart:8:9 - use_super_parameters
+   info - Parameter 'key' could be a super parameter - lib\ui\widgets\charts\risk_distribution_chart.dart:8:9 - use_super_parameters
+   info - Parameter 'key' could be a super parameter - lib\ui\widgets\charts\vitals_trend_chart.dart:11:9 - use_super_parameters
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\widgets\charts\vitals_trend_chart.dart:35:32 - deprecated_member_use
+   info - Use 'const' with the constructor to improve performance - lib\ui\widgets\charts\vitals_trend_chart.dart:52:27 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\ui\widgets\charts\vitals_trend_chart.dart:54:33 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\ui\widgets\charts\vitals_trend_chart.dart:54:56 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\ui\widgets\charts\vitals_trend_chart.dart:67:30 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\ui\widgets\charts\vitals_trend_chart.dart:67:53 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\ui\widgets\charts\vitals_trend_chart.dart:68:32 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\ui\widgets\charts\vitals_trend_chart.dart:68:55 - prefer_const_constructors
+   info - Statements in an if should be enclosed in a block - lib\ui\widgets\charts\vitals_trend_chart.dart:75:52 - curly_braces_in_flow_control_structures
+   info - Statements in an if should be enclosed in a block - lib\ui\widgets\charts\vitals_trend_chart.dart:76:56 - curly_braces_in_flow_control_structures
+   info - Statements in an if should be enclosed in a block - lib\ui\widgets\charts\vitals_trend_chart.dart:77:28 - curly_braces_in_flow_control_structures
+   info - Use 'const' with the constructor to improve performance - lib\ui\widgets\charts\vitals_trend_chart.dart:85:30 - prefer_const_constructors
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\widgets\charts\vitals_trend_chart.dart:88:40 - deprecated_member_use
+   info - Parameter 'key' could be a super parameter - lib\ui\widgets\child_selector_widget.dart:9:9 - use_super_parameters
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\widgets\child_selector_widget.dart:42:40 - deprecated_member_use
+   info - Parameter 'key' could be a super parameter - lib\ui\widgets\cropped_logo.dart:6:9 - use_super_parameters
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\widgets\custom_bottom_nav_bar.dart:20:33 - deprecated_member_use
+   info - Parameter 'key' could be a super parameter - lib\ui\widgets\glass_container.dart:12:9 - use_super_parameters
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\widgets\health_indicator_widget.dart:69:31 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\widgets\health_indicator_widget.dart:71:50 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\widgets\health_indicator_widget.dart:95:50 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\widgets\health_indicator_widget.dart:98:35 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\widgets\health_indicator_widget.dart:112:41 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\widgets\health_indicator_widget.dart:149:37 - deprecated_member_use
+   info - Parameter 'key' could be a super parameter - lib\ui\widgets\intervention_dialog.dart:9:9 - use_super_parameters
+   info - Unnecessary use of 'toList' in a spread - lib\ui\widgets\intervention_dialog.dart:284:30 - unnecessary_to_list_in_spreads
+warning - Unnecessary cast - lib\ui\widgets\intervention_dialog.dart:420:46 - unnecessary_cast
+   info - Parameter 'key' could be a super parameter - lib\ui\widgets\kpi_card.dart:12:9 - use_super_parameters
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\widgets\kpi_card.dart:33:32 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\widgets\kpi_card.dart:38:41 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\widgets\kpi_card.dart:50:32 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\widgets\kpi_card.dart:59:59 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\widgets\kpi_card.dart:59:89 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\widgets\language_dropdown.dart:76:49 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\widgets\language_dropdown.dart:122:51 - deprecated_member_use
+warning - Unused import: 'package:shishu_suraksha/app/theme/colors.dart' - lib\ui\widgets\menu_card_widget.dart:3:8 - unused_import
+warning - The value of the field '_isPressed' isn't used - lib\ui\widgets\menu_card_widget.dart:27:8 - unused_field
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\widgets\menu_card_widget.dart:77:37 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\widgets\menu_card_widget.dart:93:36 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\widgets\menu_card_widget.dart:94:36 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\widgets\menu_card_widget.dart:99:41 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\widgets\menu_card_widget.dart:109:45 - deprecated_member_use
+   info - Use 'const' for final variables initialized to a constant value - lib\ui\widgets\neumorphic_menu_card.dart:30:5 - prefer_const_declarations
+   info - Use 'const' with the constructor to improve performance - lib\ui\widgets\neumorphic_menu_card.dart:48:19 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\ui\widgets\neumorphic_menu_card.dart:61:19 - prefer_const_constructors
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\widgets\neumorphic_menu_card.dart:123:40 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\widgets\quick_stats_card.dart:30:33 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\widgets\quick_stats_card.dart:45:32 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\widgets\quick_stats_card.dart:58:26 - deprecated_member_use
+   info - Parameter 'key' could be a super parameter - lib\ui\widgets\voice_assistant_widget.dart:11:9 - use_super_parameters
+   info - Invalid use of a private type in a public API - lib\ui\widgets\voice_assistant_widget.dart:14:3 - library_private_types_in_public_api
+warning - The value of the field '_isSpeaking' isn't used - lib\ui\widgets\voice_assistant_widget.dart:24:8 - unused_field
+   info - Don't use 'BuildContext's across async gaps - lib\ui\widgets\voice_assistant_widget.dart:103:28 - use_build_context_synchronously
+   info - 'cancelOnError' is deprecated and shouldn't be used. Use SpeechListenOptions.cancelOnError instead - lib\ui\widgets\voice_assistant_widget.dart:135:9 - deprecated_member_use
+   info - 'listenMode' is deprecated and shouldn't be used. Use SpeechListenOptions.listenMode instead - lib\ui\widgets\voice_assistant_widget.dart:136:9 - deprecated_member_use
+   info - Don't use 'BuildContext's across async gaps - lib\ui\widgets\voice_assistant_widget.dart:139:28 - use_build_context_synchronously
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\widgets\voice_assistant_widget.dart:191:33 - deprecated_member_use
+warning - Unused import: 'package:shared_preferences/shared_preferences.dart' - lib\utils\permission_manager.dart:2:8 - unused_import
+warning - The value of the field '_permissionsRequestedKey' isn't used - lib\utils\permission_manager.dart:8:23 - unused_field
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\widgets\dashboard_card.dart:33:35 - deprecated_member_use
+warning - Unused import: '../core/theme/app_theme.dart' - lib\widgets\offline_banner.dart:2:8 - unused_import
+   info - Use 'const' with the constructor to improve performance - packages\tflite_audio\lib\tflite_audio.dart:12:50 - prefer_const_constructors
+

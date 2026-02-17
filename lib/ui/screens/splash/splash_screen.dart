@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../../widgets/language_dropdown.dart';
 import '../../widgets/cropped_logo.dart';
 import 'splash_animation_controller.dart';
-import '../../admin/admin_dashboard_screen.dart';
 
 import 'package:shishu_suraksha/l10n/app_localizations.dart';
 import 'package:shishu_suraksha/main.dart';
@@ -261,17 +260,6 @@ class _SplashScreenState extends State<SplashScreen>
             },
           ),
         ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const AdminDashboardScreen()),
-          );
-        },
-        child: const Icon(Icons.admin_panel_settings, color: Colors.white24),
       ),
     );
   }

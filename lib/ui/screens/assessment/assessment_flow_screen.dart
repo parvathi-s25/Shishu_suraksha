@@ -6,6 +6,7 @@ import '../../../app/theme/colors.dart';
 import 'motor_skills_assessment_screen.dart';
 import 'speech_assessment_screen.dart';
 import 'cognitive_assessment_screen.dart';
+import 'social_emotional_assessment_screen.dart';
 
 /// Assessment Flow Screen - Main entry point for child assessments
 /// 
@@ -55,6 +56,7 @@ class _AssessmentFlowScreenState extends ConsumerState<AssessmentFlowScreen> {
           _buildMotorSkillsGuide(),
           _buildSpeechLanguageGuide(),
           _buildCognitiveGuide(),
+          _buildSocialEmotionalGuide(),
         ],
       ),
       bottomNavigationBar: _buildBottomNavigation(),
@@ -114,14 +116,14 @@ class _AssessmentFlowScreenState extends ConsumerState<AssessmentFlowScreen> {
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                   const SizedBox(height: 8),
-                  LinearProgressIndicator(
-                    value: (_currentPage + 1) / 4,
+                   LinearProgressIndicator(
+                    value: (_currentPage + 1) / 5,
                     backgroundColor: Colors.grey[300],
                     minHeight: 8,
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'Progress: ${_currentPage + 1} / 4 complete',
+                    'Progress: ${_currentPage + 1} / 5 complete',
                     style: const TextStyle(fontSize: 12),
                   )
                 ],
@@ -535,6 +537,97 @@ class _AssessmentFlowScreenState extends ConsumerState<AssessmentFlowScreen> {
     );
   }
 
+  Widget _buildSocialEmotionalGuide() {
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _buildSectionHeader('Social-Emotional Assessment', Icons.sentiment_satisfied_alt),
+          _buildInstructionsCard(
+            title: 'Assessment Guidelines',
+            instructions: [
+              'Conduct in a familiar environment for the child',
+              'Observe natural interactions with caregivers',
+              'Maintain a friendly, non-threatening posture',
+              'Use toys or interesting objects to engage attention',
+              'Note both verbal and non-verbal responses',
+            ],
+          ),
+          const SizedBox(height: 20),
+          _buildTestCard(
+            title: 'Test 1: Eye Contact',
+            description: 'Quality and duration of eye engagement',
+            steps: [
+              '1. Sit at the same level as the child',
+              '2. Try to catch their eye with a smile',
+              '3. Move your head slowly and see if they follow',
+              '4. Observe if eye contact is sustained or avoidant',
+            ],
+            expectedInput: 'Eye contact quality rating',
+          ),
+          const SizedBox(height: 12),
+          _buildTestCard(
+            title: 'Test 2: Social Interaction',
+            description: 'Willingness to engage with others',
+            steps: [
+              '1. Offer a toy or object to the child',
+              '2. Observe if they reach out or respond socially',
+              '3. Try a simple "peek-a-boo" game',
+              '4. Note if they reciprocate social cues',
+            ],
+            expectedInput: 'Interaction level rating',
+          ),
+          const SizedBox(height: 12),
+          _buildTestCard(
+            title: 'Test 3: Emotional Regulation',
+            description: 'Response to emotional stimuli',
+            steps: [
+              '1. Observe the child\'s reaction to your expressions',
+              '2. Note how easily they are comforted if distressed',
+              '3. Look for "social referencing" (looking to caregiver)',
+            ],
+            expectedInput: 'Emotional response rating',
+          ),
+          const SizedBox(height: 20),
+          Container(
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: Colors.teal[50],
+              border: Border.all(color: Colors.teal),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  '✓ Ready to Start?',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.teal,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton.icon(
+                    onPressed: () => _startSocialEmotionalAssessment(),
+                    icon: const Icon(Icons.play_arrow),
+                    label: const Text('Start Social-Emotional Assessment'),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.teal,
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _buildSectionHeader(String title, IconData icon) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -662,9 +755,9 @@ class _AssessmentFlowScreenState extends ConsumerState<AssessmentFlowScreen> {
             icon: const Icon(Icons.arrow_back),
             label: const Text('Back'),
           ),
-          Text('Page ${_currentPage + 1} of 4'),
+          Text('Page ${_currentPage + 1} of 5'),
           ElevatedButton.icon(
-            onPressed: _currentPage < 3
+            onPressed: _currentPage < 4
                 ? () => _pageController.nextPage(
                       duration: const Duration(milliseconds: 300),
                       curve: Curves.easeInOut,
@@ -701,6 +794,15 @@ class _AssessmentFlowScreenState extends ConsumerState<AssessmentFlowScreen> {
       context,
       MaterialPageRoute(
         builder: (context) => CognitiveAssessmentScreen(child: widget.child),
+      ),
+    );
+  }
+
+  void _startSocialEmotionalAssessment() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => SocialEmotionalAssessmentScreen(child: widget.child),
       ),
     );
   }

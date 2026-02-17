@@ -44,7 +44,7 @@ class _ReportViewerScreenState extends State<ReportViewerScreen> {
     final l10n = AppLocalizations.of(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text(l10n.reports),
+        title: Text(l10n?.reports ?? 'Reports'),
         actions: [
           IconButton(
             icon: const Icon(Icons.print),
@@ -61,7 +61,7 @@ class _ReportViewerScreenState extends State<ReportViewerScreen> {
             child: TextField(
               controller: _searchController,
               decoration: InputDecoration(
-                labelText: l10n.searchChild,
+                labelText: l10n?.searchChild ?? 'Search',
                 prefixIcon: const Icon(Icons.search),
                 border: const OutlineInputBorder(),
               ),

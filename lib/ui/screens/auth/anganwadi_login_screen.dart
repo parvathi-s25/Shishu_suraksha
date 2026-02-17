@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shishu_suraksha/app/theme/colors.dart';
-import 'package:shishu_suraksha/ui/screens/dashboard/dashboard_screen.dart';
+import 'package:shishu_suraksha/ui/screens/dashboard/teacher_dashboard.dart';
 import 'package:shishu_suraksha/data/auth_data.dart';
 import 'package:shishu_suraksha/localization/all_village_translations_loader.dart';
 import 'package:shishu_suraksha/localization/translations.dart';
@@ -278,11 +278,14 @@ class _AnganwadiLoginScreenState extends State<AnganwadiLoginScreen> {
             children: [
               Icon(icon, color: Colors.grey[400], size: 22),
               const SizedBox(width: 12),
-              Text(
-                hint,
-                style: TextStyle(
-                  color: Colors.grey[400],
-                  fontSize: 16,
+              Expanded(
+                child: Text(
+                  hint,
+                  style: TextStyle(
+                    color: Colors.grey[400],
+                    fontSize: 16,
+                  ),
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
             ],
@@ -294,12 +297,15 @@ class _AnganwadiLoginScreenState extends State<AnganwadiLoginScreen> {
                    children: [
                       Icon(icon, color: const Color(0xFF6B4CE6), size: 22),
                       const SizedBox(width: 12),
-                      Text(
-                         safeDisplayItems[index],
-                         style: const TextStyle(
-                            color: Colors.black87,
-                            fontSize: 16,
-                         ),
+                      Expanded(
+                        child: Text(
+                           safeDisplayItems[index],
+                           style: const TextStyle(
+                              color: Colors.black87,
+                              fontSize: 16,
+                           ),
+                           overflow: TextOverflow.ellipsis,
+                        ),
                       )
                    ]
                 )

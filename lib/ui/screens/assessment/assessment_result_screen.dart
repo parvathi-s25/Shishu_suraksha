@@ -21,6 +21,7 @@ class AssessmentResultScreen extends ConsumerStatefulWidget {
   final MotorSkillsAssessment? motorAssessment;
   final SpeechAssessmentResult? speechAssessment;
   final CognitiveAssessmentResult? cognitiveAssessment;
+  final SocialEmotionalAssessmentResult? socialEmotionalAssessment;
   final double overallScore;
 
   const AssessmentResultScreen({
@@ -29,10 +30,12 @@ class AssessmentResultScreen extends ConsumerStatefulWidget {
     this.motorAssessment,
     this.speechAssessment,
     this.cognitiveAssessment,
+    this.socialEmotionalAssessment,
     double? overallMotorScore, // Deprecated, use overallScore
     double? overallSpeechScore, // Helper for compatibility
     double? overallCognitiveScore, // Helper for compatibility
-  }) : overallScore = overallMotorScore ?? overallSpeechScore ?? overallCognitiveScore ?? 0.0,
+    double? overallSocialEmotionalScore, // Helper for compatibility
+  }) : overallScore = overallMotorScore ?? overallSpeechScore ?? overallCognitiveScore ?? overallSocialEmotionalScore ?? 0.0,
        super(key: key);
 
   @override
@@ -133,6 +136,7 @@ class _AssessmentResultScreenState
     if (widget.motorAssessment != null) title = 'Motor Development Score';
     if (widget.speechAssessment != null) title = 'Speech & Language Score';
     if (widget.cognitiveAssessment != null) title = 'Cognitive Development Score';
+    if (widget.socialEmotionalAssessment != null) title = 'Social-Emotional Score';
 
     return Card(
       color: riskColor.withOpacity(0.1),
@@ -235,6 +239,12 @@ class _AssessmentResultScreenState
         _buildTestScoreItem('Attention', widget.cognitiveAssessment!.attentionScore, 'Focus duration'),
         _buildTestScoreItem('Problem Solving', widget.cognitiveAssessment!.problemSolvingScore, 'Task completion'),
       ];
+    } else if (widget.socialEmotionalAssessment != null) {
+      scoreItems = [
+        _buildTestScoreItem('Eye Contact', widget.socialEmotionalAssessment!.eyeContactScore, 'Eye engagement quality'),
+        _buildTestScoreItem('Social Interaction', widget.socialEmotionalAssessment!.socialInteractionScore, 'Engagement with others'),
+        _buildTestScoreItem('Emotion Reg.', widget.socialEmotionalAssessment!.emotionalRegulationScore, 'Response to emotions'),
+      ];
     }
 
     return Column(
@@ -262,18 +272,23 @@ class _AssessmentResultScreenState
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      title,
-                      style: Theme.of(context).textTheme.titleSmall,
-                    ),
-                    Text(
-                      description,
-                      style: Theme.of(context).textTheme.bodySmall,
-                    ),
-                  ],
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        title,
+                        style: Theme.of(context).textTheme.titleSmall,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      Text(
+                        description,
+                        style: Theme.of(context).textTheme.bodySmall,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                  ),
                 ),
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
@@ -638,6 +653,8 @@ class _AssessmentResultScreenState
       result = widget.speechAssessment;
     } else if (widget.cognitiveAssessment != null) {
       result = widget.cognitiveAssessment;
+    } else if (widget.socialEmotionalAssessment != null) {
+      result = widget.socialEmotionalAssessment;
     }
 
     if (result != null) {
@@ -648,7 +665,7 @@ class _AssessmentResultScreenState
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('Assessment saved successfully')),
     );
-    Navigator.popUntil(context, (route) => route.isFirst); // Go back to dashboard
+    Navigator.pushNamedAndRemoveUntil(context, '/dashboard', (route) => false);
   }
 
   void _shareparentReport() {

@@ -196,6 +196,8 @@ class _StartAssessmentTabState extends State<StartAssessmentTab> {
             Text(
               title,
               textAlign: TextAlign.center,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: responsive.getFontSize(14),
@@ -206,6 +208,8 @@ class _StartAssessmentTabState extends State<StartAssessmentTab> {
             Text(
               subtitle,
               textAlign: TextAlign.center,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
               style: TextStyle(
                 fontSize: responsive.getFontSize(11),
                 color: AppColors.textSecondary,
@@ -324,12 +328,15 @@ class _StartAssessmentTabState extends State<StartAssessmentTab> {
           ),
         ),
         const SizedBox(width: 8),
-        Text(
-          title,
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: AppColors.textPrimary,
-            fontSize: responsive.getFontSize(14),
+        Expanded(
+          child: Text(
+            title,
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: AppColors.textPrimary,
+              fontSize: responsive.getFontSize(14),
+            ),
+            overflow: TextOverflow.ellipsis,
           ),
         ),
       ],

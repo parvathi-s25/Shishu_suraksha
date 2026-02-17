@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shishu_suraksha/app/theme/colors.dart';
-import 'package:shishu_suraksha/ui/screens/dashboard/dashboard_screen.dart';
+import 'package:shishu_suraksha/ui/screens/dashboard/teacher_dashboard.dart';
 
 class AshaLoginScreen extends StatefulWidget {
   const AshaLoginScreen({super.key});

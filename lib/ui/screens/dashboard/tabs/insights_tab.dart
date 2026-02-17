@@ -86,24 +86,38 @@ class _InsightsTabState extends State<InsightsTab> {
                   // Visualizations
                   _buildVisualizations(responsive, t),
                   
-                  SizedBox(height: responsive.getSpacing(100)),
+                  SizedBox(height: responsive.getSpacing(32)),
+                  Center(
+                    child: ElevatedButton.icon(
+                      onPressed: () => _showExportOptions(responsive),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.teal,
+                        foregroundColor: Colors.white,
+                        padding: EdgeInsets.symmetric(
+                          horizontal: responsive.getSpacing(24),
+                          vertical: responsive.getSpacing(12),
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        elevation: 4,
+                      ),
+                      icon: const Icon(Icons.download),
+                      label: Text(
+                        "Export Report",
+                        style: TextStyle(
+                          fontSize: responsive.getFontSize(14),
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: responsive.getSpacing(40)),
                 ],
               ),
             ),
           ),
         ],
-      ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => _showExportOptions(responsive),
-        backgroundColor: Colors.teal,
-        icon: const Icon(Icons.download, color: Colors.white),
-        label: Text(
-          "Export Report",
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: responsive.getFontSize(12),
-          ),
-        ),
       ),
     );
   }

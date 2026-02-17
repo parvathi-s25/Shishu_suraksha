@@ -1,7 +1,7 @@
 # 🏥 Shishu Suraksha (శిశు సురక్ష)
-### *Empowering Early Childhood Development through AI & IoT*
+### *A step towards an inclusive, healthy, and developed future for every child. 🇮🇳*
 
-**Shishu Suraksha** is a mission-critical mobile platform designed for Anganwadi workers, ASHA personnel, and Health Administrators. It provides a robust, zero-overflow interface for monitoring, assessing, and intervening in child development across rural and urban India.
+**Shishu Suraksha** (శిశు సురక్ష) is a mission-critical platform empowering early childhood development through a fusion of AI and IoT. Designed for Anganwadi workers, ASHA personnel, and Health Administrators, it provides a robust, zero-overflow interface for monitoring, assessing, and intervening in child development across rural and urban India.
 
 ---
 
@@ -22,7 +22,7 @@
 ### 🤖 Intelligent Assistant & Localization
 - **Multi-Lingual AI**: Context-aware assistant supporting Telugu, Hindi, Kannada, and more.
 - **Voice-First Experience**: Integrated Speech-to-Text (STT) and Text-to-Speech (TTS) for hands-free operations.
-- **Dynamic Greetings**: Time-sensitive, localized dashboard greetings to improve user engagement.
+- **8-Stage OCR Pipeline**: Digitizing physical records into the Shishu Suraksha ecosystem with high precision.
 
 ---
 
@@ -33,9 +33,15 @@
 | **Framework** | Flutter (Dart) |
 | **State Management** | Riverpod / StateProvider |
 | **Visualizations** | FL Chart (Customized for low-end devices) |
-| **Intelligence** | Groq (LLaMA-3) & Gemini API |
-| **Responsiveness** | Advanced Wrap & Flexible Architecture |
-| **Local Data** | Hive / Shared Preferences |
+| **Intelligence** | Groq (LLAWA/LLaMA-3) & Gemini API |
+| **OCR Backend** | Flask + Tesseract + OpenCV |
+| **Local Data** | Hive / SQLite / Shared Preferences |
+
+### 📊 Repository Composition
+![Dart](https://img.shields.io/badge/Dart-58.6%25-blue)
+![HTML](https://img.shields.io/badge/HTML-28.8%25-orange)
+![C++](https://img.shields.io/badge/C%2B%2B-5.3%25-blueviolet)
+![Python](https://img.shields.io/badge/Python-2.5%25-yellow)
 
 ---
 

@@ -19,7 +19,7 @@ class OfflineModeBanner extends StatelessWidget {
           const Icon(Icons.wifi_off, color: Colors.white, size: 16),
           const SizedBox(width: 8),
           Text(
-            AppLocalizations.of(context).offlineModeActive,
+            AppLocalizations.of(context)?.offlineModeActive ?? 'Offline Mode Active',
             style: const TextStyle(color: Colors.white, fontSize: 12),
           ),
         ],

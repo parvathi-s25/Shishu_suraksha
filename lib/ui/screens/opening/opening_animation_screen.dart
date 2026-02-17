@@ -5,7 +5,6 @@ import '../../../l10n/app_localizations.dart';
 import '../../../main.dart';
 import '../../widgets/language_dropdown.dart';
 import '../../widgets/cropped_logo.dart';
-import '../../admin/admin_dashboard_screen.dart';
 import '../../screens/splash/splash_screen.dart';
 
 /// 5-Phase Splash Animation
@@ -219,24 +218,6 @@ class _OpeningAnimationScreenState extends State<OpeningAnimationScreen>
               // Language + Get Started UI (Phase 5)
               if (_controller.value > 0.76) _buildUISection(screenSize),
 
-              // Hidden admin FAB
-              Positioned(
-                bottom: 20,
-                right: 20,
-                child: FloatingActionButton(
-                  backgroundColor: Colors.transparent,
-                  elevation: 0,
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const AdminDashboardScreen()),
-                    );
-                  },
-                  child: const Icon(Icons.admin_panel_settings,
-                      color: Colors.white24),
-                ),
-              ),
             ],
           );
         },
@@ -264,7 +245,7 @@ class _OpeningAnimationScreenState extends State<OpeningAnimationScreen>
 
   List<Widget> _buildGovernmentLogos(
       double centerX, double centerY, Size screenSize) {
-    final logoSize = screenSize.width * 0.22;
+    final logoSize = screenSize.width * 0.28;
 
     // Triangular positions
     // AP Government: top center
@@ -537,7 +518,7 @@ class _OpeningAnimationScreenState extends State<OpeningAnimationScreen>
                     borderRadius: BorderRadius.circular(30),
                     onTap: () {
                       String code = _languageMap[selectedLanguage] ?? "en";
-                      Navigator.pushNamed(
+                      Navigator.pushReplacementNamed(
                         context,
                         "/auth",
                         arguments: code,

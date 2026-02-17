@@ -157,6 +157,7 @@ class _ModernMenuDashboardState extends State<ModernMenuDashboard> {
           const SizedBox(height: 8),
           Text(
             _getGreeting(AppLocalizations.of(context)!),
+            textAlign: TextAlign.center,
             style: const TextStyle(
               color: Color(0xFF2D3142),
               fontWeight: FontWeight.bold,
@@ -335,13 +336,16 @@ class _ModernMenuDashboardState extends State<ModernMenuDashboard> {
       },
     ];
 
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final int crossAxisCount = screenWidth > 600 ? 3 : 2;
+
     return GridView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2, // 2 columns for larger neumorphic cards
-        crossAxisSpacing: 20,
-        mainAxisSpacing: 20,
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: crossAxisCount,
+        crossAxisSpacing: screenWidth > 600 ? 24 : 16,
+        mainAxisSpacing: screenWidth > 600 ? 24 : 16,
         childAspectRatio: 1.1, 
       ),
       itemCount: menuItems.length,

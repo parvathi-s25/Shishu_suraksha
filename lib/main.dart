@@ -5,14 +5,14 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:firebase_core/firebase_core.dart';
 
-import 'l10n/app_localizations.dart';
-import 'localization/legacy_app_localizations.dart'; // For DataLocalizations
-import 'ui/screens/splash/splash_screen.dart';
-import 'ui/screens/opening/opening_animation_screen.dart';
-import 'core/theme/app_theme.dart';
-import 'core/constants/app_constants.dart';
-import 'ui/screens/auth/authentication_screen.dart';
-import 'ui/screens/dashboard/teacher_dashboard.dart';
+import 'package:shishu_suraksha/l10n/app_localizations.dart';
+import 'package:shishu_suraksha/localization/legacy_app_localizations.dart'; // For DataLocalizations
+import 'package:shishu_suraksha/ui/screens/splash/splash_screen.dart';
+import 'package:shishu_suraksha/ui/screens/opening/opening_animation_screen.dart';
+import 'package:shishu_suraksha/core/theme/app_theme.dart';
+import 'package:shishu_suraksha/core/constants/app_constants.dart';
+import 'package:shishu_suraksha/ui/screens/auth/authentication_screen.dart';
+import 'package:shishu_suraksha/ui/screens/dashboard/teacher_dashboard.dart';
 import 'core/services/data_service.dart';
 import 'firebase_options.dart';
 import 'models/child_model.dart';
@@ -100,7 +100,7 @@ class _MyAppState extends ConsumerState<MyApp> {
       home: const OpeningAnimationScreen(),
       routes: {
         "/auth": (_) => AuthenticationScreen(),
-        "/dashboard": (_) => DashboardScreen(), // Verify this widget exists or update appropriately
+        "/dashboard": (_) => const DashboardScreen(), 
       },
     );
   }

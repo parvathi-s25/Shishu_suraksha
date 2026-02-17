@@ -108,6 +108,8 @@ class _NeumorphicMenuCardState extends State<NeumorphicMenuCard>
             Text(
               widget.label,
               textAlign: TextAlign.center,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
               style: TextStyle(
                 fontSize: 13,
                 fontWeight: FontWeight.w600,
