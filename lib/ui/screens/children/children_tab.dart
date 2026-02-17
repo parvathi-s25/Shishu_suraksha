@@ -15,6 +15,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 import '../../../../core/services/data_service.dart';
+import 'child_details_screen.dart';
 
 // Renamed from ChildAssessmentDashboard to match existing file usage
 class ChildrenTab extends ConsumerStatefulWidget {
@@ -129,11 +130,6 @@ class _ChildrenTabState extends ConsumerState<ChildrenTab> {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: _addNewChild,
-        icon: const Icon(Icons.person_add),
-        label: Text(t.addChild),
-      ),
     );
   }
 
@@ -197,6 +193,31 @@ class _ChildrenTabState extends ConsumerState<ChildrenTab> {
             label: t.atRisk,
             value: '2',
             color: Colors.red,
+          ),
+          _buildAddChildCard(t),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildAddChildCard(AppLocalizations t) {
+    return InkWell(
+      onTap: _addNewChild,
+      child: Column(
+        children: [
+          const Icon(Icons.add_circle, color: AppColors.primary, size: 20),
+          const SizedBox(height: 4),
+          const Text(
+            '+',
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: AppColors.primary,
+            ),
+          ),
+          Text(
+            t.addChild,
+            style: const TextStyle(fontSize: 10),
           ),
         ],
       ),
@@ -300,11 +321,11 @@ class _ChildrenTabState extends ConsumerState<ChildrenTab> {
                         style: Theme.of(context).textTheme.titleMedium,
                       ),
                       Text(
-                        '${t.ageLabel}: $years years $months months', // Localized age label
+                        '${t.ageLabel}: $years years $months months',
                         style: Theme.of(context).textTheme.bodySmall,
                       ),
                       Text(
-                        '${t.gender}: ${child.gender == 'Male' ? t.male : (child.gender == 'Female' ? t.female : t.other)}', // Localized gender label
+                        '${t.gender}: ${child.gender == 'Male' ? t.male : (child.gender == 'Female' ? t.female : t.other)}',
                         style: Theme.of(context).textTheme.bodySmall,
                       ),
                     ],
@@ -333,75 +354,27 @@ class _ChildrenTabState extends ConsumerState<ChildrenTab> {
                 ),
             ],
           ),
-            const SizedBox(height: 16),
-            const Divider(),
-            
-            // HEALTH & DEVELOPMENT SUITE
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: Text(t.healthDevelopmentSuite, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.grey, letterSpacing: 1.0)),
-            ),
-            
-            Wrap(
-              spacing: 8,
-              runSpacing: 8,
-              children: [
-                // 1. LIVE VITALS
-                SizedBox(
-                  width: double.infinity,
-                  child: _buildTestButton(
+            const SizedBox(height: 12),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
                     context,
-                    icon: Icons.monitor_heart,
-                    label: t.heartRateVitals,
-                    color: Colors.purple,
-                    onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => HealthMonitoringScreen(child: child)));
-                    },
+                    MaterialPageRoute(
+                      builder: (context) => ChildDetailsScreen(child: child),
+                    ),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.primary,
+                  foregroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
                   ),
                 ),
-                
-                // 2. GROWTH
-                _buildTestButton(
-                  context,
-                  icon: Icons.show_chart,
-                  label: t.growth.toUpperCase(),
-                  color: Colors.blue,
-                  onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => GrowthScreen(child: child)));
-                  },
-                ),
-                
-                // 3. DEVELOPMENTAL
-                _buildTestButton(
-                  context,
-                  icon: Icons.psychology,
-                  label: t.developmental.toUpperCase(), 
-                  color: Colors.teal,
-                  onTap: () => _startAssessment(child),
-                ),
-
-                // 4. VISION
-                _buildTestButton(
-                  context,
-                  icon: Icons.visibility,
-                  label: t.visionTest,
-                  color: Colors.orange,
-                  onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => const VisualScreeningScreen()));
-                  },
-                ),
-                
-                // 5. HEARING
-                _buildTestButton(
-                  context,
-                  icon: Icons.hearing,
-                  label: t.hearingTest.toUpperCase(),
-                  color: Colors.indigo,
-                  onTap: () {
-                     Navigator.push(context, MaterialPageRoute(builder: (context) => const AudioScreeningScreen()));
-                  },
-                ),
-              ],
+                child: Text(t.overview),
+              ),
             ),
           ],
         ),
