@@ -5,6 +5,7 @@ import 'package:shishu_suraksha/l10n/app_localizations.dart';
 import 'package:shishu_suraksha/ui/widgets/menu_card_widget.dart';
 import 'package:shishu_suraksha/ui/widgets/neumorphic_menu_card.dart';
 import 'package:shishu_suraksha/ui/widgets/glass_container.dart';
+import 'package:shishu_suraksha/ui/widgets/cropped_logo.dart';
 import 'package:shishu_suraksha/ui/widgets/calendar_widget.dart';
 import 'package:shishu_suraksha/ui/widgets/health_indicator_widget.dart';
 import 'package:shishu_suraksha/ui/widgets/quick_stats_card.dart';
@@ -77,11 +78,7 @@ class _ModernMenuDashboardState extends State<ModernMenuDashboard> {
         ),
         actions: [
           IconButton(
-            icon: const CircleAvatar(
-              radius: 14,
-              backgroundImage: AssetImage('assets/images/logo.png'), 
-              backgroundColor: Colors.transparent,
-            ),
+            icon: const CroppedLogo(width: 32),
             onPressed: () {},
           ),
           const SizedBox(width: 8),

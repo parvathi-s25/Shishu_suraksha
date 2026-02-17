@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shishu_suraksha/core/data/models/assessment_result_models.dart';
 import 'dart:async';
 import 'dart:math';
+import 'package:shishu_suraksha/core/services/ai/speech_model_service.dart';
 import '../../../core/data/models/child_model.dart';
 import 'assessment_result_screen.dart';
 
@@ -35,6 +36,7 @@ class _SpeechAssessmentScreenState extends ConsumerState<SpeechAssessmentScreen>
   // Input Controllers
   final _wordsCountController = TextEditingController();
   final _sentenceLengthController = TextEditingController();
+  final SpeechModelService _speechModel = SpeechModelService();
 
   @override
   void initState() {
@@ -66,29 +68,44 @@ class _SpeechAssessmentScreenState extends ConsumerState<SpeechAssessmentScreen>
     });
   }
 
-  void _simulateAnalysis() {
-    // Simulate processing time
+  Future<void> _simulateAnalysis() async {
+    // Show loader
     showDialog(
       context: context,
       barrierDismissible: false,
       builder: (context) => const Center(child: CircularProgressIndicator()),
     );
 
-    Future.delayed(const Duration(seconds: 2), () {
+    try {
+      // Use the service to simulate analysis
+      final results = await _speechModel.analyzeAudio("dummy_path");
+      
+      if (!mounted) return;
       Navigator.pop(context); // Dismiss loader
+
       setState(() {
-        final random = Random();
-        // Generate realistic scores based on child's age or random variation
-        // Bias towards good scores for demo purposes unless specifically testing failure
-        _clarityScore = 70 + random.nextInt(30).toDouble(); 
-        if (_currentTest == 1) _vocabularyScore = 60 + random.nextInt(40).toDouble();
-        if (_currentTest == 2) _sentenceScore = 50 + random.nextInt(50).toDouble();
+        _clarityScore = (results['confidence'] as double) * 100;
+        _fluencyScore = (results['fluency_score'] as double) * 10;
         
+        // Randomize others based on clarity for coherence
+        final random = Random();
+        if (_currentTest == 1) _vocabularyScore = _clarityScore - 10 + random.nextInt(20);
+        if (_currentTest == 2) _sentenceScore = _clarityScore - 5 + random.nextInt(15);
+        
+        // Clamp scores
+        _vocabularyScore = _vocabularyScore.clamp(0, 100);
+        _sentenceScore = _sentenceScore.clamp(0, 100);
+
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Analysis Complete')),
+          SnackBar(content: Text('AI Analysis Complete: ${results['word_count']} words detected')),
         );
       });
-    });
+    } catch (e) {
+      Navigator.pop(context);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Analysis failed: $e')),
+      );
+    }
   }
 
   void _calculateFinalScores() {

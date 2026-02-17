@@ -4,12 +4,11 @@ import 'package:flutter/material.dart';
 import '../../../../services/responsive_dashboard.dart';
 import '../models/device_data.dart';
 import '../services/health_service.dart';
-import '../services/mock_health_provider.dart';
 import '../../ai_engine/services/risk_engine_service.dart';
 import '../../ai_engine/models/risk_assessment.dart';
 import '../../../ui/widgets/child_selector_widget.dart';
 import '../../../ui/widgets/charts/vitals_trend_chart.dart';
-import '../../../services/iot_data_simulator.dart';
+import '../../../../core/services/simulation/iot_simulator.dart';
 
 class HealthDashboardScreen extends StatefulWidget {
   final String? initialChildId;
@@ -27,12 +26,11 @@ class HealthDashboardScreen extends StatefulWidget {
 
 class _HealthDashboardScreenState extends State<HealthDashboardScreen> {
   final HealthService _healthService = HealthService();
-  final MockHealthProvider _mockProvider = MockHealthProvider();
+  final IoTDeviceSimulator _iotSimulator = IoTDeviceSimulator();
   final RiskEngineService _riskEngine = RiskEngineService();
   
   late String _activeChildId;
   late String _activeChildName;
-  bool _isSimulating = false;
   final String _schoolId = "DEMO_SCHOOL_01";
   final List<Map<String, dynamic>> _children = DemoDataGenerator.getDemoChildren();
 
@@ -45,7 +43,7 @@ class _HealthDashboardScreenState extends State<HealthDashboardScreen> {
 
   @override
   void dispose() {
-    _mockProvider.stopSimulation();
+    _iotSimulator.disconnect();
     super.dispose();
   }
 
@@ -56,25 +54,24 @@ class _HealthDashboardScreenState extends State<HealthDashboardScreen> {
       _activeChildId = id;
       _activeChildName = name;
       // Restart simulation for new child if active
-      if (_isSimulating) {
-        _mockProvider.stopSimulation();
-        _mockProvider.startSimulation(_schoolId, _activeChildId);
+      if (_iotSimulator.isConnected) {
+        _iotSimulator.disconnect();
+        _iotSimulator.connect();
       }
     });
   }
 
   void _toggleSimulation() {
     setState(() {
-      _isSimulating = !_isSimulating;
-      if (_isSimulating) {
-        _mockProvider.startSimulation(_schoolId, _activeChildId);
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Started Live IoT Simulation")),
-        );
-      } else {
-        _mockProvider.stopSimulation();
+      if (_iotSimulator.isConnected) {
+        _iotSimulator.disconnect();
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text("Stopped Simulation")),
+        );
+      } else {
+        _iotSimulator.connect();
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Started Live IoT Simulation")),
         );
       }
     });
@@ -89,8 +86,8 @@ class _HealthDashboardScreenState extends State<HealthDashboardScreen> {
         foregroundColor: Colors.white,
         actions: [
           IconButton(
-            icon: Icon(_isSimulating ? Icons.stop_circle : Icons.play_circle),
-            tooltip: _isSimulating ? "Stop Simulation" : "Start Simulation",
+            icon: Icon(_iotSimulator.isConnected ? Icons.stop_circle : Icons.play_circle),
+            tooltip: _iotSimulator.isConnected ? "Stop Simulation" : "Start Simulation",
             onPressed: _toggleSimulation,
           )
         ],
@@ -107,10 +104,23 @@ class _HealthDashboardScreenState extends State<HealthDashboardScreen> {
           ),
           Expanded(
             child: StreamBuilder<DeviceData?>(
-              stream: _healthService.getLiveVitals(_schoolId, _activeChildId),
+              stream: _iotSimulator.isConnected 
+                  ? _iotSimulator.vitalsStream.map((data) => DeviceData(
+                      deviceId: data['device_id'],
+                      schoolId: _schoolId,
+                      childId: _activeChildId,
+                      heartRate: (data['heart_rate'] as int).toDouble(),
+                      spo2: (data['spo2'] as int).toDouble(),
+                      temp: (data['body_temp'] as double),
+                      movement: "Active",
+                      batteryLevel: 85,
+                      signalStrength: 90,
+                      timestamp: DateTime.parse(data['timestamp']),
+                    ))
+                  : _healthService.getLiveVitals(_schoolId, _activeChildId),
               builder: (context, snapshot) {
                 if (snapshot.hasError) return Center(child: Text("Error: ${snapshot.error}"));
-                if (!snapshot.hasData && !_isSimulating) {
+                if (!snapshot.hasData && !_iotSimulator.isConnected) {
                    return const Center(child: Text("No live data. Start simulation."));
                 }
                 if (!snapshot.hasData) return const Center(child: CircularProgressIndicator());

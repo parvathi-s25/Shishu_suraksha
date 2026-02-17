@@ -525,4 +525,79 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get developmental => 'Developmental';
+
+  @override
+  String get analyticsDashboard => 'Analytics Dashboard';
+
+  @override
+  String get dateLabel => 'Date';
+
+  @override
+  String get ageGroups => 'Age Groups';
+
+  @override
+  String get centers => 'Centers';
+
+  @override
+  String get last30Days => 'Last 30 Days';
+
+  @override
+  String get last6Months => 'Last 6 Months';
+
+  @override
+  String get lastYear => 'Last Year';
+
+  @override
+  String get allAges => 'All Ages';
+
+  @override
+  String get years0to3 => '0-3 Years';
+
+  @override
+  String get years3to6 => '3-6 Years';
+
+  @override
+  String get mainCenter => 'Main Center';
+
+  @override
+  String get northWing => 'North Wing';
+
+  @override
+  String get eastWing => 'East Wing';
+
+  @override
+  String get totalAssessed => 'Total Assessed';
+
+  @override
+  String get avgDevScore => 'Avg Dev Score';
+
+  @override
+  String get devScoreOverview => 'Development Score Overview';
+
+  @override
+  String get cognitive => 'Cognitive';
+
+  @override
+  String get mobility => 'Mobility';
+
+  @override
+  String get hearing => 'Hearing';
+
+  @override
+  String get speech => 'Speech';
+
+  @override
+  String get exportReport => 'Export Report';
+
+  @override
+  String get downloadPdf => 'Download PDF Report';
+
+  @override
+  String get exportCsv => 'Export CSV Data';
+
+  @override
+  String get downloading => 'Downloading...';
+
+  @override
+  String get exporting => 'Exporting...';
 }

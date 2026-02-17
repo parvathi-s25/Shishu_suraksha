@@ -526,4 +526,79 @@ class AppLocalizationsTe extends AppLocalizations {
 
   @override
   String get developmental => 'అభివృద్ధి';
+
+  @override
+  String get analyticsDashboard => 'విశ్లేషణ డాష్‌బోర్డ్';
+
+  @override
+  String get dateLabel => 'తేదీ';
+
+  @override
+  String get ageGroups => 'వయస్సు సమూహాలు';
+
+  @override
+  String get centers => 'కేంద్రాలు';
+
+  @override
+  String get last30Days => 'గత 30 రోజులు';
+
+  @override
+  String get last6Months => 'గత 6 నెలలు';
+
+  @override
+  String get lastYear => 'గత సంవత్సరం';
+
+  @override
+  String get allAges => 'అన్ని వయసుల వారు';
+
+  @override
+  String get years0to3 => '0-3 సంవత్సరాలు';
+
+  @override
+  String get years3to6 => '3-6 సంవత్సరాలు';
+
+  @override
+  String get mainCenter => 'ప్రధాన కేంద్రం';
+
+  @override
+  String get northWing => 'ఉత్తర విభాగం';
+
+  @override
+  String get eastWing => 'తూర్పు విభాగం';
+
+  @override
+  String get totalAssessed => 'మొత్తం అంచనా వేయబడింది';
+
+  @override
+  String get avgDevScore => 'సగటు అభివృద్ధి స్కోరు';
+
+  @override
+  String get devScoreOverview => 'అభివృద్ధి స్కోరు అవలోకనం';
+
+  @override
+  String get cognitive => 'జ్ఞానాత్మక';
+
+  @override
+  String get mobility => 'చలనశీలత';
+
+  @override
+  String get hearing => 'వినికిడి';
+
+  @override
+  String get speech => 'ప్రసంగం';
+
+  @override
+  String get exportReport => 'నివేదికను ఎగుమతి చేయండి';
+
+  @override
+  String get downloadPdf => 'PDF నివేదికను డౌన్‌లోడ్ చేయండి';
+
+  @override
+  String get exportCsv => 'CSV డేటాను ఎగుమతి చేయండి';
+
+  @override
+  String get downloading => 'డౌన్‌లోడ్ అవుతోంది...';
+
+  @override
+  String get exporting => 'ఎగుమతి అవుతోంది...';
 }

@@ -15,7 +15,7 @@ import '../../../modules/health_monitoring/screens/health_dashboard_screen.dart'
 import '../../../modules/classroom_monitoring/screens/classroom_dashboard_screen.dart';
 import '../../../modules/growth_tracking/screens/growth_monitoring_screen.dart';
 import '../../../modules/ai_alerts/screens/alerts_dashboard_screen.dart';
-import '../../../modules/admin_dashboard/screens/admin_dashboard_screen.dart';
+import '../../../features/admin/admin_dashboard.dart'; // Updated path
 import '../../../modules/admin_dashboard/screens/admin_schools_screen.dart';
 import '../../../modules/admin_dashboard/screens/admin_reports_screen.dart';
 import '../../../../main.dart'; // For language switching
@@ -205,7 +205,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             if (_selectedIndex == 0)
-              const Expanded(child: AdminDashboardScreen())
+              const Expanded(child: AdminDashboardContent())
             else if (_selectedIndex == 1)
               const Expanded(child: AdminSchoolsScreen()) // Schools Tab
             else if (_selectedIndex == 2)
@@ -213,7 +213,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             else if (_selectedIndex == 3)
               const Expanded(child: AdminReportsScreen()) // Reports Tab
             else
-               const Expanded(child: AdminDashboardScreen())
+               const Expanded(child: AdminDashboardContent())
           ],
         ),
       );
@@ -249,7 +249,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             else if (_selectedIndex == 8)
               const Expanded(child: AlertsDashboardScreen())
             else if (_selectedIndex == 9)
-               const Expanded(child: AdminDashboardScreen())
+               const Expanded(child: AdminDashboardContent())
             else
               Expanded(
                 child: Center(
@@ -586,34 +586,57 @@ class _DashboardScreenState extends State<DashboardScreen> {
       color: AppColors.surface, // Clean white background
       child: Row(
         children: [
+          // Left: Menu (Mobile)
           if (responsive.isMobile)
             IconButton(
               icon: const Icon(Icons.menu, color: AppColors.textPrimary),
               onPressed: () => _scaffoldKey.currentState?.openDrawer(),
+              padding: EdgeInsets.zero,
+              constraints: const BoxConstraints(),
             ),
           
+          if (responsive.isMobile) SizedBox(width: responsive.getSpacing(8)),
 
-          // Logo always on left
-          const CroppedLogo(width: 48),
-          
-          const Spacer(),
-          
-          // Title moved to right
-          if (!responsive.isMobile) ...[
-            Text(
-              "ShishuSuraksha AI",
-              style: TextStyle(
-                fontSize: responsive.getFontSize(18),
-                fontWeight: FontWeight.bold,
-                color: AppColors.primary,
-                letterSpacing: 0.5,
-              ),
-            ),
-            SizedBox(width: responsive.getSpacing(16)),
-          ],
-
-          // Custom Language Toggle
+          // Left/Center: Language Toggle
           _buildLanguageToggle(context, responsive),
+
+          const Spacer(),
+
+          // Right: Logo + Title
+          Flexible(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Flexible(
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      "ShishuSuraksha",
+                      style: TextStyle(
+                        fontSize: responsive.getFontSize(20),
+                        fontWeight: FontWeight.w800,
+                        color: Colors.blueGrey[900],
+                        height: 1.0,
+                      ),
+                    ),
+                  ),
+                ),
+                Text(
+                  "AI Powered",
+                  style: TextStyle(
+                    fontSize: responsive.getFontSize(10),
+                    fontWeight: FontWeight.bold,
+                    color: Colors.teal,
+                    letterSpacing: 1.0,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(width: responsive.getSpacing(8)),
+          CroppedLogo(width: responsive.isMobile ? 48 : 64),
         ],
       ),
     );
@@ -630,21 +653,20 @@ class _DashboardScreenState extends State<DashboardScreen> {
       },
       borderRadius: BorderRadius.circular(20),
       child: Container(
-        padding: EdgeInsets.symmetric(
-          horizontal: responsive.getSpacing(12),
-          vertical: responsive.getSpacing(6),
-        ),
+        padding: responsive.isMobile 
+            ? const EdgeInsets.symmetric(horizontal: 10, vertical: 4)
+            : EdgeInsets.symmetric(horizontal: responsive.getSpacing(12), vertical: responsive.getSpacing(6)),
         decoration: BoxDecoration(
           color: AppColors.primary.withOpacity(0.1),
           borderRadius: BorderRadius.circular(20),
           border: Border.all(color: AppColors.primary.withOpacity(0.3)),
         ),
         child: Text(
-          isEnglish ? "తెలుగు" : "English", // Button shows the OTHER language to switch to
+          isEnglish ? "తెలుగు" : "English", 
           style: TextStyle(
             color: AppColors.primary,
             fontWeight: FontWeight.bold,
-            fontSize: responsive.getFontSize(14),
+            fontSize: responsive.isMobile ? 12 : responsive.getFontSize(14),
           ),
         ),
       ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shishu_suraksha/l10n/app_localizations.dart';
 import 'package:shishu_suraksha/services/analytics_service.dart';
 import 'package:shishu_suraksha/models/dashboard_data.dart';
 import 'package:shishu_suraksha/ui/widgets/kpi_card.dart';
@@ -62,6 +63,7 @@ class _InsightsTabState extends State<InsightsTab> {
     }
 
     final responsive = ResponsiveDashboard(context);
+    final t = AppLocalizations.of(context)!;
 
     return Scaffold(
       backgroundColor: Colors.transparent,
@@ -74,15 +76,15 @@ class _InsightsTabState extends State<InsightsTab> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   // Header & Filters
-                  _buildHeaderAndFilters(responsive),
+                  _buildHeaderAndFilters(responsive, t),
                   SizedBox(height: responsive.getSpacing(20)),
 
                   // KPI Cards
-                  _buildKPISection(responsive),
+                  _buildKPISection(responsive, t),
                   SizedBox(height: responsive.getSpacing(24)),
 
                   // Visualizations
-                  _buildVisualizations(responsive),
+                  _buildVisualizations(responsive, t),
                   
                   SizedBox(height: responsive.getSpacing(100)),
                 ],
@@ -106,14 +108,14 @@ class _InsightsTabState extends State<InsightsTab> {
     );
   }
 
-  Widget _buildHeaderAndFilters(ResponsiveDashboard responsive) {
+  Widget _buildHeaderAndFilters(ResponsiveDashboard responsive, AppLocalizations t) {
     return Column(
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              "Analytics Dashboard",
+              t.analyticsDashboard,
               style: TextStyle(
                 fontSize: responsive.getFontSize(24),
                 fontWeight: FontWeight.bold,
@@ -127,11 +129,11 @@ class _InsightsTabState extends State<InsightsTab> {
           scrollDirection: Axis.horizontal,
           child: Row(
             children: [
-              _buildFilterChip("Date", _selectedDateRange, ["Last 30 Days", "Last 6 Months", "Last Year"], responsive),
+              _buildFilterChip(t.dateLabel, _selectedDateRange, [t.last30Days, t.last6Months, t.lastYear], responsive),
               SizedBox(width: responsive.getSpacing(8)),
-              _buildFilterChip("Age", _selectedAgeGroup, ["All Ages", "0-3 Years", "3-6 Years"], responsive),
+              _buildFilterChip(t.ageGroups, _selectedAgeGroup, [t.allAges, t.years0to3, t.years3to6], responsive),
               SizedBox(width: responsive.getSpacing(8)),
-              _buildFilterChip("Center", _selectedCenter, ["Main Center", "North Wing", "East Wing"], responsive),
+              _buildFilterChip(t.centers, _selectedCenter, [t.mainCenter, t.northWing, t.eastWing], responsive),
             ],
           ),
         ),
@@ -180,13 +182,13 @@ class _InsightsTabState extends State<InsightsTab> {
     );
   }
 
-  Widget _buildKPISection(ResponsiveDashboard responsive) {
+  Widget _buildKPISection(ResponsiveDashboard responsive, AppLocalizations t) {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
         children: [
           KPICard(
-            title: "Total Assessed",
+            title: t.totalAssessed,
             value: "${_stats.totalAssessed}",
             icon: Icons.people,
             color: Colors.blue,
@@ -194,7 +196,7 @@ class _InsightsTabState extends State<InsightsTab> {
           ),
           SizedBox(width: responsive.getSpacing(12)),
           KPICard(
-            title: "High Risk",
+            title: t.highRisk,
             value: "${_stats.highRisk}",
             icon: Icons.warning,
             color: Colors.red,
@@ -203,7 +205,7 @@ class _InsightsTabState extends State<InsightsTab> {
           ),
           SizedBox(width: responsive.getSpacing(12)),
           KPICard(
-            title: "Pending",
+            title: t.pending,
             value: "${_stats.pendingAssessments}",
             icon: Icons.pending_actions,
             color: Colors.orange,
@@ -217,7 +219,7 @@ class _InsightsTabState extends State<InsightsTab> {
           ),
           SizedBox(width: responsive.getSpacing(12)),
           KPICard(
-            title: "Avg Dev Score",
+            title: t.avgDevScore,
             value: "${_stats.avgDevelopmentScore}%",
             icon: Icons.psychology,
             color: Colors.purple,
@@ -227,7 +229,7 @@ class _InsightsTabState extends State<InsightsTab> {
     );
   }
 
-  Widget _buildVisualizations(ResponsiveDashboard responsive) {
+  Widget _buildVisualizations(ResponsiveDashboard responsive, AppLocalizations t) {
     return Column(
       children: [
         RiskDistributionChart(data: _riskData),
@@ -238,12 +240,12 @@ class _InsightsTabState extends State<InsightsTab> {
         SizedBox(height: responsive.getSpacing(16)),
         InterventionOutcomeChart(data: _interventionData),
         SizedBox(height: responsive.getSpacing(16)),
-        _buildDevelopmentScoreCard(responsive),
+        _buildDevelopmentScoreCard(responsive, t),
       ],
     );
   }
 
-  Widget _buildDevelopmentScoreCard(ResponsiveDashboard responsive) {
+  Widget _buildDevelopmentScoreCard(ResponsiveDashboard responsive, AppLocalizations t) {
     return Card(
       elevation: 2,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
@@ -253,7 +255,7 @@ class _InsightsTabState extends State<InsightsTab> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "Development Score Overview",
+              t.devScoreOverview,
               style: TextStyle(
                 fontSize: responsive.getFontSize(16),
                 fontWeight: FontWeight.bold,
@@ -311,6 +313,7 @@ class _InsightsTabState extends State<InsightsTab> {
   }
 
   void _showExportOptions(ResponsiveDashboard responsive) {
+    final t = AppLocalizations.of(context)!;
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,

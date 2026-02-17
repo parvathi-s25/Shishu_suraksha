@@ -29,7 +29,10 @@ class ChildModel {
   final DateTime? dob;
   final String? gender;
   final String? anganwadi;
-  final List<GrowthRecord> growthHistory; // New field
+  final List<GrowthRecord> growthHistory;
+  final double? speechScore; // New
+  final String? hearingStatus; // New
+  final DateTime? lastAssessmentDate; // New
 
   ChildModel({
     required this.id,
@@ -39,6 +42,9 @@ class ChildModel {
     this.gender,
     this.anganwadi,
     List<GrowthRecord>? growthHistory,
+    this.speechScore,
+    this.hearingStatus,
+    this.lastAssessmentDate,
   }) : growthHistory = growthHistory ?? [];
 
   int get ageMonths {
@@ -60,6 +66,9 @@ class ChildModel {
     'gender': gender,
     'anganwadi': anganwadi,
     'growthHistory': growthHistory.map((e) => e.toJson()).toList(),
+    'speechScore': speechScore,
+    'hearingStatus': hearingStatus,
+    'lastAssessmentDate': lastAssessmentDate?.toIso8601String(),
   };
 
   factory ChildModel.fromJson(Map<String, dynamic> json) => ChildModel(
@@ -72,6 +81,9 @@ class ChildModel {
     growthHistory: json['growthHistory'] != null 
       ? (json['growthHistory'] as List).map((e) => GrowthRecord.fromJson(e)).toList() 
       : [],
+    speechScore: json['speechScore']?.toDouble(),
+    hearingStatus: json['hearingStatus'],
+    lastAssessmentDate: json['lastAssessmentDate'] != null ? DateTime.parse(json['lastAssessmentDate']) : null,
   );
 }
 

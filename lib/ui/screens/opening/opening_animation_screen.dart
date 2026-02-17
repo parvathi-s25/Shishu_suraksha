@@ -6,6 +6,7 @@ import '../../../main.dart';
 import '../../widgets/language_dropdown.dart';
 import '../../widgets/cropped_logo.dart';
 import '../../admin/admin_dashboard_screen.dart';
+import '../../screens/splash/splash_screen.dart';
 
 /// 5-Phase Splash Animation
 ///

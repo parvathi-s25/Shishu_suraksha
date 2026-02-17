@@ -19,12 +19,7 @@ class AdminSchoolsScreen extends StatelessWidget {
       {'name': 'Public School Dwarka', 'students': 560, 'status': 'Inactive', 'risk': 'N/A'},
     ];
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(t.totalSchools),
-        automaticallyImplyLeading: false,
-      ),
-      body: ListView.builder(
+    return ListView.builder(
         padding: const EdgeInsets.all(16),
         itemCount: schools.length,
         itemBuilder: (context, index) {
@@ -57,7 +52,6 @@ class AdminSchoolsScreen extends StatelessWidget {
             ),
           );
         },
-      ),
     );
   }
 }

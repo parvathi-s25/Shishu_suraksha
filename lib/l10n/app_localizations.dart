@@ -1117,6 +1117,156 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Developmental'**
   String get developmental;
+
+  /// No description provided for @analyticsDashboard.
+  ///
+  /// In en, this message translates to:
+  /// **'Analytics Dashboard'**
+  String get analyticsDashboard;
+
+  /// No description provided for @dateLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Date'**
+  String get dateLabel;
+
+  /// No description provided for @ageGroups.
+  ///
+  /// In en, this message translates to:
+  /// **'Age Groups'**
+  String get ageGroups;
+
+  /// No description provided for @centers.
+  ///
+  /// In en, this message translates to:
+  /// **'Centers'**
+  String get centers;
+
+  /// No description provided for @last30Days.
+  ///
+  /// In en, this message translates to:
+  /// **'Last 30 Days'**
+  String get last30Days;
+
+  /// No description provided for @last6Months.
+  ///
+  /// In en, this message translates to:
+  /// **'Last 6 Months'**
+  String get last6Months;
+
+  /// No description provided for @lastYear.
+  ///
+  /// In en, this message translates to:
+  /// **'Last Year'**
+  String get lastYear;
+
+  /// No description provided for @allAges.
+  ///
+  /// In en, this message translates to:
+  /// **'All Ages'**
+  String get allAges;
+
+  /// No description provided for @years0to3.
+  ///
+  /// In en, this message translates to:
+  /// **'0-3 Years'**
+  String get years0to3;
+
+  /// No description provided for @years3to6.
+  ///
+  /// In en, this message translates to:
+  /// **'3-6 Years'**
+  String get years3to6;
+
+  /// No description provided for @mainCenter.
+  ///
+  /// In en, this message translates to:
+  /// **'Main Center'**
+  String get mainCenter;
+
+  /// No description provided for @northWing.
+  ///
+  /// In en, this message translates to:
+  /// **'North Wing'**
+  String get northWing;
+
+  /// No description provided for @eastWing.
+  ///
+  /// In en, this message translates to:
+  /// **'East Wing'**
+  String get eastWing;
+
+  /// No description provided for @totalAssessed.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Assessed'**
+  String get totalAssessed;
+
+  /// No description provided for @avgDevScore.
+  ///
+  /// In en, this message translates to:
+  /// **'Avg Dev Score'**
+  String get avgDevScore;
+
+  /// No description provided for @devScoreOverview.
+  ///
+  /// In en, this message translates to:
+  /// **'Development Score Overview'**
+  String get devScoreOverview;
+
+  /// No description provided for @cognitive.
+  ///
+  /// In en, this message translates to:
+  /// **'Cognitive'**
+  String get cognitive;
+
+  /// No description provided for @mobility.
+  ///
+  /// In en, this message translates to:
+  /// **'Mobility'**
+  String get mobility;
+
+  /// No description provided for @hearing.
+  ///
+  /// In en, this message translates to:
+  /// **'Hearing'**
+  String get hearing;
+
+  /// No description provided for @speech.
+  ///
+  /// In en, this message translates to:
+  /// **'Speech'**
+  String get speech;
+
+  /// No description provided for @exportReport.
+  ///
+  /// In en, this message translates to:
+  /// **'Export Report'**
+  String get exportReport;
+
+  /// No description provided for @downloadPdf.
+  ///
+  /// In en, this message translates to:
+  /// **'Download PDF Report'**
+  String get downloadPdf;
+
+  /// No description provided for @exportCsv.
+  ///
+  /// In en, this message translates to:
+  /// **'Export CSV Data'**
+  String get exportCsv;
+
+  /// No description provided for @downloading.
+  ///
+  /// In en, this message translates to:
+  /// **'Downloading...'**
+  String get downloading;
+
+  /// No description provided for @exporting.
+  ///
+  /// In en, this message translates to:
+  /// **'Exporting...'**
+  String get exporting;
 }
 
 class _AppLocalizationsDelegate
