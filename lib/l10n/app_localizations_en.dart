@@ -85,13 +85,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get welcome => 'Welcome!';
 
   @override
-  String get goodMorning => 'Good Morning!';
+  String get goodMorning => 'Good Morning';
 
   @override
-  String get goodAfternoon => 'Good Afternoon!';
+  String get goodAfternoon => 'Good Afternoon';
 
   @override
-  String get goodEvening => 'Good Evening!';
+  String get goodEvening => 'Good Evening';
 
   @override
   String get startMonitoring => 'Start monitoring child health with these quick actions.';
@@ -403,7 +403,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get chooseAgeRange => 'Choose Age Range';
 
   @override
-  String get noChildrenFound => 'No children found in this age group.';
+  String get noChildrenFound => 'No children found';
 
   @override
   String get plzSelectAge => 'Please select an age group first.';
@@ -434,4 +434,85 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get village => 'Village';
+
+  @override
+  String get childHealthDevelopment => 'Child Health & Development';
+
+  @override
+  String get refresh => 'Refresh';
+
+  @override
+  String get filter => 'Filter';
+
+  @override
+  String get searchChild => 'Search child by name...';
+
+  @override
+  String get totalChildren => 'Total Children';
+
+  @override
+  String get needAssessment => 'Need Assessment';
+
+  @override
+  String get atRisk => 'At Risk';
+
+  @override
+  String get addChildPrompt => 'Add a child to get started';
+
+  @override
+  String get gender => 'Gender';
+
+  @override
+  String get healthDevelopmentSuite => 'HEALTH & DEVELOPMENT SUITE';
+
+  @override
+  String get heartRateVitals => 'HEART RATE & VITALS (LIVE)';
+
+  @override
+  String get visionTest => 'VISION TEST';
+
+  @override
+  String get noAssessment => 'NO ASSESSMENT';
+
+  @override
+  String get addNewChild => 'Add New Child';
+
+  @override
+  String get childName => 'Child Name';
+
+  @override
+  String get dateOfBirth => 'Date of Birth (YYYY-MM-DD)';
+
+  @override
+  String get cancel => 'Cancel';
+
+  @override
+  String get add => 'Add';
+
+  @override
+  String get added => 'Added';
+
+  @override
+  String get filterOptions => 'Filter Options';
+
+  @override
+  String get allChildren => 'All Children';
+
+  @override
+  String get mediumRisk => 'Medium Risk';
+
+  @override
+  String get lowRisk => 'Low Risk';
+
+  @override
+  String get male => 'Male';
+
+  @override
+  String get female => 'Female';
+
+  @override
+  String get other => 'Other';
+
+  @override
+  String get developmental => 'Developmental';
 }

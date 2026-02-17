@@ -121,10 +121,6 @@ class _HealthMonitoringScreenState extends State<HealthMonitoringScreen> {
               Row(
                 children: [
                   Expanded(child: _buildStatTile('Temp', '${data.temperature}°C', Icons.thermostat, Colors.orange)),
-                  const SizedBox(width: 12),
-                  Expanded(child: _buildStatTile('Steps', '${data.stepCount}', Icons.directions_walk, Colors.purple)),
-                  const SizedBox(width: 12),
-                  Expanded(child: _buildStatTile('Sleep', '${data.sleepHours}h', Icons.bedtime, Colors.indigo)),
                 ],
               ),
               

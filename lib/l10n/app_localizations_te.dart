@@ -85,7 +85,7 @@ class AppLocalizationsTe extends AppLocalizations {
   String get welcome => 'Welcome!';
 
   @override
-  String get goodMorning => 'శుభోదయం!';
+  String get goodMorning => 'శుభోదయం';
 
   @override
   String get goodAfternoon => 'శుభ మధ్యాహ్నం';
@@ -403,7 +403,7 @@ class AppLocalizationsTe extends AppLocalizations {
   String get chooseAgeRange => 'వియస్సు పరిధిని ఎంచుకోండి';
 
   @override
-  String get noChildrenFound => 'ఈ వయస్సు పరిధిలో పిల్లలు కనుగొనబడలేదు.';
+  String get noChildrenFound => 'పిల్లలు కనుగొనబడలేదు';
 
   @override
   String get plzSelectAge => 'దయచేసి మొదట వయస్సు పరిధిని ఎంచుకోండి.';
@@ -434,4 +434,85 @@ class AppLocalizationsTe extends AppLocalizations {
 
   @override
   String get village => 'గ్రామం';
+
+  @override
+  String get childHealthDevelopment => 'పిల్లల ఆరోగ్యం & అభివృద్ధి';
+
+  @override
+  String get refresh => 'రిఫ్రెష్';
+
+  @override
+  String get filter => 'ఫిల్టర్';
+
+  @override
+  String get searchChild => 'పిల్లల పేరు ద్వారా శోధించండి...';
+
+  @override
+  String get totalChildren => 'మొత్తం పిల్లలు';
+
+  @override
+  String get needAssessment => 'అంచనా అవసరం';
+
+  @override
+  String get atRisk => 'అధిక ప్రమాదం';
+
+  @override
+  String get addChildPrompt => 'ప్రారంభించడానికి పిల్లవాడిని జోడించండి';
+
+  @override
+  String get gender => 'లింగం';
+
+  @override
+  String get healthDevelopmentSuite => 'ఆరోగ్యం & అభివృద్ధి సూట్';
+
+  @override
+  String get heartRateVitals => 'గుండె రేటు & వైటల్స్ (లైవ్)';
+
+  @override
+  String get visionTest => 'దృష్టి పరీక్ష';
+
+  @override
+  String get noAssessment => 'అంచనా లేదు';
+
+  @override
+  String get addNewChild => 'కొత్త పిల్లవాడిని జోడించండి';
+
+  @override
+  String get childName => 'పిల్లల పేరు';
+
+  @override
+  String get dateOfBirth => 'పుట్టిన తేదీ (YYYY-MM-DD)';
+
+  @override
+  String get cancel => 'రద్దు';
+
+  @override
+  String get add => 'జోడించు';
+
+  @override
+  String get added => 'జోడించబడింది';
+
+  @override
+  String get filterOptions => 'ఫిల్టర్ ఎంపికలు';
+
+  @override
+  String get allChildren => 'అందరూ పిల్లలు';
+
+  @override
+  String get mediumRisk => 'మధ్యస్థ ప్రమాదం';
+
+  @override
+  String get lowRisk => 'తక్కువ ప్రమాదం';
+
+  @override
+  String get male => 'మగ';
+
+  @override
+  String get female => 'ఆడ';
+
+  @override
+  String get other => 'ఇతర';
+
+  @override
+  String get developmental => 'అభివృద్ధి';
 }

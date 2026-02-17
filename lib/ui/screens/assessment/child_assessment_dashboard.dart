@@ -331,11 +331,6 @@ class _ChildAssessmentDashboardState
                 ),
               ],
             ),
-            const SizedBox(height: 12),
-                  ),
-                ),
-              ],
-            ),
             const SizedBox(height: 16),
             const Divider(),
             

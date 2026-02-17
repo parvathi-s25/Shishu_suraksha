@@ -23,7 +23,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
 
     return LayoutBuilder(
       builder: (context, constraints) {
-        if (constraints.maxWidth > 900) {
+        if (constraints.maxWidth > 1100) {
           return _DesktopAdminView(
               t: t, responsive: responsive, adminService: _adminService);
         } else {
@@ -179,7 +179,7 @@ class _StatsGrid extends StatelessWidget {
           physics: const NeverScrollableScrollPhysics(),
           mainAxisSpacing: responsive.getSpacing(16),
           crossAxisSpacing: responsive.getSpacing(16),
-          childAspectRatio: responsive.isMobile ? 1.3 : 1.5,
+          childAspectRatio: responsive.isMobile ? 1.3 : 1.3,
           children: [
             _buildStatCard(t.totalSchools, "${data['total_schools']}",
                 Icons.school, Colors.blue, responsive),

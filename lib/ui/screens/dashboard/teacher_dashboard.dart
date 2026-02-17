@@ -16,6 +16,8 @@ import '../../../modules/classroom_monitoring/screens/classroom_dashboard_screen
 import '../../../modules/growth_tracking/screens/growth_monitoring_screen.dart';
 import '../../../modules/ai_alerts/screens/alerts_dashboard_screen.dart';
 import '../../../modules/admin_dashboard/screens/admin_dashboard_screen.dart';
+import '../../../modules/admin_dashboard/screens/admin_schools_screen.dart';
+import '../../../modules/admin_dashboard/screens/admin_reports_screen.dart';
 import '../../../../main.dart'; // For language switching
 import '../../../../core/services/offline_data_service.dart';
 
@@ -101,9 +103,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           if (responsive.isTablet || responsive.isDesktop)
                             _buildSidebar(t, responsive),
                           Expanded(
-                            child: widget.role == 'Admin' 
-                                ? const AdminDashboardScreen() // Admin always shows Admin Dashboard for now
-                                : _buildBodyContent(t, responsive),
+                            child: _buildBodyContent(t, responsive),
                           ),
                         ],
                       ),
@@ -190,8 +190,36 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 
+
+
   /// Build body content
   Widget _buildBodyContent(AppLocalizations t, ResponsiveDashboard responsive) {
+    // Admin Navigation Logic
+    if (widget.role == 'Admin') {
+      return Padding(
+        padding: EdgeInsets.symmetric(
+          horizontal: responsive.isMobile ? 0 : responsive.contentPadding.left,
+          vertical: responsive.contentPadding.top,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            if (_selectedIndex == 0)
+              const Expanded(child: AdminDashboardScreen())
+            else if (_selectedIndex == 1)
+              const Expanded(child: AdminSchoolsScreen()) // Schools Tab
+            else if (_selectedIndex == 2)
+              const Expanded(child: AlertsDashboardScreen()) // Reuse Alerts Screen for now
+            else if (_selectedIndex == 3)
+              const Expanded(child: AdminReportsScreen()) // Reports Tab
+            else
+               const Expanded(child: AdminDashboardScreen())
+          ],
+        ),
+      );
+    }
+
+    // Teacher Navigation Logic
     return Padding(
       padding: EdgeInsets.symmetric(
         horizontal: responsive.isMobile ? 0 : responsive.contentPadding.left,
@@ -564,34 +592,61 @@ class _DashboardScreenState extends State<DashboardScreen> {
               onPressed: () => _scaffoldKey.currentState?.openDrawer(),
             ),
           
-          Expanded(
-            child: Row(
-              children: [
-                const CroppedLogo(width: 32),
-                SizedBox(width: responsive.getSpacing(12)),
-                Text(
-                  "ShishuSuraksha AI", // App name usually stays constant or has a specific key if needed
-                  style: TextStyle(
-                    fontSize: responsive.getFontSize(18),
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.primary, // Teal
-                    letterSpacing: 0.5,
-                  ),
-                ),
-              ],
-            ),
-          ),
+
+          // Logo always on left
+          const CroppedLogo(width: 48),
           
-          // Language Toggle (Minimal)
-          PopupMenuButton<String>(
-            icon: const Icon(Icons.language, color: AppColors.textSecondary),
-            onSelected: (String langCode) => MyApp.setLocale(context, Locale(langCode)),
-            itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
-              const PopupMenuItem<String>(value: 'en', child: Text('English')),
-              const PopupMenuItem<String>(value: 'te', child: Text('తెలుగు')),
-            ],
-          ),
+          const Spacer(),
+          
+          // Title moved to right
+          if (!responsive.isMobile) ...[
+            Text(
+              "ShishuSuraksha AI",
+              style: TextStyle(
+                fontSize: responsive.getFontSize(18),
+                fontWeight: FontWeight.bold,
+                color: AppColors.primary,
+                letterSpacing: 0.5,
+              ),
+            ),
+            SizedBox(width: responsive.getSpacing(16)),
+          ],
+
+          // Custom Language Toggle
+          _buildLanguageToggle(context, responsive),
         ],
+      ),
+    );
+  }
+
+  Widget _buildLanguageToggle(BuildContext context, ResponsiveDashboard responsive) {
+    final currentLocale = Localizations.localeOf(context).languageCode;
+    final isEnglish = currentLocale == 'en';
+    
+    return InkWell(
+      onTap: () {
+        final newLocale = isEnglish ? const Locale('te') : const Locale('en');
+        MyApp.setLocale(context, newLocale);
+      },
+      borderRadius: BorderRadius.circular(20),
+      child: Container(
+        padding: EdgeInsets.symmetric(
+          horizontal: responsive.getSpacing(12),
+          vertical: responsive.getSpacing(6),
+        ),
+        decoration: BoxDecoration(
+          color: AppColors.primary.withOpacity(0.1),
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: AppColors.primary.withOpacity(0.3)),
+        ),
+        child: Text(
+          isEnglish ? "తెలుగు" : "English", // Button shows the OTHER language to switch to
+          style: TextStyle(
+            color: AppColors.primary,
+            fontWeight: FontWeight.bold,
+            fontSize: responsive.getFontSize(14),
+          ),
+        ),
       ),
     );
   }

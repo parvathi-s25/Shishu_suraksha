@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shishu_suraksha/l10n/app_localizations.dart';
 import '../../../../core/data/models/child_model.dart';
 import '../../../../core/data/models/assessment_result_models.dart';
 import '../../screens/monitor/health_monitoring_screen.dart';
@@ -99,30 +100,31 @@ class _ChildrenTabState extends ConsumerState<ChildrenTab> {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Child Health & Development'),
+        title: Text(t.childHealthDevelopment),
         automaticallyImplyLeading: false, // Hide back button if in tab
         actions: [
           IconButton(
             icon: const Icon(Icons.refresh),
             onPressed: () => setState(() => _loadChildren()),
-            tooltip: 'Refresh',
+            tooltip: t.refresh,
           ),
           IconButton(
             icon: const Icon(Icons.filter_list),
             onPressed: _showFilterOptions,
-            tooltip: 'Filter',
+            tooltip: t.filter,
           ),
         ],
       ),
       body: Column(
         children: [
-          _buildSearchBar(),
-          _buildStatsBar(),
+          _buildSearchBar(t),
+          _buildStatsBar(t),
           Expanded(
             child: _filteredChildren.isEmpty
-                ? _buildEmptyState()
+                ? _buildEmptyState(t)
                 : _buildChildrenList(),
           ),
         ],
@@ -130,19 +132,19 @@ class _ChildrenTabState extends ConsumerState<ChildrenTab> {
       floatingActionButton: FloatingActionButton.extended(
         onPressed: _addNewChild,
         icon: const Icon(Icons.person_add),
-        label: const Text('Add Child'),
+        label: Text(t.addChild),
       ),
     );
   }
 
-  Widget _buildSearchBar() {
+  Widget _buildSearchBar(AppLocalizations t) {
     return Padding(
       padding: const EdgeInsets.all(16),
       child: TextField(
         controller: _searchController,
         onChanged: _filterChildren,
         decoration: InputDecoration(
-          hintText: 'Search child by name...',
+          hintText: t.searchChild,
           prefixIcon: const Icon(Icons.search),
           suffixIcon: _searchController.text.isNotEmpty
               ? IconButton(
@@ -164,7 +166,7 @@ class _ChildrenTabState extends ConsumerState<ChildrenTab> {
     );
   }
 
-  Widget _buildStatsBar() {
+  Widget _buildStatsBar(AppLocalizations t) {
     final totalChildren = _allChildren.length;
     final needsAssessment =
         _allChildren.where((c) => true).length; // Placeholder
@@ -180,19 +182,19 @@ class _ChildrenTabState extends ConsumerState<ChildrenTab> {
         children: [
           _buildStatCard(
             icon: Icons.people,
-            label: 'Total Children',
+            label: t.totalChildren,
             value: '$totalChildren',
             color: AppColors.primary,
           ),
           _buildStatCard(
             icon: Icons.assignment,
-            label: 'Need Assessment',
+            label: t.needAssessment,
             value: '$needsAssessment',
             color: AppColors.secondary,
           ),
           _buildStatCard(
             icon: Icons.warning,
-            label: 'At Risk',
+            label: t.atRisk,
             value: '2',
             color: Colors.red,
           ),
@@ -227,7 +229,7 @@ class _ChildrenTabState extends ConsumerState<ChildrenTab> {
     );
   }
 
-  Widget _buildEmptyState() {
+  Widget _buildEmptyState(AppLocalizations t) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -239,12 +241,12 @@ class _ChildrenTabState extends ConsumerState<ChildrenTab> {
           ),
           const SizedBox(height: 16),
           Text(
-            'No children found',
+            t.noChildrenFound,
             style: Theme.of(context).textTheme.titleMedium,
           ),
           const SizedBox(height: 8),
           Text(
-            'Add a child to get started',
+            t.addChildPrompt,
             style: Theme.of(context).textTheme.bodySmall,
           ),
         ],
@@ -264,6 +266,7 @@ class _ChildrenTabState extends ConsumerState<ChildrenTab> {
   }
 
   Widget _buildChildCard(ChildModel child) {
+    final t = AppLocalizations.of(context)!;
     final riskLevel = _getChildRiskLevel(child);
     final riskColor = _getRiskColor(riskLevel);
     final ageMonths = child.ageMonths;
@@ -297,11 +300,11 @@ class _ChildrenTabState extends ConsumerState<ChildrenTab> {
                         style: Theme.of(context).textTheme.titleMedium,
                       ),
                       Text(
-                        'Age: $years years $months months',
+                        '${t.ageLabel}: $years years $months months', // Localized age label
                         style: Theme.of(context).textTheme.bodySmall,
                       ),
                       Text(
-                        'Gender: ${child.gender}',
+                        '${t.gender}: ${child.gender == 'Male' ? t.male : (child.gender == 'Female' ? t.female : t.other)}', // Localized gender label
                         style: Theme.of(context).textTheme.bodySmall,
                       ),
                     ],
@@ -316,23 +319,23 @@ class _ChildrenTabState extends ConsumerState<ChildrenTab> {
                     border: Border.all(color: riskColor),
                   ),
                   child: Text(
-                    riskLevel,
-                    style: TextStyle(
-                      color: riskColor,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 12,
-                    ),
+                  _getLocalizedRiskLabel(riskLevel, t),
+                  style: TextStyle(
+                    color: riskColor,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 12,
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
+          ),
             const SizedBox(height: 16),
             const Divider(),
             
             // HEALTH & DEVELOPMENT SUITE
-            const Padding(
-              padding: EdgeInsets.symmetric(vertical: 8.0),
-              child: Text("HEALTH & DEVELOPMENT SUITE", style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.grey, letterSpacing: 1.0)),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: Text(t.healthDevelopmentSuite, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.grey, letterSpacing: 1.0)),
             ),
             
             Wrap(
@@ -345,7 +348,7 @@ class _ChildrenTabState extends ConsumerState<ChildrenTab> {
                   child: _buildTestButton(
                     context,
                     icon: Icons.monitor_heart,
-                    label: "HEART RATE & VITALS (LIVE)",
+                    label: t.heartRateVitals,
                     color: Colors.purple,
                     onTap: () {
                       Navigator.push(context, MaterialPageRoute(builder: (context) => HealthMonitoringScreen(child: child)));
@@ -357,7 +360,7 @@ class _ChildrenTabState extends ConsumerState<ChildrenTab> {
                 _buildTestButton(
                   context,
                   icon: Icons.show_chart,
-                  label: "GROWTH",
+                  label: t.growth.toUpperCase(),
                   color: Colors.blue,
                   onTap: () {
                     Navigator.push(context, MaterialPageRoute(builder: (context) => GrowthScreen(child: child)));
@@ -368,16 +371,16 @@ class _ChildrenTabState extends ConsumerState<ChildrenTab> {
                 _buildTestButton(
                   context,
                   icon: Icons.psychology,
-                  label: "DEVELOPMENTAL",
+                  label: t.developmental.toUpperCase(), 
                   color: Colors.teal,
                   onTap: () => _startAssessment(child),
                 ),
-                
+
                 // 4. VISION
                 _buildTestButton(
                   context,
                   icon: Icons.visibility,
-                  label: "VISION TEST",
+                  label: t.visionTest,
                   color: Colors.orange,
                   onTap: () {
                     Navigator.push(context, MaterialPageRoute(builder: (context) => const VisualScreeningScreen()));
@@ -388,7 +391,7 @@ class _ChildrenTabState extends ConsumerState<ChildrenTab> {
                 _buildTestButton(
                   context,
                   icon: Icons.hearing,
-                  label: "HEARING TEST",
+                  label: t.hearingTest.toUpperCase(),
                   color: Colors.indigo,
                   onTap: () {
                      Navigator.push(context, MaterialPageRoute(builder: (context) => const AudioScreeningScreen()));
@@ -401,6 +404,16 @@ class _ChildrenTabState extends ConsumerState<ChildrenTab> {
       ),
     );
   }
+
+  String _getLocalizedRiskLabel(String riskLevel, AppLocalizations t) {
+    if (riskLevel == 'HIGH RISK') return t.highRisk;
+    if (riskLevel == 'MEDIUM RISK') return t.mediumRisk;
+    if (riskLevel == 'LOW RISK') return t.lowRisk;
+    if (riskLevel == 'NO ASSESSMENT') return t.noAssessment;
+    return riskLevel;
+  }
+
+
 
   Widget _buildTestButton(BuildContext context, {required IconData icon, required String label, required Color color, required VoidCallback onTap}) {
     return ElevatedButton.icon(
@@ -463,14 +476,15 @@ class _ChildrenTabState extends ConsumerState<ChildrenTab> {
     );
   }
 
-  String _getGreeting() {
+  String _getGreeting(AppLocalizations t) {
     final hour = DateTime.now().hour;
-    if (hour < 12) return 'Good Morning';
-    if (hour < 17) return 'Good Afternoon';
-    return 'Good Evening';
+    if (hour < 12) return t.goodMorning;
+    if (hour < 17) return t.goodAfternoon;
+    return t.goodEvening;
   }
 
   Future<void> _addNewChild() async {
+    final t = AppLocalizations.of(context)!;
     final _nameController = TextEditingController();
     final _dobController = TextEditingController(); 
     String _gender = 'Male';
@@ -482,21 +496,21 @@ class _ChildrenTabState extends ConsumerState<ChildrenTab> {
         return StatefulBuilder(
           builder: (context, setState) {
             return AlertDialog(
-              title: const Text('Add New Child'),
+              title: Text(t.addNewChild),
               content: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                    TextField(
                     controller: _nameController,
-                    decoration: const InputDecoration(labelText: 'Child Name'),
+                    decoration: InputDecoration(labelText: t.childName),
                   ),
                   const SizedBox(height: 10),
                   TextField(
                     controller: _dobController,
                     readOnly: true,
-                    decoration: const InputDecoration(
-                      labelText: 'Date of Birth (YYYY-MM-DD)',
-                      suffixIcon: Icon(Icons.calendar_today),
+                    decoration: InputDecoration(
+                      labelText: t.dateOfBirth,
+                      suffixIcon: const Icon(Icons.calendar_today),
                     ),
                     onTap: () async {
                       DateTime? picked = await showDatePicker(
@@ -514,29 +528,34 @@ class _ChildrenTabState extends ConsumerState<ChildrenTab> {
                     },
                   ),
                    const SizedBox(height: 10),
-                   DropdownButtonFormField<String>(
-                     value: _gender,
-                     items: ['Male', 'Female', 'Other'].map((String value) {
-                       return DropdownMenuItem<String>(
-                         value: value,
-                         child: Text(value),
-                       );
-                     }).toList(),
-                     onChanged: (newValue) {
-                       setState(() {
-                         _gender = newValue!;
-                       });
-                     },
-                     decoration: const InputDecoration(labelText: 'Gender'),
-                   ),
+                    DropdownButtonFormField<String>(
+                   value: _gender,
+                   items: ['Male', 'Female', 'Other'].map((String value) {
+                     String label = value;
+                     if (value == 'Male') label = t.male;
+                     if (value == 'Female') label = t.female;
+                     if (value == 'Other') label = t.other;
+                     
+                     return DropdownMenuItem<String>(
+                       value: value,
+                       child: Text(label),
+                     );
+                   }).toList(),
+                   onChanged: (newValue) {
+                     setState(() {
+                       _gender = newValue!;
+                     });
+                   },
+                   decoration: InputDecoration(labelText: t.gender), // Localized label
+                 ),
                 ],
               ),
               actions: [
                 TextButton(
                   onPressed: () => Navigator.pop(context),
-                  child: const Text('Cancel'),
+                  child: Text(t.cancel),
                 ),
-                ElevatedButton(
+                TextButton(
                   onPressed: () {
                     if (_nameController.text.isNotEmpty && _selectedDate != null) {
                       final newChild = ChildModel(
@@ -554,11 +573,11 @@ class _ChildrenTabState extends ConsumerState<ChildrenTab> {
                       
                       Navigator.pop(context);
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Added ${newChild.name}')),
+                        SnackBar(content: Text('${t.added} ${newChild.name}')),
                       );
                     }
                   },
-                  child: const Text('Add'),
+                  child: Text(t.add),
                 ),
               ],
             );
@@ -569,6 +588,7 @@ class _ChildrenTabState extends ConsumerState<ChildrenTab> {
   }
 
   void _showFilterOptions() {
+    final t = AppLocalizations.of(context)!;
     showModalBottomSheet(
       context: context,
       builder: (context) => Container(
@@ -578,19 +598,19 @@ class _ChildrenTabState extends ConsumerState<ChildrenTab> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Filter Options',
+              t.filterOptions,
               style: Theme.of(context).textTheme.titleMedium,
             ),
             const SizedBox(height: 16),
             ListTile(
-              title: const Text('All Children'),
+              title: Text(t.allChildren),
               onTap: () {
                 setState(() => _filteredChildren = _allChildren);
                 Navigator.pop(context);
               },
             ),
             ListTile(
-              title: const Text('High Risk'),
+              title: Text(t.highRisk),
               onTap: () {
                 setState(() => _filteredChildren = _allChildren
                     .where((c) => _getChildRiskLevel(c) == 'HIGH RISK')
@@ -599,7 +619,7 @@ class _ChildrenTabState extends ConsumerState<ChildrenTab> {
               },
             ),
             ListTile(
-              title: const Text('Medium Risk'),
+              title: Text(t.mediumRisk),
               onTap: () {
                 setState(() => _filteredChildren = _allChildren
                     .where((c) => _getChildRiskLevel(c) == 'MEDIUM RISK')

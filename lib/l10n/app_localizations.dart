@@ -254,19 +254,19 @@ abstract class AppLocalizations {
   /// No description provided for @goodMorning.
   ///
   /// In en, this message translates to:
-  /// **'Good Morning!'**
+  /// **'Good Morning'**
   String get goodMorning;
 
   /// No description provided for @goodAfternoon.
   ///
   /// In en, this message translates to:
-  /// **'Good Afternoon!'**
+  /// **'Good Afternoon'**
   String get goodAfternoon;
 
   /// No description provided for @goodEvening.
   ///
   /// In en, this message translates to:
-  /// **'Good Evening!'**
+  /// **'Good Evening'**
   String get goodEvening;
 
   /// No description provided for @startMonitoring.
@@ -890,7 +890,7 @@ abstract class AppLocalizations {
   /// No description provided for @noChildrenFound.
   ///
   /// In en, this message translates to:
-  /// **'No children found in this age group.'**
+  /// **'No children found'**
   String get noChildrenFound;
 
   /// No description provided for @plzSelectAge.
@@ -952,6 +952,168 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Village'**
   String get village;
+
+  /// No description provided for @childHealthDevelopment.
+  ///
+  /// In en, this message translates to:
+  /// **'Child Health & Development'**
+  String get childHealthDevelopment;
+
+  /// No description provided for @refresh.
+  ///
+  /// In en, this message translates to:
+  /// **'Refresh'**
+  String get refresh;
+
+  /// No description provided for @filter.
+  ///
+  /// In en, this message translates to:
+  /// **'Filter'**
+  String get filter;
+
+  /// No description provided for @searchChild.
+  ///
+  /// In en, this message translates to:
+  /// **'Search child by name...'**
+  String get searchChild;
+
+  /// No description provided for @totalChildren.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Children'**
+  String get totalChildren;
+
+  /// No description provided for @needAssessment.
+  ///
+  /// In en, this message translates to:
+  /// **'Need Assessment'**
+  String get needAssessment;
+
+  /// No description provided for @atRisk.
+  ///
+  /// In en, this message translates to:
+  /// **'At Risk'**
+  String get atRisk;
+
+  /// No description provided for @addChildPrompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a child to get started'**
+  String get addChildPrompt;
+
+  /// No description provided for @gender.
+  ///
+  /// In en, this message translates to:
+  /// **'Gender'**
+  String get gender;
+
+  /// No description provided for @healthDevelopmentSuite.
+  ///
+  /// In en, this message translates to:
+  /// **'HEALTH & DEVELOPMENT SUITE'**
+  String get healthDevelopmentSuite;
+
+  /// No description provided for @heartRateVitals.
+  ///
+  /// In en, this message translates to:
+  /// **'HEART RATE & VITALS (LIVE)'**
+  String get heartRateVitals;
+
+  /// No description provided for @visionTest.
+  ///
+  /// In en, this message translates to:
+  /// **'VISION TEST'**
+  String get visionTest;
+
+  /// No description provided for @noAssessment.
+  ///
+  /// In en, this message translates to:
+  /// **'NO ASSESSMENT'**
+  String get noAssessment;
+
+  /// No description provided for @addNewChild.
+  ///
+  /// In en, this message translates to:
+  /// **'Add New Child'**
+  String get addNewChild;
+
+  /// No description provided for @childName.
+  ///
+  /// In en, this message translates to:
+  /// **'Child Name'**
+  String get childName;
+
+  /// No description provided for @dateOfBirth.
+  ///
+  /// In en, this message translates to:
+  /// **'Date of Birth (YYYY-MM-DD)'**
+  String get dateOfBirth;
+
+  /// No description provided for @cancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancel;
+
+  /// No description provided for @add.
+  ///
+  /// In en, this message translates to:
+  /// **'Add'**
+  String get add;
+
+  /// No description provided for @added.
+  ///
+  /// In en, this message translates to:
+  /// **'Added'**
+  String get added;
+
+  /// No description provided for @filterOptions.
+  ///
+  /// In en, this message translates to:
+  /// **'Filter Options'**
+  String get filterOptions;
+
+  /// No description provided for @allChildren.
+  ///
+  /// In en, this message translates to:
+  /// **'All Children'**
+  String get allChildren;
+
+  /// No description provided for @mediumRisk.
+  ///
+  /// In en, this message translates to:
+  /// **'Medium Risk'**
+  String get mediumRisk;
+
+  /// No description provided for @lowRisk.
+  ///
+  /// In en, this message translates to:
+  /// **'Low Risk'**
+  String get lowRisk;
+
+  /// No description provided for @male.
+  ///
+  /// In en, this message translates to:
+  /// **'Male'**
+  String get male;
+
+  /// No description provided for @female.
+  ///
+  /// In en, this message translates to:
+  /// **'Female'**
+  String get female;
+
+  /// No description provided for @other.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get other;
+
+  /// No description provided for @developmental.
+  ///
+  /// In en, this message translates to:
+  /// **'Developmental'**
+  String get developmental;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
