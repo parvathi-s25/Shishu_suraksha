@@ -57,6 +57,8 @@ graph TD
         Dashboard -->|Vitals| LiveVitals[Vitals Hub]
         Dashboard -->|Assess| Assess[Developmental Suite]
         Dashboard -->|Growth| Growth[Nutrition Charts]
+        Dashboard -->|Voice| VoiceAI[Voice Assistant STT/TTS]
+        Dashboard -->|Digitize| OCR[8-Stage OCR Pipeline]
     end
 
     %% Admin Flow
@@ -69,6 +71,11 @@ graph TD
     %% Data Core
     AdminDash -->|Sync| DataService[(Unified Data Core)]
     Dashboard -->|Sync| DataService
+    DataService -->|Persist| Storage[(Hive/SQLite Offline)]
+    
+    %% AI Intelligence
+    VoiceAI --- AI[Groq/Gemini LLaMA-3]
+    OCR --- AI
 ```
 
 ---

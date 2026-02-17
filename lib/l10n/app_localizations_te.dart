@@ -1,5 +1,3 @@
-// ignore: unused_import
-import 'package:intl/intl.dart' as intl;
 import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -96,8 +94,7 @@ class AppLocalizationsTe extends AppLocalizations {
   String get goodEvening => 'శుభ సాయంత్రం';
 
   @override
-  String get startMonitoring =>
-      'Start monitoring child health with these quick actions.';
+  String get startMonitoring => 'Start monitoring child health with these quick actions.';
 
   @override
   String get growth => 'Growth';
@@ -328,28 +325,22 @@ class AppLocalizationsTe extends AppLocalizations {
   String get interventionSaved => 'దీని కోసం జోక్యం ప్రణాళిక సేవ్ చేయబడింది:';
 
   @override
-  String get exercisesHearing =>
-      'ధ్వనిని గుర్తించే ఆటలు|సంగీతం మరియు లయ కార్యకలాపాలు|పేరు పిలిచినప్పుడు స్పందించే వ్యాయామాలు|చిన్న మాటలను అనుసరించడం';
+  String get exercisesHearing => 'ధ్వనిని గుర్తించే ఆటలు|సంగీతం మరియు లయ కార్యకలాపాలు|పేరు పిలిచినప్పుడు స్పందించే వ్యాయామాలు|చిన్న మాటలను అనుసరించడం';
 
   @override
-  String get exercisesSpeech =>
-      'రోజువారీ కథ చెప్పే సెషన్లు|నాతో చెప్పండి కార్యకలాపాలు|పద్యాలు పాడటం|బొమ్మల పేర్లు చెప్పే ఆటలు|ఆట సమయంలో మాట్లాడటాన్ని ప్రోత్సహించండి';
+  String get exercisesSpeech => 'రోజువారీ కథ చెప్పే సెషన్లు|నాతో చెప్పండి కార్యకలాపాలు|పద్యాలు పాడటం|బొమ్మల పేర్లు చెప్పే ఆటలు|ఆట సమయంలో మాట్లాడటాన్ని ప్రోత్సహించండి';
 
   @override
-  String get exercisesMotor =>
-      'పాకుతూ దాటే ఆటలు|బంతిని దొర్లించడం/విసిరే ఆటలు|సహాయంతో నిలబడే సాధన|చేతి-కంటి సమన్వయ కార్యకలాపాలు|నడవడానికి సహాయపడే వ్యాయామాలు';
+  String get exercisesMotor => 'పాకుతూ దాటే ఆటలు|బంతిని దొర్లించడం/విసిరే ఆటలు|సహాయంతో నిలబడే సాధన|చేతి-కంటి సమన్వయ కార్యకలాపాలు|నడవడానికి సహాయపడే వ్యాయామాలు';
 
   @override
-  String get exercisesNutrition =>
-      'క్రమబద్ధమైన భోజన సమయాలు (రోజుకు 5-6 సార్లు)|అధిక ప్రోటీన్ ఆహారాలు (పప్పు, గుడ్లు, పాలు)|తాజా పండ్లు మరియు కూరగాయలు|ప్రతి వారం బరువును పర్యవేక్షించండి|భోజన ప్రణాళిక కోసం పోషకాహార నిపుణుడిని సంప్రదించండి';
+  String get exercisesNutrition => 'క్రమబద్ధమైన భోజన సమయాలు (రోజుకు 5-6 సార్లు)|అధిక ప్రోటీన్ ఆహారాలు (పప్పు, గుడ్లు, పాలు)|తాజా పండ్లు మరియు కూరగాయలు|ప్రతి వారం బరువును పర్యవేక్షించండి|భోజన ప్రణాళిక కోసం పోషకాహార నిపుణుడిని సంప్రదించండి';
 
   @override
-  String get exercisesDevelopment =>
-      'ఆకారాలను వేరు చేసే కార్యకలాపాలు|రంగులను గుర్తించే ఆటలు|బిల్డింగ్ బ్లాక్స్ ఆట|పజిల్స్ పరిష్కరించడం|తోటి పిల్లలతో కలవడం';
+  String get exercisesDevelopment => 'ఆకారాలను వేరు చేసే కార్యకలాపాలు|రంగులను గుర్తించే ఆటలు|బిల్డింగ్ బ్లాక్స్ ఆట|పజిల్స్ పరిష్కరించడం|తోటి పిల్లలతో కలవడం';
 
   @override
-  String get exercisesDefault =>
-      'రెగ్యులర్ ఆట కార్యకలాపాలు|ఇంటరాక్టివ్ గేమ్స్|రోజువారీ పర్యవేక్షణ';
+  String get exercisesDefault => 'రెగ్యులర్ ఆట కార్యకలాపాలు|ఇంటరాక్టివ్ గేమ్స్|రోజువారీ పర్యవేక్షణ';
 
   @override
   String get referralHearing => 'దగ్గరిలోని PHCలో ఆడియాలజిస్ట్‌ను సంప్రదించండి';
@@ -367,12 +358,10 @@ class AppLocalizationsTe extends AppLocalizations {
   String get referralDefault => 'PHCలో మెడికల్ ఆఫీసర్‌ను సంప్రదించండి';
 
   @override
-  String get offlineModeActive =>
-      'ఆఫ్‌లైన్ మోడ్ సక్రియంగా ఉంది - డేటా స్థానికంగా సేవ్ చేయబడుతోంది';
+  String get offlineModeActive => 'ఆఫ్‌లైన్ మోడ్ సక్రియంగా ఉంది - డేటా స్థానికంగా సేవ్ చేయబడుతోంది';
 
   @override
-  String get startMonitoringSubtitle =>
-      'ఈ త్వరిత చర్యలతో పిల్లల ఆరోగ్యాన్ని పర్యవేక్షించడం ప్రారంభించండి.';
+  String get startMonitoringSubtitle => 'ఈ త్వరిత చర్యలతో పిల్లల ఆరోగ్యాన్ని పర్యవేక్షించడం ప్రారంభించండి.';
 
   @override
   String get startScreening => 'స్క్రీనింగ్ ప్రారంభించండి';
