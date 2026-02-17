@@ -219,25 +219,32 @@ class _StatsGrid extends StatelessWidget {
               // Optional: Add trend indicator here if available
             ],
           ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                value,
-                style: TextStyle(
-                    fontSize: responsive.getFontSize(28),
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.textPrimary),
-              ),
-              Text(
-                title,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                    fontSize: responsive.getFontSize(12),
-                    color: AppColors.textSecondary),
-              ),
-            ],
+          Flexible(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                FittedBox(
+                  fit: BoxFit.scaleDown,
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    value,
+                    style: TextStyle(
+                        fontSize: responsive.getFontSize(28),
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.textPrimary),
+                  ),
+                ),
+                Text(
+                  title,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                      fontSize: responsive.getFontSize(12),
+                      color: AppColors.textSecondary),
+                ),
+              ],
+            ),
           ),
         ],
       ),
@@ -259,25 +266,29 @@ class _HighRiskSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              t.highRiskChildren,
-              style: TextStyle(
-                  fontSize: responsive.getFontSize(18),
-                  fontWeight: FontWeight.bold,
-                  color: Colors.indigo.shade900),
+            Expanded(
+              child: Text(
+                t.highRiskChildren,
+                style: TextStyle(
+                    fontSize: responsive.getFontSize(18),
+                    fontWeight: FontWeight.bold,
+                    color: Colors.indigo.shade900),
+                overflow: TextOverflow.ellipsis,
+                maxLines: 2,
+              ),
             ),
+            SizedBox(width: responsive.getSpacing(8)),
             ElevatedButton.icon(
               onPressed: () => _exportReport(context, "HighRisk", t),
-              icon: const Icon(Icons.file_download),
-              label: Text(t.exportExcel),
+              icon: const Icon(Icons.file_download, size: 18),
+              label: Text(t.exportExcel, style: const TextStyle(fontSize: 12)),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.green.shade700,
                 foregroundColor: Colors.white,
                 padding: EdgeInsets.symmetric(
-                    horizontal: responsive.getSpacing(16),
-                    vertical: responsive.getSpacing(12)),
+                    horizontal: responsive.getSpacing(12),
+                    vertical: responsive.getSpacing(8)),
               ),
             ),
           ],

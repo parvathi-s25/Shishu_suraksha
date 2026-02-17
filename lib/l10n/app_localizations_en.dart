@@ -1,3 +1,5 @@
+// ignore: unused_import
+import 'package:intl/intl.dart' as intl;
 import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -94,7 +96,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get goodEvening => 'Good Evening';
 
   @override
-  String get startMonitoring => 'Start monitoring child health with these quick actions.';
+  String get startMonitoring =>
+      'Start monitoring child health with these quick actions.';
 
   @override
   String get growth => 'Growth';
@@ -325,22 +328,28 @@ class AppLocalizationsEn extends AppLocalizations {
   String get interventionSaved => 'Intervention plan saved for';
 
   @override
-  String get exercisesHearing => 'Sound localization games|Music and rhythm activities|Name-calling response exercises|Follow simple verbal commands';
+  String get exercisesHearing =>
+      'Sound localization games|Music and rhythm activities|Name-calling response exercises|Follow simple verbal commands';
 
   @override
-  String get exercisesSpeech => 'Daily storytelling sessions|Repeat-after-me activities|Singing nursery rhymes|Picture naming games|Encourage conversation during play';
+  String get exercisesSpeech =>
+      'Daily storytelling sessions|Repeat-after-me activities|Singing nursery rhymes|Picture naming games|Encourage conversation during play';
 
   @override
-  String get exercisesMotor => 'Crawling obstacle courses|Ball rolling/throwing games|Standing with support practice|Hand-eye coordination activities|Walking assistance exercises';
+  String get exercisesMotor =>
+      'Crawling obstacle courses|Ball rolling/throwing games|Standing with support practice|Hand-eye coordination activities|Walking assistance exercises';
 
   @override
-  String get exercisesNutrition => 'Regular meal schedule (5-6 times daily)|High-protein foods (dal, eggs, milk)|Fresh fruits and vegetables|Monitor weight weekly|Consult nutritionist for meal plan';
+  String get exercisesNutrition =>
+      'Regular meal schedule (5-6 times daily)|High-protein foods (dal, eggs, milk)|Fresh fruits and vegetables|Monitor weight weekly|Consult nutritionist for meal plan';
 
   @override
-  String get exercisesDevelopment => 'Shape sorting activities|Color recognition games|Building blocks play|Interactive puzzle solving|Social interaction with peers';
+  String get exercisesDevelopment =>
+      'Shape sorting activities|Color recognition games|Building blocks play|Interactive puzzle solving|Social interaction with peers';
 
   @override
-  String get exercisesDefault => 'Regular play activities|Interactive games|Daily monitoring';
+  String get exercisesDefault =>
+      'Regular play activities|Interactive games|Daily monitoring';
 
   @override
   String get referralHearing => 'Refer to Audiologist at nearest PHC';
@@ -361,7 +370,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get offlineModeActive => 'Offline Mode Active - Data saving locally';
 
   @override
-  String get startMonitoringSubtitle => 'Start monitoring child health with these quick actions.';
+  String get startMonitoringSubtitle =>
+      'Start monitoring child health with these quick actions.';
 
   @override
   String get startScreening => 'Start Screening';

@@ -3,7 +3,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'l10n/app_localizations.dart';
 import 'localization/legacy_app_localizations.dart'; // For DataLocalizations
 import 'ui/screens/splash/splash_screen.dart';
-import 'ui/screens/splash/opening_animation_screen.dart';
+import 'ui/screens/opening/opening_animation_screen.dart';
 import 'ui/screens/auth/authentication_screen.dart';
 import 'ui/screens/dashboard/teacher_dashboard.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -83,7 +83,7 @@ class _MyAppState extends State<MyApp> {
             fontWeight: FontWeight.bold,
           ),
         ),
-        cardTheme: CardTheme(
+        cardTheme: CardThemeData(
           color: AppColors.surface,
           elevation: 0,
           shape: RoundedRectangleBorder(
