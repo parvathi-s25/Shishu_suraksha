@@ -1,11 +1,12 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_mlkit_pose_detection/google_mlkit_pose_detection.dart';
 import '../../../../core/utils/pose_analyzer.dart';
-import 'pose_painter.dart';
+import '../../../widgets/ai/pose_painter.dart';
 
 class VisualScreeningScreen extends StatefulWidget {
   const VisualScreeningScreen({super.key});
@@ -87,6 +88,7 @@ class _VisualScreeningScreenState extends State<VisualScreeningScreen> {
           poses,
           inputImage.metadata!.size,
           inputImage.metadata!.rotation,
+          _controller!.description.lensDirection,
         );
         _customPaint = CustomPaint(painter: painter);
         _currentWarnings = newWarnings;
@@ -136,8 +138,15 @@ class _VisualScreeningScreenState extends State<VisualScreeningScreen> {
 
     if (image.planes.isEmpty) { return null; }
 
+    // Concatenate planes into a single buffer (Android NV21 requires combined planes)
+    final writeBuffer = WriteBuffer();
+    for (final plane in image.planes) {
+      writeBuffer.putUint8List(plane.bytes);
+    }
+    final bytes = writeBuffer.done().buffer.asUint8List();
+
     return InputImage.fromBytes(
-      bytes: image.planes[0].bytes,
+      bytes: bytes,
       metadata: InputImageMetadata(
         size: Size(image.width.toDouble(), image.height.toDouble()),
         rotation: rotation,

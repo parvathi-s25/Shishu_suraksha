@@ -23,6 +23,29 @@ class _GrowthScreenState extends State<GrowthScreen> {
     }
   }
 
+
+
+  List<FlSpot> _getWHOSpots(int percentile, int count) {
+    List<FlSpot> spots = [];
+    int currentAgeMonths = widget.child.ageMonths; // e.g. 24
+    
+    for (int i = 0; i < count; i++) {
+       // Index 0 is oldest record (5 months ago), Index 5 is newest (today)
+       int monthOffset = (count - 1) - i; // 5, 4, 3, 2, 1, 0
+       int spotAge = currentAgeMonths - monthOffset;
+       if (spotAge < 0) spotAge = 0;
+       
+       double weight = 0;
+       // Approximate WHO Boys Weight-for-Age
+       if (percentile == 50) weight = 3.3 + (0.5 * spotAge); // Median
+       if (percentile == 3) weight = 2.4 + (0.4 * spotAge);  // 3rd
+       if (percentile == 97) weight = 4.4 + (0.6 * spotAge); // 97th
+       
+       spots.add(FlSpot(i.toDouble(), weight));
+    }
+    return spots;
+  }
+
   // Simulate past 6 months of growth
   List<GrowthRecord> _generateMockGrowthData() {
     List<GrowthRecord> mockData = [];
@@ -30,17 +53,20 @@ class _GrowthScreenState extends State<GrowthScreen> {
     double baseHeight = 95.0; // cm
     double baseWeight = 14.0; // kg
     
-    // Vary base based on age if possible, but keep simple for demo
+    // Vary base based on age
     if (widget.child.ageMonths > 48) {
        baseHeight = 105;
        baseWeight = 18;
+    } else if (widget.child.ageMonths < 12) {
+       baseHeight = 70;
+       baseWeight = 8;
     }
 
     for (int i = 5; i >= 0; i--) {
       mockData.add(GrowthRecord(
         date: now.subtract(Duration(days: i * 30)),
         height: baseHeight - (i * 0.5),
-        weight: baseWeight - (i * 0.2),
+        weight: baseWeight - (i * 0.2), // Growing .2kg per month
       ));
     }
     return mockData;
@@ -115,15 +141,43 @@ class _GrowthScreenState extends State<GrowthScreen> {
                   ),
                   borderData: FlBorderData(show: true, border: Border.all(color: Colors.grey.withOpacity(0.2))),
                   lineBarsData: [
-                    // Weight Line
+                    // WHO 97th Percentile (High)
+                    LineChartBarData(
+                      spots: _getWHOSpots(97, _records.length),
+                      isCurved: true,
+                      color: Colors.red.withOpacity(0.3),
+                      barWidth: 2,
+                      dashArray: [5, 5],
+                      dotData: FlDotData(show: false),
+                    ),
+                    // WHO 50th Percentile (Median)
+                    LineChartBarData(
+                      spots: _getWHOSpots(50, _records.length),
+                      isCurved: true,
+                      color: Colors.green.withOpacity(0.5),
+                      barWidth: 2,
+                      dashArray: [5, 5],
+                      dotData: FlDotData(show: false),
+                    ),
+                    // WHO 3rd Percentile (Low)
+                    LineChartBarData(
+                      spots: _getWHOSpots(3, _records.length),
+                      isCurved: true,
+                      color: Colors.orange.withOpacity(0.3),
+                      barWidth: 2,
+                      dashArray: [5, 5],
+                      dotData: FlDotData(show: false),
+                    ),
+                    // Child's Weight Line
                     LineChartBarData(
                       spots: _records.asMap().entries.map((e) => FlSpot(e.key.toDouble(), e.value.weight)).toList(),
                       isCurved: true,
                       color: Colors.blue,
-                      barWidth: 3,
+                      barWidth: 4,
+                      isStrokeCapRound: true,
                       dotData: FlDotData(show: true),
+                      belowBarData: BarAreaData(show: true, color: Colors.blue.withOpacity(0.1)),
                     ),
-                    // Height Line (Scaled down for visuals or separate? Let's just show Weight for clarity as height varies less)
                   ],
                 ),
               ),
@@ -132,9 +186,9 @@ class _GrowthScreenState extends State<GrowthScreen> {
              const Row(
                mainAxisAlignment: MainAxisAlignment.center,
                children: [
-                 Icon(Icons.circle, color: Colors.blue, size: 12),
-                 SizedBox(width: 4),
-                 Text('Weight (kg)'),
+                 Icon(Icons.circle, color: Colors.blue, size: 12), SizedBox(width: 4), Text('Child'),
+                 SizedBox(width: 16),
+                 Icon(Icons.remove, color: Colors.green, size: 12), SizedBox(width: 4), Text('Median (WHO)'),
                ],
              ),
              

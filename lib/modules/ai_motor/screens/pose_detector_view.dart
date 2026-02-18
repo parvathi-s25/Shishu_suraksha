@@ -3,7 +3,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mlkit_pose_detection/google_mlkit_pose_detection.dart';
 import '../../../../ui/widgets/ai/camera_view.dart';
-import '../painters/pose_painter.dart';
+import '../../../../ui/widgets/ai/pose_painter.dart';
 import '../services/motor_assessment_service.dart';
 
 class PoseDetectorView extends StatefulWidget {
@@ -105,6 +105,7 @@ class _PoseDetectorViewState extends State<PoseDetectorView> {
           poses,
           inputImage.metadata!.size,
           inputImage.metadata!.rotation,
+          CameraLensDirection.back, // Assuming back for motor assessment
         );
         _customPaint = CustomPaint(painter: painter);
         

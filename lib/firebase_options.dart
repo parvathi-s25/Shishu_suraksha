@@ -49,8 +49,8 @@ class DefaultFirebaseOptions {
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyDacyBFlS8E_3HON7HqWzx4Paqe5egQxc4', // Assuming same API key for Android for now, or user needs to provide google-services.json details
-    appId: '1:112887985521:android:placeholder', // Placeholder, user needs to providing Android App ID if different
+    apiKey: 'AIzaSyDacyBFlS8E_3HON7HqWzx4Paqe5egQxc4',
+    appId: '1:112887985521:android:placeholder',
     messagingSenderId: '112887985521',
     projectId: 'shisuraksha',
     storageBucket: 'shisuraksha.firebasestorage.app',

@@ -4,7 +4,7 @@ import '../../../../core/data/models/child_model.dart';
 import '../../../../core/data/models/assessment_result_models.dart';
 import '../../screens/monitor/health_monitoring_screen.dart';
 import '../../screens/monitor/growth_screen.dart';
-import '../screening/visual/visual_screening_screen.dart';
+import '../../../modules/vision/screens/vision_home_screen.dart';
 import '../screening/audio/audio_screening_screen.dart';
 import '../assessment/assessment_flow_screen.dart';
 import 'package:shishu_suraksha/app/theme/colors.dart';
@@ -89,9 +89,12 @@ class ChildDetailsScreen extends StatelessWidget {
                     '${t.riskScore}: ',
                     style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                   ),
-                  Text(
-                    _getLocalizedRiskLabel(riskLevel, t),
-                    style: TextStyle(color: riskColor, fontWeight: FontWeight.bold, fontSize: 18),
+                  Flexible(
+                    child: Text(
+                      _getLocalizedRiskLabel(riskLevel, t),
+                      style: TextStyle(color: riskColor, fontWeight: FontWeight.bold, fontSize: 18),
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
                 ],
               ),
@@ -146,7 +149,7 @@ class ChildDetailsScreen extends StatelessWidget {
                   label: t.visionTest,
                   color: Colors.orange,
                   onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => const VisualScreeningScreen()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => VisionHomeScreen(childId: child.id)));
                   },
                 ),
                 _buildSuiteItem(
@@ -173,7 +176,14 @@ class ChildDetailsScreen extends StatelessWidget {
         children: [
           Icon(icon, size: 16, color: Colors.grey),
           const SizedBox(width: 8),
-          Text(value, style: const TextStyle(color: Colors.black87)),
+          Expanded(
+            child: Text(
+              value,
+              style: const TextStyle(color: Colors.black87),
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+            ),
+          ),
         ],
       ),
     );

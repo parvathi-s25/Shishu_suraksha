@@ -14,6 +14,7 @@ import 'package:shishu_suraksha/core/theme/app_theme.dart';
 import 'package:shishu_suraksha/core/constants/app_constants.dart';
 import 'package:shishu_suraksha/ui/screens/auth/authentication_screen.dart';
 import 'package:shishu_suraksha/ui/screens/dashboard/teacher_dashboard.dart';
+import 'package:shishu_suraksha/services/db_service.dart';
 import 'core/services/data_service.dart';
 import 'firebase_options.dart';
 import 'models/child_model.dart';
@@ -53,6 +54,8 @@ void main() async {
 
   // Initialize DataService
   print("Main: Initializing DataService...");
+  // Ensure DB / static data updated on app launch (useful after installing new APK)
+  await DBService.instance.ensureStaticDataUpToDate();
   DataService().init();
   print("Main: DataService initialized.");
 

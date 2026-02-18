@@ -28,25 +28,38 @@ class MotorAssessmentService {
     
     double shoulderSlope = (leftShoulder.y - rightShoulder.y).abs();
     
-    // 3. Check for Slouching (Shoulder to Hip vertical alignment)
-    // Ideally shoulder x should be close to hip x when standing straight facing camera
+    // 3. Check for Slouching (Shoulder to Hip vertical alignment - Front View)
     final leftHip = landmarks[PoseLandmarkType.leftHip]!;
+    final rightHip = landmarks[PoseLandmarkType.rightHip]!;
     
     double verticalAlignment = (leftShoulder.x - leftHip.x).abs();
 
+    // 4. Check Hip Symmetry
+    double hipSlope = (leftHip.y - rightHip.y).abs();
+
+    // 5. Check Side Profile (Forward Head Posture / Kyphosis)
+    // Needs Ear, Shoulder, Hip
+    final leftEar = landmarks[PoseLandmarkType.leftEar];
+    
     List<String> issues = [];
-    if (shoulderSlope > 50) { // Threshold depends on resolution/distance, this is rough
-      issues.add("Asymmetrical Posture (Shoulder Tilt)");
+    
+    // Front View Analysis
+    if (shoulderSlope > 50) issues.add("Asymmetrical Shoulders (Potential Scoliosis Sign)");
+    if (hipSlope > 50) issues.add("Uneven Hips (Leg Length Discrepancy Risk)");
+    
+    // Side View Analysis (if ear visible)
+    if (_isPartVisible(leftEar)) {
+        double neckAngle = _getAngle(leftEar!, leftShoulder, leftHip);
+        // Straight line is 180. Forward head makes angle smaller < 160?
+        if (neckAngle < 150) issues.add("Forward Head Posture (Neck Strain)");
     }
     
-    if (verticalAlignment > 80) {
-      issues.add("Poor Posture / Slouching Detected");
-    }
+    if (verticalAlignment > 80) issues.add("Poor Torso Alignment / Slouching");
 
     return {
       'status': issues.isEmpty ? 'Normal' : 'Attention Needed',
       'issues': issues,
-      'confidence': 0.85 // Mock confidence
+      'confidence': 0.85 
     };
   }
 

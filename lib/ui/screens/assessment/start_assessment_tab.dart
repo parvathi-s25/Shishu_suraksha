@@ -8,6 +8,7 @@ import '../dashboard/tabs/assessment_screen.dart';
 import '../../../modules/ai_motor/screens/pose_detector_view.dart';
 import '../../../modules/ai_audio/screens/hearing_test_screen.dart';
 import '../../../modules/ai_audio/screens/speech_assessment_screen.dart';
+import '../../../modules/vision/screens/vision_home_screen.dart';
 
 class StartAssessmentTab extends StatefulWidget {
   const StartAssessmentTab({Key? key}) : super(key: key);
@@ -110,6 +111,14 @@ class _StartAssessmentTabState extends State<StartAssessmentTab> {
                 icon: Icons.record_voice_over,
                 color: Colors.purple,
                 onTap: () => Navigator.push(context, MaterialPageRoute(builder: (c) => const SpeechAssessmentScreen())),
+                responsive: responsive,
+              ),
+              _buildAssessmentCard(
+                title: "Vision Screening", // TODO: Localize
+                subtitle: "Acuity, Color, Strabismus",
+                icon: Icons.remove_red_eye,
+                color: Colors.indigo,
+                onTap: () => Navigator.push(context, MaterialPageRoute(builder: (c) => const VisionHomeScreen(childId: 'quick_test'))),
                 responsive: responsive,
               ),
               _buildAssessmentCard(

@@ -1,7 +1,9 @@
 
+import 'dart:async';
+import 'dart:math';
+import 'dart:typed_data';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
-import 'dart:math';
 
 class HearingTestScreen extends StatefulWidget {
   const HearingTestScreen({Key? key}) : super(key: key);
@@ -12,137 +14,322 @@ class HearingTestScreen extends StatefulWidget {
 
 class _HearingTestScreenState extends State<HearingTestScreen> {
   final AudioPlayer _audioPlayer = AudioPlayer();
-  // Mock frequencies for MVP
-  final List<int> _frequencies = [500, 1000, 2000, 4000];
-  int _currentFreqIndex = 0;
-  bool _isPlaying = false;
-  bool _waitingForResponse = false;
-  DateTime? _soundStartTime;
-  List<int> _reactionTimes = [];
-  String _statusMessage = "Press Start to begin hearing test";
   
+  // Test Configuration
+  final List<int> _frequencies = [500, 1000, 2000, 4000];
+  final List<double> _testVolumes = [0.1, 0.2, 0.3, 0.5, 0.7, 0.9, 1.0];
+  
+  // State
+  int _currentFreqIndex = 0;
+  int _currentVolIndex = 0;
+  String _currentEar = 'Left'; // 'Left' or 'Right'
+  
+  bool _isTestActive = false;
+  bool _isPlayingTone = false;
+  bool _toneHeard = false;
+  
+  // Results: { 'Left': { 500: 0.2, ... }, 'Right': ... }
+  final Map<String, Map<int, double>> _results = {
+    'Left': {},
+    'Right': {},
+  };
+  
+  String _statusMessage = "Find a quiet place and wear headphones.";
+
   @override
   void dispose() {
     _audioPlayer.dispose();
     super.dispose();
   }
 
-  void _startTest() async {
+  Future<void> _playTone(int freq, double volume, String ear) async {
+    if (!_isTestActive) return;
+
     setState(() {
+      _isPlayingTone = true;
+      _toneHeard = false;
+    });
+
+    // Generate 1 second sine wave
+    final Uint8List wavBytes = _generateSineWave(freq, 1.0, volume);
+    
+    await _audioPlayer.setBalance(ear == 'Left' ? -1.0 : 1.0);
+    await _audioPlayer.setVolume(1.0); // Source volume max, controlled by wave amplitude
+    await _audioPlayer.play(BytesSource(wavBytes));
+
+    // Wait for tone duration + reaction buffer
+    await Future.delayed(const Duration(milliseconds: 1500));
+    
+    if (!_isTestActive) return;
+
+    setState(() {
+      _isPlayingTone = false;
+    });
+    
+    _evaluateResponse();
+  }
+
+  void _evaluateResponse() {
+    if (_toneHeard) {
+      // Threshold found
+      _recordResult(_testVolumes[_currentVolIndex]);
+      _nextFrequency();
+    } else {
+      // Not heard, increase volume
+      if (_currentVolIndex < _testVolumes.length - 1) {
+        _currentVolIndex++;
+        _scheduleNextTone();
+      } else {
+        // Max volume reached, no response
+        _recordResult(1.1); // 1.1 indicates > Max
+        _nextFrequency();
+      }
+    }
+  }
+
+  void _recordResult(double threshold) {
+    _results[_currentEar]![_frequencies[_currentFreqIndex]] = threshold;
+  }
+
+  void _nextFrequency() {
+    if (_currentFreqIndex < _frequencies.length - 1) {
+      _currentFreqIndex++;
+      _currentVolIndex = 0;
+      _scheduleNextTone();
+    } else {
+      // Done with this ear
+      if (_currentEar == 'Left') {
+        _startRightEar();
+      } else {
+        _finishTest();
+      }
+    }
+  }
+
+  void _startRightEar() {
+    setState(() {
+      _currentEar = 'Right';
       _currentFreqIndex = 0;
-      _reactionTimes = [];
-      _statusMessage = "Listen specifically for the tone...";
-      _isPlaying = true;
+      _currentVolIndex = 0;
+      _statusMessage = "Switching to Right Ear...";
     });
-    _playNextTone();
+    Future.delayed(const Duration(seconds: 2), _scheduleNextTone);
   }
 
-  void _playNextTone() async {
-    if (_currentFreqIndex >= _frequencies.length) {
-      _finishTest();
-      return;
-    }
+  void _scheduleNextTone() {
+    if (!_isTestActive) return;
+    
+    // Random delay between tones to prevent rhythm guessing
+    final delay = Random().nextInt(1000) + 500; 
+    Future.delayed(Duration(milliseconds: delay), () {
+      if (_isTestActive) {
+        _playTone(_frequencies[_currentFreqIndex], _testVolumes[_currentVolIndex], _currentEar);
+      }
+    });
+  }
 
+  // --- WAV Generation Helper ---
+  Uint8List _generateSineWave(int frequency, double durationSeconds, double volume) {
+    const int sampleRate = 44100;
+    final int numSamples = (durationSeconds * sampleRate).toInt();
+    final int byteRate = sampleRate * 2; // 16-bit mono
+    final int dataSize = numSamples * 2;
+    final int totalSize = 36 + dataSize;
+    
+    final ByteData byteData = ByteData(totalSize + 8);
+    
+    // RIFF Header
+    byteData.setUint8(0, 0x52); // R
+    byteData.setUint8(1, 0x49); // I
+    byteData.setUint8(2, 0x46); // F
+    byteData.setUint8(3, 0x46); // F
+    byteData.setUint32(4, totalSize, Endian.little);
+    byteData.setUint8(8, 0x57); // W
+    byteData.setUint8(9, 0x41); // A
+    byteData.setUint8(10, 0x56); // V
+    byteData.setUint8(11, 0x45); // E
+    
+    // fmt Chunk
+    byteData.setUint8(12, 0x66); // f
+    byteData.setUint8(13, 0x6D); // m
+    byteData.setUint8(14, 0x74); // t
+    byteData.setUint8(15, 0x20); // space
+    byteData.setUint32(16, 16, Endian.little); // Chunk size
+    byteData.setUint16(20, 1, Endian.little); // PCM
+    byteData.setUint16(22, 1, Endian.little); // Mono
+    byteData.setUint32(24, sampleRate, Endian.little);
+    byteData.setUint32(28, byteRate, Endian.little);
+    byteData.setUint16(32, 2, Endian.little); // Block align
+    byteData.setUint16(34, 16, Endian.little); // Bits per sample
+    
+    // data Chunk
+    byteData.setUint8(36, 0x64); // d
+    byteData.setUint8(37, 0x61); // a
+    byteData.setUint8(38, 0x74); // t
+    byteData.setUint8(39, 0x61); // a
+    byteData.setUint32(40, dataSize, Endian.little);
+
+    // Audio Data
+    for (int i = 0; i < numSamples; i++) {
+        double t = i / sampleRate;
+        // Sine wave
+        double sample = volume * sin(2 * pi * frequency * t);
+        // Scale to 16-bit integer range
+        int val = (sample * 32767).toInt();
+        byteData.setInt16(44 + i * 2, val, Endian.little);
+    }
+    
+    return byteData.buffer.asUint8List();
+  }
+
+  void _startTest() {
     setState(() {
-      _waitingForResponse = false;
+      _isTestActive = true;
+      _currentEar = 'Left';
+      _currentFreqIndex = 0;
+      _currentVolIndex = 0;
+      _results['Left'] = {};
+      _results['Right'] = {};
+      _statusMessage = "Testing Left Ear...";
     });
-
-    // Random delay 1-3 seconds
-    final delay = Random().nextInt(2000) + 1000;
-    await Future.delayed(Duration(milliseconds: delay));
-
-    if (!mounted) return;
-
-    // Play tone (Assuming assets exist, or handle error)
-    // For MVP, we might simulate sound playing state if assets missing
-    try {
-      // In real app: await _audioPlayer.play(AssetSource('audio/tone_${_frequencies[_currentFreqIndex]}.mp3'));
-      // Using a system sound or standard notification for demo if specific tones unavailable
-      // await _audioPlayer.play(Source.url("https://...")); 
-      
-      // Simulating "Sound Played" state for logic verification
-      setState(() {
-        _soundStartTime = DateTime.now();
-        _waitingForResponse = true;
-        _statusMessage = "Sound Playing! Tap now!"; // Visual cue for dev/testing
-      });
-
-      // Stop sound after 1 sec
-      await Future.delayed(const Duration(seconds: 1));
-      // await _audioPlayer.stop();
-
-    } catch (e) {
-      print("Audio Error: $e");
-    }
+    _scheduleNextTone();
   }
 
-  void _onTap() {
-    if (_waitingForResponse && _soundStartTime != null) {
-      final reactionTime = DateTime.now().difference(_soundStartTime!).inMilliseconds;
-      _reactionTimes.add(reactionTime);
-      
-      setState(() {
-        _statusMessage = "Good! Reaction: ${reactionTime}ms";
-        _waitingForResponse = false;
-        _currentFreqIndex++;
-      });
-
-      _playNextTone();
-    }
+  void _stopTest() {
+    setState(() {
+      _isTestActive = false;
+      _statusMessage = "Test Stopped.";
+    });
+    _audioPlayer.stop();
   }
 
   void _finishTest() {
     setState(() {
-      _isPlaying = false;
-      int avgReaction = _reactionTimes.isEmpty ? 0 : (_reactionTimes.reduce((a, b) => a + b) / _reactionTimes.length).round();
-      _statusMessage = "Test Complete.\nAvg Reaction Time: ${avgReaction}ms\n"
-          "${avgReaction < 1000 ? 'Normal Hearing Response' : 'Delayed Response Detected'}";
+      _isTestActive = false;
+      _statusMessage = "Measurement Complete";
     });
+    _showResultsDialog();
+  }
+
+  void _showResultsDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => AlertDialog(
+        title: const Text("Hearing Assessment Results"),
+        content: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+               const Text("Audiogram (Thresholds)", style: TextStyle(fontWeight: FontWeight.bold)),
+               const SizedBox(height: 10),
+               ..._frequencies.map((freq) {
+                 return Padding(
+                   padding: const EdgeInsets.symmetric(vertical: 4),
+                   child: Row(
+                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                     children: [
+                       Text("${freq}Hz"),
+                       Text("L: ${_formatVol(_results['Left']?[freq])} | R: ${_formatVol(_results['Right']?[freq])}"),
+                     ],
+                   ),
+                 );
+               }).toList(),
+               const SizedBox(height: 20),
+               const Text("Note: Lower % is better (heard at lower volume).", style: TextStyle(fontSize: 12, color: Colors.grey)),
+            ],
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context); // Close dialog
+              Navigator.pop(context); // Exit screen
+            },
+            child: const Text("Done"),
+          )
+        ],
+      )
+    );
+  }
+
+  String _formatVol(double? vol) {
+    if (vol == null) return "-";
+    if (vol > 1.0) return ">100%";
+    return "${(vol * 100).toInt()}%";
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Hearing Screening")),
-      body: Center(
+      appBar: AppBar(title: const Text("Pure Tone Audiometry")),
+      body: Padding(
+        padding: const EdgeInsets.all(24.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(Icons.hearing, size: 80, color: Colors.blue),
-            const SizedBox(height: 20),
-            Text(
-              _statusMessage,
-              textAlign: TextAlign.center,
-              style: const TextStyle(fontSize: 18),
+            const Spacer(),
+            
+            // Status Icon
+            Icon(
+              _currentEar == 'Left' ? Icons.hearing : Icons.hearing_disabled, // Just a visual
+              size: 80, 
+              color: _isTestActive ? Colors.blue : Colors.grey
             ),
-            const SizedBox(height: 40),
-            if (!_isPlaying)
-              ElevatedButton(
-                onPressed: _startTest,
-                child: const Text("Start Test"),
-              )
-            else
-              GestureDetector(
-                onTap: _onTap,
-                child: Container(
-                  width: 200,
-                  height: 200,
-                  decoration: BoxDecoration(
-                    color: _waitingForResponse ? Colors.green : Colors.grey[300],
-                    shape: BoxShape.circle,
-                    boxShadow: [
-                       if (_waitingForResponse)
-                         BoxShadow(color: Colors.green.withOpacity(0.5), blurRadius: 20, spreadRadius: 10)
-                    ]
-                  ),
-                  alignment: Alignment.center,
-                  child: const Text(
-                    "TAP\nWhen Heard",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontWeight: FontWeight.bold),
+            const SizedBox(height: 20),
+            
+            Text(
+              _isTestActive ? "Testing $_currentEar Ear" : _statusMessage,
+              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            ),
+            
+            const SizedBox(height: 10),
+            if (_isTestActive)
+              const LinearProgressIndicator(),
+
+            const Spacer(),
+            
+            // Interaction Button
+            if (_isTestActive)
+              SizedBox(
+                width: double.infinity,
+                height: 80,
+                child: ElevatedButton.icon(
+                  onPressed: () {
+                    if (_isPlayingTone) {
+                      setState(() => _toneHeard = true); // Will be picked up by _evaluateResponse usually
+                      // But since _playTone waits 1.5s, we need to signal it.
+                      // Actually _playTone logic is async. 
+                      // Better approach: _toneHeard flag is checked in _evaluateResponse which is called AFTER play.
+                      // IF user taps WHILE playing, we should register it immediately? 
+                      // Current logic: wait for tone to finish then check flag. This is fine for simple test.
+                    }
+                  }, 
+                  icon: const Icon(Icons.thumb_up, size: 32),
+                  label: const Text("I HEAR IT!", style: TextStyle(fontSize: 24)),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.green,
+                    foregroundColor: Colors.white,
                   ),
                 ),
               )
+            else
+              SizedBox(
+                width: double.infinity,
+                height: 60,
+                child: ElevatedButton(
+                  onPressed: _startTest,
+                  child: const Text("START HEARING TEST"),
+                ),
+              ),
+              
+             const SizedBox(height: 20),
+             const Text(
+               "Instructions: Press 'I HEAR IT' as soon as you hear a beep. The sounds will get quieter.",
+               textAlign: TextAlign.center,
+               style: TextStyle(color: Colors.grey),
+             ),
+             const Spacer(),
           ],
         ),
       ),

@@ -9,6 +9,10 @@ import '../../../../services/ml/realtime_audio_service.dart';
 import '../../../../services/ml/visual_thermal_analysis_service.dart';
 import '../../../../services/responsive_design_service.dart';
 import '../../../../services/error_handling_service.dart';
+import '../../../../modules/pose/screens/pose_detection_screen.dart';
+import '../../../../modules/pose/services/pose_analysis_service.dart';
+import '../../../../modules/vision/screens/vision_home_screen.dart';
+import '../../../../modules/vision/models/vision_result_model.dart';
 
 class AssessmentScreen extends StatefulWidget {
   final Map<String, dynamic> child;
@@ -33,32 +37,35 @@ class _AssessmentScreenState extends State<AssessmentScreen>
   final ErrorHandlingService _errorService = ErrorHandlingService();
 
   // --- Step 1: Pose & Body State ---
-  File? _poseImage;
-  VisualAnalysisResult? _poseResult;
+  // --- Step 1: Pose & Body State ---
+  PoseAnalysisResult? _poseResult;
   bool _isAnalyzingPose = false;
 
-  // --- Step 2: Hearing Test State ---
+  // --- Step 2: Vision Screening State ---
+  VisionResultModel? _visionResult;
+
+  // --- Step 3: Hearing Test State ---
   bool _isPlayingAudio = false;
   bool _audioCompleted = false;
   HearingTestResult? _hearingResult;
 
-  // --- Step 3: Speech Commands State ---
+  // --- Step 4: Speech Commands State ---
   bool _isListening = false;
   bool _speechCompleted = false;
   SpeechAnalysisResult? _speechResult;
   String _lastCommand = "";
 
-  // --- Step 4: Injury/Wound Detection State ---
+  // --- Step 5: Injury/Wound Detection State ---
   File? _woundImage;
   WoundAnalysisResult? _woundResult;
   bool _isAnalyzingWound = false;
 
-  // --- Step 5: Symptom Detection State ---
+  // --- Step 6: Symptom Detection State ---
   File? _symptomImage;
   SymptomAnalysisResult? _symptomResult;
   bool _isAnalyzingSymptoms = false;
 
-  // --- Step 6: Thermal Test State ---
+  // --- Step 7: Thermal Test State ---
   File? _thermalImage;
   ThermalAnalysisResult? _thermalResult;
   bool _isAnalyzingThermal = false;
@@ -66,6 +73,7 @@ class _AssessmentScreenState extends State<AssessmentScreen>
   // Assessment results
   Map<String, int> _assessmentScores = {
     'pose': 0,
+    'vision': 0,
     'hearing': 0,
     'speech': 0,
     'injury': 0,
@@ -150,11 +158,12 @@ class _AssessmentScreenState extends State<AssessmentScreen>
 
                 // Step Content
                 if (_currentStep == 0) _buildPoseTest(responsive),
-                if (_currentStep == 1) _buildHearingTest(responsive),
-                if (_currentStep == 2) _buildSpeechTest(responsive),
-                if (_currentStep == 3) _buildInjuryTest(responsive),
-                if (_currentStep == 4) _buildSymptomsTest(responsive),
-                if (_currentStep == 5) _buildThermalTest(responsive),
+                if (_currentStep == 1) _buildVisionTest(responsive),
+                if (_currentStep == 2) _buildHearingTest(responsive),
+                if (_currentStep == 3) _buildSpeechTest(responsive),
+                if (_currentStep == 4) _buildInjuryTest(responsive),
+                if (_currentStep == 5) _buildSymptomsTest(responsive),
+                if (_currentStep == 6) _buildThermalTest(responsive),
 
                 SizedBox(
                   height: responsive.getAdaptiveSpacing(20),
@@ -174,6 +183,7 @@ class _AssessmentScreenState extends State<AssessmentScreen>
     // 0: Pose, 1: Hearing, 2: Speech, 3: Injury, 4: Symptoms, 5: Thermal
     final indicators = [
       'Pose',
+      'Vision',
       'Hearing',
       'Speech',
       'Injury',
@@ -183,6 +193,7 @@ class _AssessmentScreenState extends State<AssessmentScreen>
     // Icons for each step
     final icons = [
       Icons.accessibility_new,
+      Icons.remove_red_eye,
       Icons.hearing,
       Icons.mic,
       Icons.healing,
@@ -245,7 +256,7 @@ class _AssessmentScreenState extends State<AssessmentScreen>
               ),
             ),
           ),
-        if (_currentStep < 5)
+        if (_currentStep < 6)
           ElevatedButton.icon(
             onPressed: _canProceedToNext() ? _proceedToNextStep : null,
             icon: const Icon(Icons.arrow_forward),
@@ -258,7 +269,7 @@ class _AssessmentScreenState extends State<AssessmentScreen>
               ),
             ),
           ),
-        if (_currentStep == 5)
+        if (_currentStep == 6)
           ElevatedButton.icon(
             onPressed: _canFinishAssessment()
                 ? () => _completeAssessment(responsive)
@@ -286,46 +297,131 @@ class _AssessmentScreenState extends State<AssessmentScreen>
         _buildSubtitle(responsive, "Detect posture, walking issues, and pain points."),
         SizedBox(height: responsive.getAdaptiveSpacing(20)),
         
-        if (_poseImage == null && !_isAnalyzingPose)
-          _buildMediaPickerButtons(responsive, (source) => _pickPoseMedia(source, responsive))
+        if (_poseResult == null)
+          ElevatedButton.icon(
+            onPressed: () => _startPoseAnalysis(context),
+            icon: const Icon(Icons.camera_alt),
+            label: const Text("Start Pose Analysis"),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.teal,
+              foregroundColor: Colors.white,
+              padding: EdgeInsets.symmetric(
+                 horizontal: responsive.getAdaptiveSpacing(24),
+                 vertical: 12
+              )
+            ),
+          )
         else if (_isAnalyzingPose)
           _buildLoadingState(responsive, "Analyzing body posture...")
         else ...[
           _buildResultCard(
             'Pose Analysis',
-            (_poseResult?.riskLevel == 'Normal'),
-            _poseResult?.riskLevel ?? 'Unknown',
+            _poseResult!.isGoodPosture,
+            _poseResult!.isGoodPosture ? 'Normal Posture' : 'Issues Detected',
             responsive,
           ),
           SizedBox(height: 10),
-          if (_poseImage != null) _buildImagePreview(responsive, _poseImage!),
-          if (_poseResult != null && _poseResult!.poseEstimate != null) ...[
-            SizedBox(height: 10),
-            _buildMetricRow('Head Stability', _poseResult!.poseEstimate!.headStability / 100, responsive),
-            _buildMetricRow('Posture Alignment', _poseResult!.poseEstimate!.overallPosture / 100, responsive),
+          // Show issues list
+          if (_poseResult!.issues.isNotEmpty)
+             ..._poseResult!.issues.map((issue) => 
+                Padding(
+                   padding: const EdgeInsets.symmetric(vertical: 4),
+                   child: Row(
+                      children: [
+                         const Icon(Icons.warning_amber_rounded, color: Colors.orange, size: 16),
+                         const SizedBox(width: 8),
+                         Text(issue, style: const TextStyle(color: Colors.red)),
+                      ],
+                   ),
+                )
+             ).toList(),
+          
+          if (_poseResult!.angles.isNotEmpty) ...[
+             const SizedBox(height: 10),
+             Text("Score: ${_poseResult!.postureScore.toStringAsFixed(0)} / 100", style: const TextStyle(fontWeight: FontWeight.bold)),
           ]
         ]
       ],
     );
   }
 
-  Future<void> _pickPoseMedia(ImageSource source, ResponsiveDesign responsive) async {
-    await _pickAndAnalyze(source, (file) async {
-       setState(() { _poseImage = file; _isAnalyzingPose = true; });
-       try {
-         final result = await _visualAnalyzer.analyzeImage(file);
-         if (mounted) setState(() { _poseResult = result; _isAnalyzingPose = false; _assessmentScores['pose'] = 80; });
-       } catch (e) {
-         if (mounted) setState(() { _isAnalyzingPose = false; });
-       }
-    });
+  Future<void> _startPoseAnalysis(BuildContext context) async {
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const PoseDetectionScreen()),
+    );
+
+    if (result != null && result is PoseAnalysisResult) {
+       setState(() {
+          _poseResult = result;
+          _assessmentScores['pose'] = result.postureScore.toInt();
+       });
+    }
   }
 
-  // --- Step 2: Hearing Test (YAMNet) ---
+  // --- Step 2: Vision Screening (Comprehensive) ---
+  Widget _buildVisionTest(ResponsiveDesign responsive) {
+    return Column(
+      children: [
+        Text("2. Vision Screening", style: Theme.of(context).textTheme.headlineSmall),
+        _buildSubtitle(responsive, "Acuity, Alignment, Color, & More."),
+        SizedBox(height: responsive.getAdaptiveSpacing(20)),
+
+        if (_visionResult == null)
+          ElevatedButton.icon(
+            onPressed: () => _startVisionTest(context),
+            icon: const Icon(Icons.remove_red_eye),
+            label: const Text("Start Vision Screening"),
+            style: ElevatedButton.styleFrom(
+               backgroundColor: Colors.teal,
+               foregroundColor: Colors.white,
+               padding: EdgeInsets.symmetric(
+                  horizontal: responsive.getAdaptiveSpacing(24),
+                  vertical: 12
+               )
+            ),
+          )
+        else ...[
+           _buildResultCard(
+            'Vision Screening',
+            (_visionResult!.riskLabel == 'Low Risk' || _visionResult!.riskLabel == 'Pending'), // Simplified logic
+            _visionResult!.riskLabel,
+            responsive,
+          ),
+          SizedBox(height: 10),
+          Text("Risk Score: ${_visionResult!.riskScore.toStringAsFixed(0)}% (Higher is worse)"),
+          if (_visionResult!.acuityResult != null) ...[
+             const SizedBox(height: 5),
+             Text("Acuity: ${_visionResult!.acuityResult!.rightEyeScore} (R) / ${_visionResult!.acuityResult!.leftEyeScore} (L)"),
+          ]
+        ]
+      ],
+    );
+  }
+
+  Future<void> _startVisionTest(BuildContext context) async {
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => VisionHomeScreen(childId: widget.child['id'] ?? 'unknown')),
+    );
+
+    if (result != null && result is VisionResultModel) {
+       setState(() {
+          _visionResult = result;
+          // Score is inverse of risk (if risk is 20, health is 80)
+          // Adjust logic based on how _assessmentScores is used (0-100 where 100 is good?)
+          // Assuming higher is better for 'health score', but risk is usually bad.
+          // Let's assume we want a health score.
+          _assessmentScores['vision'] = (100 - result.riskScore).toInt();
+       });
+    }
+  }
+
+  // --- Step 3: Hearing Test (YAMNet) ---
   Widget _buildHearingTest(ResponsiveDesign responsive) {
     return Column(
       children: [
-        Text("2. Hearing Test", style: Theme.of(context).textTheme.headlineSmall),
+        Text("3. Hearing Test", style: Theme.of(context).textTheme.headlineSmall),
         _buildSubtitle(responsive, "Check child response to diverse sounds."),
         SizedBox(height: responsive.getAdaptiveSpacing(20)),
         
@@ -373,7 +469,7 @@ class _AssessmentScreenState extends State<AssessmentScreen>
   Widget _buildSpeechTest(ResponsiveDesign responsive) {
     return Column(
       children: [
-        Text("3. Speech & Voice Commands", style: Theme.of(context).textTheme.headlineSmall),
+        Text("4. Speech & Voice Commands", style: Theme.of(context).textTheme.headlineSmall),
         _buildSubtitle(responsive, "Test child's speech or use voice commands."),
         SizedBox(height: responsive.getAdaptiveSpacing(20)),
         
@@ -465,7 +561,7 @@ class _AssessmentScreenState extends State<AssessmentScreen>
   Widget _buildInjuryTest(ResponsiveDesign responsive) {
     return Column(
       children: [
-        Text("4. Injury & Wound Detection", style: Theme.of(context).textTheme.headlineSmall),
+        Text("5. Injury & Wound Detection", style: Theme.of(context).textTheme.headlineSmall),
         _buildSubtitle(responsive, "Scan for wounds, swelling, or rashes."),
         SizedBox(height: responsive.getAdaptiveSpacing(20)),
 
@@ -502,7 +598,7 @@ class _AssessmentScreenState extends State<AssessmentScreen>
   Widget _buildSymptomsTest(ResponsiveDesign responsive) {
     return Column(
       children: [
-        Text("5. General Symptoms", style: Theme.of(context).textTheme.headlineSmall),
+        Text("6. General Symptoms", style: Theme.of(context).textTheme.headlineSmall),
         _buildSubtitle(responsive, "Check for skin issues, eye redness, etc."),
         SizedBox(height: responsive.getAdaptiveSpacing(20)),
 
@@ -539,7 +635,7 @@ class _AssessmentScreenState extends State<AssessmentScreen>
   Widget _buildThermalTest(ResponsiveDesign responsive) {
      return Column(
       children: [
-        Text("6. Thermal Detection", style: Theme.of(context).textTheme.headlineSmall),
+        Text("7. Thermal Detection", style: Theme.of(context).textTheme.headlineSmall),
         _buildSubtitle(responsive, "Scan for fever or inflammation."),
         SizedBox(height: responsive.getAdaptiveSpacing(20)),
 
@@ -665,11 +761,12 @@ class _AssessmentScreenState extends State<AssessmentScreen>
   bool _canProceedToNext() {
     switch (_currentStep) {
       case 0: return _poseResult != null;
-      case 1: return _audioCompleted;
-      case 2: return _speechCompleted;
-      case 3: return _woundResult != null;
-      case 4: return _symptomResult != null;
-      case 5: return _thermalResult != null;
+      case 1: return _visionResult != null;
+      case 2: return _audioCompleted;
+      case 3: return _speechCompleted;
+      case 4: return _woundResult != null;
+      case 5: return _symptomResult != null;
+      case 6: return _thermalResult != null;
       default: return false;
     }
   }
