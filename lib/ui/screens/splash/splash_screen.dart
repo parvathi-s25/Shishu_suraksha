@@ -87,21 +87,47 @@ class _SplashScreenState extends State<SplashScreen>
                           MediaQuery.of(context).padding.bottom,
                     ),
                     child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const SizedBox(height: 50),
-
                         // LOGO + TAGLINE CONTAINER
                         Transform.translate(
                           offset: Offset(0, anim.moveUp.value),
                           child: Column(
                             children: [
-                              // LOGO (LARGER SIZE)
+                              // TRIANGULAR LOGO FORMATION
                               Opacity(
                                 opacity: anim.logoFadeIn.value,
-                                child: CroppedLogo(width: 220),
+                                child: Column(
+                                  children: [
+                                    // Top Logo: AP
+                                    _buildBorderlessLogo(
+                                      'assets/logos/AP.png',
+                                      140, // Uniform size
+                                      scale: 1.25,
+                                    ),
+                                    const SizedBox(height: 20), // Adjusted vertical gap
+                                    // Bottom Row: WDCW and RTIH
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        _buildBorderlessLogo(
+                                          'assets/logos/WDCW.png',
+                                          140, // Uniform size
+                                          scale: 1.25,
+                                        ),
+                                        const SizedBox(width: 40), // Adjusted horizontal gap
+                                        _buildBorderlessLogo(
+                                          'assets/logos/RTIH.png',
+                                          140, // Uniform size
+                                          scale: 1.25,
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
 
-                              const SizedBox(height: 8),
+                              const SizedBox(height: 12),
 
                               // TAGLINE (CLOSER TO LOGO)
                               Opacity(
@@ -122,7 +148,8 @@ class _SplashScreenState extends State<SplashScreen>
                           ),
                         ),
 
-                        const SizedBox(height: 40), 
+                        if (anim.controller.value > 0.6)
+                          const SizedBox(height: 40), 
 
                         // GLASSMORPHISM CARD - LANGUAGE DROPDOWN
                         if (anim.controller.value > 0.6)
@@ -260,6 +287,22 @@ class _SplashScreenState extends State<SplashScreen>
             },
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildBorderlessLogo(String path, double size, {double scale = 1.25}) {
+    return SizedBox(
+      width: size,
+      height: size,
+      child: ClipOval(
+        child: Transform.scale(
+          scale: scale,
+          child: Image.asset(
+            path,
+            fit: BoxFit.contain,
+          ),
+        ),
       ),
     );
   }

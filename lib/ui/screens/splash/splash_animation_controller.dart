@@ -30,7 +30,7 @@ class SplashAnimationController {
     );
 
     // Step 3: Move up (1.5–2.5s)
-    moveUp = Tween<double>(begin: 0, end: -80).animate(
+    moveUp = Tween<double>(begin: 0, end: -40).animate(
       CurvedAnimation(
         parent: controller,
         curve: const Interval(0.6, 1.0, curve: Curves.easeInOut),

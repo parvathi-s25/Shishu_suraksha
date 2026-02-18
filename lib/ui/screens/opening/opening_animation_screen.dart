@@ -39,9 +39,10 @@ class _OpeningAnimationScreenState extends State<OpeningAnimationScreen>
   late Animation<double> _finalLogoScale;
   late Animation<double> _taglineFadeIn;
 
-  // Phase 5: UI
+  // Phase 5: UI + Final Logo Move
   late Animation<double> _uiFadeIn;
   late Animation<Offset> _uiSlideUp;
+  late Animation<double> _finalLogoMoveUp;
 
   String selectedLanguage = "English";
 
@@ -138,8 +139,24 @@ class _OpeningAnimationScreenState extends State<OpeningAnimationScreen>
         curve: const Interval(0.78, 0.95, curve: Curves.easeOutCubic),
       ),
     );
+    _finalLogoMoveUp = Tween<double>(begin: 0, end: 1).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: const Interval(0.78, 0.95, curve: Curves.easeInOutCubic),
+      ),
+    );
 
-    _controller.forward();
+    print("OpeningAnimation: Starting controller...");
+    _controller.forward().then((_) {
+      print("OpeningAnimation: Animation completed.");
+    });
+
+    _controller.addListener(() {
+      if (_controller.value > 0.1 && _controller.value < 0.11) print("OpeningAnimation: Phase 1 (Logos) visible");
+      if (_controller.value > 0.4 && _controller.value < 0.41) print("OpeningAnimation: Phase 3 (Merge) started");
+      if (_controller.value > 0.6 && _controller.value < 0.61) print("OpeningAnimation: Phase 4 (Final Logo) visible");
+      if (_controller.value > 0.8 && _controller.value < 0.81) print("OpeningAnimation: Phase 5 (UI) visible");
+    });
   }
 
   @override
@@ -152,7 +169,7 @@ class _OpeningAnimationScreenState extends State<OpeningAnimationScreen>
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
     final centerX = screenSize.width / 2;
-    final centerY = screenSize.height * 0.35;
+    final centerY = screenSize.height * 0.5;
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -245,7 +262,7 @@ class _OpeningAnimationScreenState extends State<OpeningAnimationScreen>
 
   List<Widget> _buildGovernmentLogos(
       double centerX, double centerY, Size screenSize) {
-    final logoSize = screenSize.width * 0.28;
+    final logoSize = screenSize.width * 0.35; // Increased size
 
     // Triangular positions
     // AP Government: top center
@@ -320,48 +337,19 @@ class _OpeningAnimationScreenState extends State<OpeningAnimationScreen>
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Container(
+              SizedBox(
                 width: size,
                 height: size,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  shape: BoxShape.circle,
-                  boxShadow: [
-                    BoxShadow(
-                      color: const Color(0xFF009688).withOpacity(0.12),
-                      blurRadius: 16,
-                      spreadRadius: 2,
-                    ),
-                  ],
-                ),
-                padding: const EdgeInsets.all(8),
-                child: ClipOval(
-                  child: Image.asset(
-                    assetPath,
-                    fit: BoxFit.contain,
-                    errorBuilder: (context, error, stackTrace) {
-                      return Container(
-                        color: const Color(0xFFE0F2F1),
-                        child: Icon(Icons.account_balance,
-                            size: size * 0.4, color: const Color(0xFF009688)),
-                      );
-                    },
-                  ),
+                child: Image.asset(
+                  assetPath,
+                  fit: BoxFit.contain,
+                  errorBuilder: (context, error, stackTrace) {
+                    return Icon(Icons.account_balance,
+                        size: size * 0.4, color: const Color(0xFF009688));
+                  },
                 ),
               ),
-              if (_mergeProgress.value < 0.3) ...[
-                const SizedBox(height: 6),
-                Text(
-                  label,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 9,
-                    color: Colors.grey.shade700,
-                    fontWeight: FontWeight.w500,
-                    height: 1.2,
-                  ),
-                ),
-              ],
+              // Removed labels as per request
             ],
           ),
         ),
@@ -371,9 +359,15 @@ class _OpeningAnimationScreenState extends State<OpeningAnimationScreen>
 
   Widget _buildFinalLogo(double centerX, Size screenSize) {
     final logoWidth = screenSize.width * 0.55;
+    final centerY = screenSize.height * 0.5;
+    
+    // Animate from center (where merge happened) to top position
+    final startTop = centerY - 100; // Center offset
+    final endTop = screenSize.height * 0.12; // Top position
+    final currentTop = lerpDouble(startTop, endTop, _finalLogoMoveUp.value)!;
 
     return Positioned(
-      top: screenSize.height * 0.12,
+      top: currentTop,
       left: 0,
       right: 0,
       child: Opacity(
@@ -416,6 +410,70 @@ class _OpeningAnimationScreenState extends State<OpeningAnimationScreen>
                   ),
                 ),
               ),
+
+              const SizedBox(height: 30),
+
+              // Language selection (Moved here from bottom)
+              if (_controller.value > 0.76)
+                Opacity(
+                  opacity: _uiFadeIn.value,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 40),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(16),
+                      child: BackdropFilter(
+                        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                        child: Container(
+                          padding: const EdgeInsets.all(16),
+                          decoration: BoxDecoration(
+                            color: Colors.white.withOpacity(0.6),
+                            borderRadius: BorderRadius.circular(16),
+                            border: Border.all(
+                              color: Colors.white.withOpacity(0.4),
+                              width: 1.5,
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.06),
+                                blurRadius: 20,
+                                offset: const Offset(0, 6),
+                              ),
+                            ],
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Builder(
+                                builder: (context) {
+                                  final t = AppLocalizations.of(context);
+                                  return Text(
+                                    t?.selectLanguage ?? 'Select Language',
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                      color: Color(0xFF005F66),
+                                      fontWeight: FontWeight.w600,
+                                      letterSpacing: 0.5,
+                                    ),
+                                  );
+                                },
+                              ),
+                              const SizedBox(height: 8),
+                              LanguageDropdown(
+                                onLanguageChanged: (lang) {
+                                  setState(() {
+                                    selectedLanguage = lang;
+                                  });
+                                  String code = _languageMap[lang] ?? "en";
+                                  MyApp.setLocale(context, Locale(code));
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
             ],
           ),
         ),
@@ -423,7 +481,7 @@ class _OpeningAnimationScreenState extends State<OpeningAnimationScreen>
     );
   }
 
-  Widget _buildUISection(Size screenSize) {
+   Widget _buildUISection(Size screenSize) {
     return Positioned(
       bottom: 0,
       left: 0,
@@ -436,7 +494,7 @@ class _OpeningAnimationScreenState extends State<OpeningAnimationScreen>
             padding: EdgeInsets.only(
               left: 28,
               right: 28,
-              bottom: MediaQuery.of(context).padding.bottom + 30,
+              bottom: MediaQuery.of(context).padding.bottom + 40,
               top: 20,
             ),
             decoration: BoxDecoration(
@@ -454,63 +512,6 @@ class _OpeningAnimationScreenState extends State<OpeningAnimationScreen>
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                // Language selection card
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(16),
-                  child: BackdropFilter(
-                    filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                    child: Container(
-                      padding: const EdgeInsets.all(20),
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.6),
-                        borderRadius: BorderRadius.circular(16),
-                        border: Border.all(
-                          color: Colors.white.withOpacity(0.4),
-                          width: 1.5,
-                        ),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.06),
-                            blurRadius: 20,
-                            offset: const Offset(0, 6),
-                          ),
-                        ],
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Builder(
-                            builder: (context) {
-                              final t = AppLocalizations.of(context);
-                              return Text(
-                                t?.selectLanguage ?? 'Select Language',
-                                style: const TextStyle(
-                                  fontSize: 14,
-                                  color: Color(0xFF005F66),
-                                  fontWeight: FontWeight.w600,
-                                  letterSpacing: 0.5,
-                                ),
-                              );
-                            },
-                          ),
-                          const SizedBox(height: 12),
-                          LanguageDropdown(
-                            onLanguageChanged: (lang) {
-                              setState(() {
-                                selectedLanguage = lang;
-                              });
-                              String code = _languageMap[lang] ?? "en";
-                              MyApp.setLocale(context, Locale(code));
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-
-                const SizedBox(height: 20),
-
                 // Get Started button
                 Material(
                   color: Colors.transparent,

@@ -18,15 +18,29 @@ import 'firebase_options.dart';
 import 'models/child_model.dart';
 
 void main() async {
+  print("Main: Starting app...");
   WidgetsFlutterBinding.ensureInitialized();
   
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  print("Main: Initializing Firebase...");
+  try {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    ).timeout(const Duration(seconds: 5));
+    print("Main: Firebase initialized.");
+  } catch (e) {
+    print("Main: Firebase initialization error or timeout: $e");
+  }
   
-  await dotenv.load(fileName: ".env");
+  print("Main: Loading .env...");
+  try {
+    await dotenv.load(fileName: ".env");
+    print("Main: .env loaded.");
+  } catch (e) {
+    print("Main: .env load error: $e");
+  }
   
   // Initialize Hive
+  print("Main: Initializing Hive...");
   await Hive.initFlutter();
   Hive.registerAdapter(ChildModelAdapter());
   
@@ -34,10 +48,14 @@ void main() async {
   await Hive.openBox(AppConstants.kBoxChildren);
   await Hive.openBox(AppConstants.kBoxAssessments);
   await Hive.openBox(AppConstants.kBoxPendingSync);
+  print("Main: Hive boxes opened.");
 
   // Initialize DataService
+  print("Main: Initializing DataService...");
   DataService().init();
+  print("Main: DataService initialized.");
 
+  print("Main: Calling runApp...");
   runApp(const ProviderScope(child: MyApp()));
 }
 

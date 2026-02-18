@@ -34,7 +34,7 @@ class AppTheme {
         error: error,
       ),
       fontFamily: AppConstants.kFontFamily,
-      cardTheme: CardTheme(
+      cardTheme: CardThemeData(
         color: surfaceLight,
         elevation: 0,
         shape: RoundedRectangleBorder(
