@@ -36,28 +36,28 @@ class AppLocalizationsTe extends AppLocalizations {
   String get password => 'పాస్వర్డ్';
 
   @override
-  String get chatbotTitle => 'Chatbot';
+  String get chatbotTitle => 'చాట్‌బాట్';
 
   @override
-  String get chatbotPlaceholder => 'Type a message...';
+  String get chatbotPlaceholder => 'సందేశాన్ని టైప్ చేయండి...';
 
   @override
-  String get helplineTitle => 'Helpline';
+  String get helplineTitle => 'హెల్ప్‌లైన్';
 
   @override
-  String get callSupervisor => 'Call Supervisor';
+  String get callSupervisor => 'సూపర్‌వైజర్‌కు కాల్ చేయండి';
 
   @override
-  String get emailSupport => 'Email Support';
+  String get emailSupport => 'ఇమెయిల్ మద్దతు';
 
   @override
-  String get whatsappSupport => 'WhatsApp Support';
+  String get whatsappSupport => 'వాట్సాప్ మద్దతు';
 
   @override
-  String get nearestPhc => 'Nearest PHC';
+  String get nearestPhc => 'దగ్గరలోని PHC';
 
   @override
-  String get emergencyContact => 'Emergency Contact';
+  String get emergencyContact => 'అత్యవసర సంప్రదింపులు';
 
   @override
   String get selectRole => 'పాత్రను ఎంచుకోండి';
@@ -84,7 +84,7 @@ class AppLocalizationsTe extends AppLocalizations {
   String get getStarted => 'ప్రారంభించండి';
 
   @override
-  String get welcome => 'Welcome!';
+  String get welcome => 'స్వాగతం!';
 
   @override
   String get goodMorning => 'శుభోదయం';
@@ -97,142 +97,144 @@ class AppLocalizationsTe extends AppLocalizations {
 
   @override
   String get startMonitoring =>
-      'Start monitoring child health with these quick actions.';
+      'ఈ త్వరిత చర్యలతో పిల్లల ఆరోగ్యాన్ని పర్యవేక్షించడం ప్రారంభించండి.';
 
   @override
-  String get growth => 'Growth';
+  String get growth => 'వృద్ధి';
 
   @override
-  String get reports => 'Reports';
+  String get reports => 'నివేదికలు';
 
   @override
-  String get alerts => 'Alerts';
+  String get alerts => 'హెచ్చరికలు';
 
   @override
-  String get childProfiles => 'Child Profiles';
+  String get childProfiles => 'పిల్లల ప్రొఫైల్స్';
 
   @override
-  String get addChild => 'Add Child';
+  String get addChild => 'పిల్లలని జోడించండి';
 
   @override
-  String get growthData => 'Growth Data';
+  String get growthData => 'వృద్ధి డేటా';
 
   @override
-  String get adminPanel => 'Admin Panel';
+  String get adminPanel => 'అడ్మిన్ ప్యానెల్';
 
   @override
-  String get centralConsole => 'Central Monitoring Console';
+  String get centralConsole => 'కేంద్ర పర్యవేక్షణ కన్సోల్';
 
   @override
-  String get realtimeOverview => 'Real-time overview of all connected schools';
+  String get realtimeOverview =>
+      'అనుసంధానించబడిన అన్ని పాఠశాలల ప్రత్యక్ష వీక్షణ';
 
   @override
-  String get totalSchools => 'Total Schools';
+  String get totalSchools => 'మొత్తం పాఠశాలలు';
 
   @override
-  String get childrenMonitored => 'Children Monitored';
+  String get childrenMonitored => 'పర్యవేక్షించబడిన పిల్లలు';
 
   @override
-  String get highRiskCases => 'High Risk Cases';
+  String get highRiskCases => 'అధిక ప్రమాద కేసులు';
 
   @override
-  String get malnutrition => 'Malnutrition';
+  String get malnutrition => 'పోషకాహార లోపం';
 
   @override
-  String get feverAlerts => 'Fever Alerts';
+  String get feverAlerts => 'జ్వరం హెచ్చరికలు';
 
   @override
-  String get envIssues => 'Env. Issues';
+  String get envIssues => 'పర్యావరణ సమస్యలు';
 
   @override
-  String get highRiskChildren => 'High Risk Children (Action Required)';
+  String get highRiskChildren => 'అధిక ప్రమాదం ఉన్న పిల్లలు (చర్య అవసరం)';
 
   @override
-  String get exportExcel => 'Export Excel';
+  String get exportExcel => 'ఎక్సెల్ ఎగుమతి';
 
   @override
-  String get riskScore => 'Risk Score';
+  String get riskScore => 'రిస్క్ స్కోరు';
 
   @override
-  String get generatingReport => 'Generating Excel Report... Please wait.';
+  String get generatingReport =>
+      'ఎక్సెల్ నివేదిక సిద్ధమవుతోంది... దయచేసి వేచి ఉండండి.';
 
   @override
-  String get exportSuccessful => 'Export Successful';
+  String get exportSuccessful => 'ఎగుమతి విజయవంతమైంది';
 
   @override
-  String get reportGenerated => 'Report generated';
+  String get reportGenerated => 'నివేదిక రూపొందించబడింది';
 
   @override
-  String get fileSaved => 'File saved to device downloads.';
+  String get fileSaved => 'ఫైల్ పరికర డౌన్‌లోడ్‌లలో సేవ్ చేయబడింది.';
 
   @override
-  String get openFile => 'Open File';
+  String get openFile => 'ఫైల్ తెరవండి';
 
   @override
-  String get close => 'Close';
+  String get close => 'మూసివేయండి';
 
   @override
-  String get overview => 'Overview';
+  String get overview => 'అవలోకనం';
 
   @override
-  String get schedule => 'Schedule';
+  String get schedule => 'షెడ్యూల్';
 
   @override
-  String get quickActions => 'Quick Actions';
+  String get quickActions => 'త్వరిత చర్యలు';
 
   @override
-  String get assessments => 'Assessments';
+  String get assessments => 'అంచనాలు';
 
   @override
-  String get interventions => 'Interventions';
+  String get interventions => 'జోక్యాలు';
 
   @override
-  String get redFlags => 'Red Flags';
+  String get redFlags => 'ప్రమాద సూచికలు';
 
   @override
-  String get pending => 'Pending';
+  String get pending => 'పెండింగ్';
 
   @override
-  String get active => 'Active';
+  String get active => 'క్రియాశీల';
 
   @override
   String get highRisk => 'అధిక ప్రమాదం';
 
   @override
-  String get lastVisitReminder => 'children not seen in >30 days';
+  String get lastVisitReminder => '30 రోజులుగా చూడని పిల్లలు';
 
   @override
   String get scheduleVisit => 'త్వరలో ఇంటి సందర్శనను షెడ్యూల్ చేయండి.';
 
   @override
-  String get view => 'VIEW';
+  String get view => 'చూడండి';
 
   @override
-  String get tasks => 'Tasks';
+  String get tasks => 'పనులు';
 
   @override
-  String get profile => 'Profile';
+  String get profile => 'ప్రొఫైల్';
 
   @override
-  String get helpCenter => 'Help Center';
+  String get helpCenter => 'సహాయ కేంద్రం';
 
   @override
-  String get quickAdd => 'Quick Add';
+  String get quickAdd => 'త్వరగా జోడించు';
 
   @override
-  String get scanDocument => 'Scan Document';
+  String get scanDocument => 'పత్రాన్ని స్కాన్ చేయండి';
 
   @override
-  String get autofillId => 'Auto-fill details from ID card';
+  String get autofillId => 'ID కార్డు నుండి వివరాలను ఆటోఫిల్ చేయండి';
 
   @override
-  String get quickAddFast => 'Quick Add (Ultra Fast)';
+  String get quickAddFast => 'త్వరిత జోడించు (ఫాస్ట్)';
 
   @override
-  String get enterDetailsOnly => 'Enter Name, Age, Weight only';
+  String get enterDetailsOnly => 'పేరు, వయస్సు, బరువు మాత్రమే నమోదు చేయండి';
 
   @override
-  String get selectMode => 'Select Mode';
+  String get selectMode => 'మోడ్ ఎంచుకోండి';
 
   @override
   String get health => 'ఆరోగ్యం';
@@ -396,7 +398,7 @@ class AppLocalizationsTe extends AppLocalizations {
   String get audioToneAnalysis => 'ఆడియో టోన్ విశ్లేషణ';
 
   @override
-  String get speechAndFluency => 'మాలు మరియు స్పష్టత';
+  String get speechAndFluency => 'మాటలు మరియు స్పష్టత';
 
   @override
   String get voiceAnalysis => 'వాయిస్ విశ్లేషణ';
@@ -601,4 +603,182 @@ class AppLocalizationsTe extends AppLocalizations {
 
   @override
   String get exporting => 'ఎగుమతి అవుతోంది...';
+
+  @override
+  String get speechIssues => 'మాట్లాడే సమస్యలు';
+
+  @override
+  String get hearingIssues => 'వినికిడి సమస్యలు';
+
+  @override
+  String get pendingReferrals => 'పెండింగ్ రిఫెరల్స్';
+
+  @override
+  String get analyticsOverview => 'విశ్లేషణ అవలోకనం';
+
+  @override
+  String get detailedReports => 'వివరణాత్మక నివేదికలు';
+
+  @override
+  String get tabHighRisk => 'అధిక ప్రమాదం';
+
+  @override
+  String get tabSpeechHearing => 'మాట్లాడటం & వినికిడి';
+
+  @override
+  String get tabGrowth => 'వృద్ధి';
+
+  @override
+  String get noRecordsFound => 'రికార్డులు కనుగొనబడలేదు';
+
+  @override
+  String get students => 'విద్యార్థులు';
+
+  @override
+  String get status => 'స్థితి';
+
+  @override
+  String get healthTrends => 'ఆరోగ్య ధోరణులు (గత 5 నెలలు)';
+
+  @override
+  String get malnutritionLegend => 'పోషకాహార లోపం';
+
+  @override
+  String get feverCasesLegend => 'జ్వర కేసులు';
+
+  @override
+  String get settings => 'సెట్టింగ్‌లు';
+
+  @override
+  String get offlineMode => 'ఆఫ్‌లైన్ మోడ్';
+
+  @override
+  String get logout => 'లాగ్ అవుట్';
+
+  @override
+  String get riskDistribution => 'ప్రమాద విభజన';
+
+  @override
+  String get assessmentTrend => 'అంచనా ధోరణి';
+
+  @override
+  String get ageGroupDistribution => 'వయస్సు సమూహ విభజన';
+
+  @override
+  String get interventionSuccessRate => 'జోక్యం విజయ రేటు';
+
+  @override
+  String get keyHigh => 'అధిక';
+
+  @override
+  String get keyModerate => 'మధ్యస్థ';
+
+  @override
+  String get keyMild => 'స్వల్ప';
+
+  @override
+  String get keyNormal => 'సాధారణ';
+
+  @override
+  String get keyImproved => 'మెరుగుపడింది';
+
+  @override
+  String get keyMonitoring => 'పర్యవేక్షణ';
+
+  @override
+  String get keyNoChange => 'మార్పు లేదు';
+
+  @override
+  String get keyTotal => 'మొత్తం';
+
+  @override
+  String get categoryHearing => 'వినికిడి';
+
+  @override
+  String get categorySpeech => 'ప్రసంగం';
+
+  @override
+  String get categoryMotor => 'శారీరక నైపుణ్యాలు';
+
+  @override
+  String get categoryNutrition => 'పోషణ';
+
+  @override
+  String get categoryDevelopment => 'అభివృద్ధి';
+
+  @override
+  String get categoryHealth => 'మొత్తం ఆరోగ్యం';
+
+  @override
+  String get descHearingHigh => 'వినికిడి పరీక్షలో ఎలాంటి స్పందన లేదు';
+
+  @override
+  String get actionHearingHigh => 'వెంటనే ఆడియాలజిస్ట్‌కు రిఫరల్ అవసరం';
+
+  @override
+  String get descSpeechHigh => 'మాట్లాడటంలో తీవ్రమైన ఆలస్యం గుర్తించబడింది';
+
+  @override
+  String get actionSpeechHigh => 'వెంటనే స్పీచ్ థెరపిస్ట్‌ను సంప్రదించండి';
+
+  @override
+  String get descMotorHigh => 'కదలిక లేకపోవడం లేదా తీవ్రమైన ఆలస్యం';
+
+  @override
+  String get actionMotorHigh => 'పీడియాట్రిక్ ఫిజియోథెరపిస్ట్‌ను సంప్రదించండి';
+
+  @override
+  String get descNutritionHigh => 'తీవ్రమైన పోషకాహార లోపం గుర్తించబడింది';
+
+  @override
+  String get actionNutritionHigh => 'తక్షణ వైద్య సహాయం అవసరం';
+
+  @override
+  String get descSpeechMod => 'మాట్లాడటం నెమ్మదిగా అభివృద్ధి చెందుతోంది';
+
+  @override
+  String get actionSpeechMod => 'మాట్లాడే వ్యాయామాలు మరియు పర్యవేక్షణ అవసరం';
+
+  @override
+  String get descMotorMod => 'నడవడంలో లేదా కదలికలో ఆలస్యం';
+
+  @override
+  String get actionMotorMod => 'శారీరక వ్యాయామాలు సూచించబడ్డాయి';
+
+  @override
+  String get descNutritionMod => 'వయస్సు ప్రకారం తక్కువ బరువు';
+
+  @override
+  String get actionNutritionMod => 'పోషకాహార మద్దతు మరియు పర్యవేక్షణ';
+
+  @override
+  String get descHearingMod => 'వినికిడి పరీక్షకు తక్కువ స్పందన';
+
+  @override
+  String get actionHearingMod => 'తదుపరి వినికిడి పరీక్ష అవసరం';
+
+  @override
+  String get descSpeechMild => 'చిన్న ఉచ్చారణ సమస్యలు గమనించబడ్డాయి';
+
+  @override
+  String get actionSpeechMild =>
+      'పర్యవేక్షణ కొనసాగించండి, మాట్లాడటాన్ని ప్రోత్సహించండి';
+
+  @override
+  String get descDevMild => 'స్వల్ప ఏకాగ్రత లేదా అభివృద్ధి ఆలస్యం';
+
+  @override
+  String get actionDevMild => 'ఆసక్తికరమైన కార్యకలాపాలు మరియు సాధారణ అంచనా';
+
+  @override
+  String get descNormal => 'పిల్లవాడు సాధారణంగా అభివృద్ధి చెందుతున్నాడు';
+
+  @override
+  String get actionNormal => 'సాధారణ పర్యవేక్షణ కొనసాగించండి';
+
+  @override
+  String get descDefault => 'ఎటువంటి ప్రధాన ఆందోళనలు గుర్తించబడలేదు';
+
+  @override
+  String get actionDefault => 'సాధారణ చెక్-అప్‌లను కొనసాగించండి';
 }

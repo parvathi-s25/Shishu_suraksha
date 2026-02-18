@@ -2,6 +2,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import '../../../../modules/admin_dashboard/services/admin_service.dart';
+import '../../../../l10n/generated/app_localizations.dart';
 
 class AdminAnalyticsChart extends StatefulWidget {
   const AdminAnalyticsChart({super.key});
@@ -33,6 +34,7 @@ class _AdminAnalyticsChartState extends State<AdminAnalyticsChart> {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context)!;
     if (_isLoading) {
       return const SizedBox(
         height: 300,
@@ -65,9 +67,9 @@ class _AdminAnalyticsChartState extends State<AdminAnalyticsChart> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            "Health Trends (Last 5 Months)",
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+          Text(
+            t.healthTrends,
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
           ),
           const SizedBox(height: 24),
           Expanded(
@@ -80,7 +82,7 @@ class _AdminAnalyticsChartState extends State<AdminAnalyticsChart> {
                   touchTooltipData: BarTouchTooltipData(
                     getTooltipColor: (_) => Colors.blueGrey,
                     getTooltipItem: (group, groupIndex, rod, rodIndex) {
-                      String type = rodIndex == 0 ? 'Malnutrition' : 'Fever';
+                      String type = rodIndex == 0 ? t.malnutritionLegend : t.feverCasesLegend;
                       return BarTooltipItem(
                         '$type\n',
                         const TextStyle(
@@ -164,9 +166,9 @@ class _AdminAnalyticsChartState extends State<AdminAnalyticsChart> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              _buildLegendItem("Malnutrition", Colors.orange),
+              _buildLegendItem(t.malnutritionLegend, Colors.orange),
               const SizedBox(width: 16),
-              _buildLegendItem("Fever Cases", Colors.redAccent),
+              _buildLegendItem(t.feverCasesLegend, Colors.redAccent),
             ],
           )
         ],

@@ -10,7 +10,7 @@ import '../../modules/admin_dashboard/services/admin_service.dart';
 import '../../core/constants/app_constants.dart';
 import '../../models/child_model.dart';
 import '../../services/analytics_engine.dart';
-import '../../l10n/app_localizations.dart';
+import '../../l10n/generated/app_localizations.dart';
 import '../../ui/widgets/cropped_logo.dart'; // Imported
 import '../../../main.dart'; // For MyApp.setLocale
 import '../../core/theme/app_theme.dart'; // Imported
@@ -99,19 +99,19 @@ class _AdminDashboardContentState extends State<AdminDashboardContent> {
                     color: Colors.orange,
                   ),
                   DashboardCard(
-                    title: "Speech Issues", // TODO: Localize
+                    title: l10n.speechIssues,
                     value: "${data['speech_issues']}",
                     icon: Icons.record_voice_over,
                     color: Colors.purple,
                   ),
                   DashboardCard(
-                    title: "Hearing Issues", // TODO: Localize
+                    title: l10n.hearingIssues,
                     value: "${data['hearing_issues']}",
                     icon: Icons.hearing,
                     color: Colors.teal,
                   ),
                   DashboardCard(
-                    title: "Pending Referrals", // TODO: Localize
+                    title: l10n.pendingReferrals,
                     value: "${data['pending_referrals']}",
                     icon: Icons.medical_services,
                     color: Colors.redAccent,
@@ -129,7 +129,7 @@ class _AdminDashboardContentState extends State<AdminDashboardContent> {
               
               // Analytics Section
                Text(
-                 "Analytics Overview", // TODO: Localize
+                 l10n.analyticsOverview,
                 style: Theme.of(context).textTheme.titleLarge,
               ),
               const SizedBox(height: 16),

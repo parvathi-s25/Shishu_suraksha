@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import '../../../models/dashboard_data.dart';
 
+import 'package:shishu_suraksha/l10n/generated/app_localizations.dart';
+
 class AgeDistributionChart extends StatelessWidget {
   final List<ChartDataPoint> data;
+  final AppLocalizations t;
 
-  const AgeDistributionChart({Key? key, required this.data}) : super(key: key);
+  const AgeDistributionChart({Key? key, required this.data, required this.t}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,11 +25,11 @@ class AgeDistributionChart extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            const Align(
+             Align(
               alignment: Alignment.centerLeft,
               child: Text(
-                "Age Group Distribution", // Localize later
-                style: TextStyle(
+                t.ageGroupDistribution,
+                style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                 ),

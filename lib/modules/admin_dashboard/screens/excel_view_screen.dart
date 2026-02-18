@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:shishu_suraksha/l10n/app_localizations.dart';
+import 'package:shishu_suraksha/l10n/generated/app_localizations.dart';
 
 class ExcelViewScreen extends StatelessWidget {
   final String title;

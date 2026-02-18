@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:shishu_suraksha/l10n/app_localizations.dart';
+import 'package:shishu_suraksha/l10n/generated/app_localizations.dart';
 import '../../../../app/theme/colors.dart';
 
 class AdminSchoolsScreen extends StatelessWidget {
@@ -9,7 +9,6 @@ class AdminSchoolsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context)!;
-    
     // Mock Data
     final schools = [
       {'name': 'MPS Delhi', 'students': 450, 'status': 'Active', 'risk': 'Low'},
@@ -37,7 +36,7 @@ class AdminSchoolsScreen extends StatelessWidget {
                 ),
               ),
               title: Text(school['name'] as String, style: const TextStyle(fontWeight: FontWeight.bold)),
-              subtitle: Text("Students: ${school['students']} • Status: ${school['status']}"),
+              subtitle: Text("${t.students}: ${school['students']} • ${t.status}: ${school['status']}"),
               trailing: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 decoration: BoxDecoration(

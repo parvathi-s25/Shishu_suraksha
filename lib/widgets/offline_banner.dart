@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../core/theme/app_theme.dart';
-import '../l10n/app_localizations.dart';
+import '../l10n/generated/app_localizations.dart';
 
 class OfflineModeBanner extends StatelessWidget {
   const OfflineModeBanner({super.key});

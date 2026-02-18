@@ -1,7 +1,7 @@
 import 'dart:math';
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import '../../../l10n/app_localizations.dart';
+import '../../../l10n/generated/app_localizations.dart';
 import '../../../main.dart';
 import '../../widgets/language_dropdown.dart';
 import '../../widgets/cropped_logo.dart';

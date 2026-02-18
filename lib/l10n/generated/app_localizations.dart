@@ -6,6 +6,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
 import 'app_localizations_en.dart';
+import 'app_localizations_hi.dart';
 import 'app_localizations_te.dart';
 
 // ignore_for_file: type=lint
@@ -18,7 +19,7 @@ import 'app_localizations_te.dart';
 /// `supportedLocales` list. For example:
 ///
 /// ```dart
-/// import 'l10n/app_localizations.dart';
+/// import 'generated/app_localizations.dart';
 ///
 /// return MaterialApp(
 ///   localizationsDelegates: AppLocalizations.localizationsDelegates,
@@ -67,8 +68,8 @@ abstract class AppLocalizations {
 
   final String localeName;
 
-  static AppLocalizations? of(BuildContext context) {
-    return Localizations.of<AppLocalizations>(context, AppLocalizations);
+  static AppLocalizations of(BuildContext context) {
+    return Localizations.of<AppLocalizations>(context, AppLocalizations)!;
   }
 
   static const LocalizationsDelegate<AppLocalizations> delegate =
@@ -95,6 +96,7 @@ abstract class AppLocalizations {
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[
     Locale('en'),
+    Locale('hi'),
     Locale('te')
   ];
 
@@ -1267,6 +1269,360 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Exporting...'**
   String get exporting;
+
+  /// No description provided for @speechIssues.
+  ///
+  /// In en, this message translates to:
+  /// **'Speech Issues'**
+  String get speechIssues;
+
+  /// No description provided for @hearingIssues.
+  ///
+  /// In en, this message translates to:
+  /// **'Hearing Issues'**
+  String get hearingIssues;
+
+  /// No description provided for @pendingReferrals.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending Referrals'**
+  String get pendingReferrals;
+
+  /// No description provided for @analyticsOverview.
+  ///
+  /// In en, this message translates to:
+  /// **'Analytics Overview'**
+  String get analyticsOverview;
+
+  /// No description provided for @detailedReports.
+  ///
+  /// In en, this message translates to:
+  /// **'Detailed Reports'**
+  String get detailedReports;
+
+  /// No description provided for @tabHighRisk.
+  ///
+  /// In en, this message translates to:
+  /// **'High Risk'**
+  String get tabHighRisk;
+
+  /// No description provided for @tabSpeechHearing.
+  ///
+  /// In en, this message translates to:
+  /// **'Speech & Hearing'**
+  String get tabSpeechHearing;
+
+  /// No description provided for @tabGrowth.
+  ///
+  /// In en, this message translates to:
+  /// **'Growth'**
+  String get tabGrowth;
+
+  /// No description provided for @noRecordsFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No records found'**
+  String get noRecordsFound;
+
+  /// No description provided for @students.
+  ///
+  /// In en, this message translates to:
+  /// **'Students'**
+  String get students;
+
+  /// No description provided for @status.
+  ///
+  /// In en, this message translates to:
+  /// **'Status'**
+  String get status;
+
+  /// No description provided for @healthTrends.
+  ///
+  /// In en, this message translates to:
+  /// **'Health Trends (Last 5 Months)'**
+  String get healthTrends;
+
+  /// No description provided for @malnutritionLegend.
+  ///
+  /// In en, this message translates to:
+  /// **'Malnutrition'**
+  String get malnutritionLegend;
+
+  /// No description provided for @feverCasesLegend.
+  ///
+  /// In en, this message translates to:
+  /// **'Fever Cases'**
+  String get feverCasesLegend;
+
+  /// No description provided for @settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get settings;
+
+  /// No description provided for @offlineMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Offline Mode'**
+  String get offlineMode;
+
+  /// No description provided for @logout.
+  ///
+  /// In en, this message translates to:
+  /// **'Logout'**
+  String get logout;
+
+  /// No description provided for @riskDistribution.
+  ///
+  /// In en, this message translates to:
+  /// **'Risk Distribution'**
+  String get riskDistribution;
+
+  /// No description provided for @assessmentTrend.
+  ///
+  /// In en, this message translates to:
+  /// **'Assessment Trend'**
+  String get assessmentTrend;
+
+  /// No description provided for @ageGroupDistribution.
+  ///
+  /// In en, this message translates to:
+  /// **'Age Group Distribution'**
+  String get ageGroupDistribution;
+
+  /// No description provided for @interventionSuccessRate.
+  ///
+  /// In en, this message translates to:
+  /// **'Intervention Success Rate'**
+  String get interventionSuccessRate;
+
+  /// No description provided for @keyHigh.
+  ///
+  /// In en, this message translates to:
+  /// **'High'**
+  String get keyHigh;
+
+  /// No description provided for @keyModerate.
+  ///
+  /// In en, this message translates to:
+  /// **'Moderate'**
+  String get keyModerate;
+
+  /// No description provided for @keyMild.
+  ///
+  /// In en, this message translates to:
+  /// **'Mild'**
+  String get keyMild;
+
+  /// No description provided for @keyNormal.
+  ///
+  /// In en, this message translates to:
+  /// **'Normal'**
+  String get keyNormal;
+
+  /// No description provided for @keyImproved.
+  ///
+  /// In en, this message translates to:
+  /// **'Improved'**
+  String get keyImproved;
+
+  /// No description provided for @keyMonitoring.
+  ///
+  /// In en, this message translates to:
+  /// **'Monitoring'**
+  String get keyMonitoring;
+
+  /// No description provided for @keyNoChange.
+  ///
+  /// In en, this message translates to:
+  /// **'No Change'**
+  String get keyNoChange;
+
+  /// No description provided for @keyTotal.
+  ///
+  /// In en, this message translates to:
+  /// **'Total'**
+  String get keyTotal;
+
+  /// No description provided for @categoryHearing.
+  ///
+  /// In en, this message translates to:
+  /// **'Hearing'**
+  String get categoryHearing;
+
+  /// No description provided for @categorySpeech.
+  ///
+  /// In en, this message translates to:
+  /// **'Speech'**
+  String get categorySpeech;
+
+  /// No description provided for @categoryMotor.
+  ///
+  /// In en, this message translates to:
+  /// **'Motor Skills'**
+  String get categoryMotor;
+
+  /// No description provided for @categoryNutrition.
+  ///
+  /// In en, this message translates to:
+  /// **'Nutrition'**
+  String get categoryNutrition;
+
+  /// No description provided for @categoryDevelopment.
+  ///
+  /// In en, this message translates to:
+  /// **'Development'**
+  String get categoryDevelopment;
+
+  /// No description provided for @categoryHealth.
+  ///
+  /// In en, this message translates to:
+  /// **'Overall Health'**
+  String get categoryHealth;
+
+  /// No description provided for @descHearingHigh.
+  ///
+  /// In en, this message translates to:
+  /// **'No response to hearing test detected'**
+  String get descHearingHigh;
+
+  /// No description provided for @actionHearingHigh.
+  ///
+  /// In en, this message translates to:
+  /// **'Immediate referral to audiologist required'**
+  String get actionHearingHigh;
+
+  /// No description provided for @descSpeechHigh.
+  ///
+  /// In en, this message translates to:
+  /// **'Severe speech delay detected'**
+  String get descSpeechHigh;
+
+  /// No description provided for @actionSpeechHigh.
+  ///
+  /// In en, this message translates to:
+  /// **'Refer to speech therapist immediately'**
+  String get actionSpeechHigh;
+
+  /// No description provided for @descMotorHigh.
+  ///
+  /// In en, this message translates to:
+  /// **'Motor movement absence or severe delay'**
+  String get descMotorHigh;
+
+  /// No description provided for @actionMotorHigh.
+  ///
+  /// In en, this message translates to:
+  /// **'Refer to pediatric physiotherapist'**
+  String get actionMotorHigh;
+
+  /// No description provided for @descNutritionHigh.
+  ///
+  /// In en, this message translates to:
+  /// **'Severe malnutrition detected'**
+  String get descNutritionHigh;
+
+  /// No description provided for @actionNutritionHigh.
+  ///
+  /// In en, this message translates to:
+  /// **'Immediate medical intervention required'**
+  String get actionNutritionHigh;
+
+  /// No description provided for @descSpeechMod.
+  ///
+  /// In en, this message translates to:
+  /// **'Slow speech formation and development'**
+  String get descSpeechMod;
+
+  /// No description provided for @actionSpeechMod.
+  ///
+  /// In en, this message translates to:
+  /// **'Speech exercises and monitoring needed'**
+  String get actionSpeechMod;
+
+  /// No description provided for @descMotorMod.
+  ///
+  /// In en, this message translates to:
+  /// **'Delayed walking or motor development'**
+  String get descMotorMod;
+
+  /// No description provided for @actionMotorMod.
+  ///
+  /// In en, this message translates to:
+  /// **'Physical activity exercises recommended'**
+  String get actionMotorMod;
+
+  /// No description provided for @descNutritionMod.
+  ///
+  /// In en, this message translates to:
+  /// **'Low weight percentile for age'**
+  String get descNutritionMod;
+
+  /// No description provided for @actionNutritionMod.
+  ///
+  /// In en, this message translates to:
+  /// **'Nutritional support and monitoring'**
+  String get actionNutritionMod;
+
+  /// No description provided for @descHearingMod.
+  ///
+  /// In en, this message translates to:
+  /// **'Low response to hearing test'**
+  String get descHearingMod;
+
+  /// No description provided for @actionHearingMod.
+  ///
+  /// In en, this message translates to:
+  /// **'Follow-up hearing assessment needed'**
+  String get actionHearingMod;
+
+  /// No description provided for @descSpeechMild.
+  ///
+  /// In en, this message translates to:
+  /// **'Minor pronunciation issues observed'**
+  String get descSpeechMild;
+
+  /// No description provided for @actionSpeechMild.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue monitoring, encourage verbal interaction'**
+  String get actionSpeechMild;
+
+  /// No description provided for @descDevMild.
+  ///
+  /// In en, this message translates to:
+  /// **'Slight attention or cognitive delay'**
+  String get descDevMild;
+
+  /// No description provided for @actionDevMild.
+  ///
+  /// In en, this message translates to:
+  /// **'Engaging activities and regular assessment'**
+  String get actionDevMild;
+
+  /// No description provided for @descNormal.
+  ///
+  /// In en, this message translates to:
+  /// **'Child is developing normally'**
+  String get descNormal;
+
+  /// No description provided for @actionNormal.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue regular monitoring'**
+  String get actionNormal;
+
+  /// No description provided for @descDefault.
+  ///
+  /// In en, this message translates to:
+  /// **'No significant concerns detected'**
+  String get descDefault;
+
+  /// No description provided for @actionDefault.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue routine check-ups'**
+  String get actionDefault;
 }
 
 class _AppLocalizationsDelegate
@@ -1280,7 +1636,7 @@ class _AppLocalizationsDelegate
 
   @override
   bool isSupported(Locale locale) =>
-      <String>['en', 'te'].contains(locale.languageCode);
+      <String>['en', 'hi', 'te'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
@@ -1291,6 +1647,8 @@ AppLocalizations lookupAppLocalizations(Locale locale) {
   switch (locale.languageCode) {
     case 'en':
       return AppLocalizationsEn();
+    case 'hi':
+      return AppLocalizationsHi();
     case 'te':
       return AppLocalizationsTe();
   }

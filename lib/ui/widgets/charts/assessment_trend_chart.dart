@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import '../../../models/dashboard_data.dart';
 
+import 'package:shishu_suraksha/l10n/generated/app_localizations.dart';
+
 class AssessmentTrendChart extends StatelessWidget {
   final List<ChartDataPoint> data;
+  final AppLocalizations t;
 
-  const AssessmentTrendChart({Key? key, required this.data}) : super(key: key);
+  const AssessmentTrendChart({Key? key, required this.data, required this.t}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,11 +26,11 @@ class AssessmentTrendChart extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            const Align(
+             Align(
               alignment: Alignment.centerLeft,
               child: Text(
-                "Assessment Trend", // Localize later
-                style: TextStyle(
+                t.assessmentTrend,
+                style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                 ),

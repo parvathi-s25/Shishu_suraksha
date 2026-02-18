@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../core/theme/app_theme.dart';
-import '../../l10n/app_localizations.dart';
+import '../../l10n/generated/app_localizations.dart';
 
 class ReportViewerScreen extends StatefulWidget {
   final List<Map<String, dynamic>> data; // List of rows (key-value pairs)

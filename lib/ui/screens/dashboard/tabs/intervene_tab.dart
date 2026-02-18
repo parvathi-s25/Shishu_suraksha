@@ -3,7 +3,7 @@ import '../../../../services/alert_generator.dart';
 import '../../../../models/alert_model.dart';
 import '../../../widgets/alert_card.dart';
 import '../../../../services/responsive_dashboard.dart';
-import 'package:shishu_suraksha/l10n/app_localizations.dart';
+import 'package:shishu_suraksha/l10n/generated/app_localizations.dart';
 
 class InterveneTab extends StatefulWidget {
   const InterveneTab({Key? key}) : super(key: key);
@@ -26,8 +26,9 @@ class _InterveneTabState extends State<InterveneTab> {
     // Simulate loading delay for realistic UX
     Future.delayed(const Duration(milliseconds: 500), () {
       if (mounted) {
+        final t = AppLocalizations.of(context)!;
         setState(() {
-          _alerts = AlertGenerator.getMockAlerts();
+          _alerts = AlertGenerator.getMockAlerts(t);
           _isLoading = false;
         });
       }

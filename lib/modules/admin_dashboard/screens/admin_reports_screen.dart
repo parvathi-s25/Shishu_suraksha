@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shishu_suraksha/l10n/app_localizations.dart';
+import 'package:shishu_suraksha/l10n/generated/app_localizations.dart';
 import '../../../../app/theme/colors.dart';
 import '../services/admin_service.dart';
 
@@ -28,11 +28,11 @@ class _AdminReportsScreenState extends State<AdminReportsScreen> with SingleTick
 
   @override
   Widget build(BuildContext context) {
-    // final t = AppLocalizations.of(context)!; // Not used yet
+    final t = AppLocalizations.of(context)!;
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Detailed Reports'),
+        title: Text(t.detailedReports),
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
         elevation: 0,
@@ -41,10 +41,10 @@ class _AdminReportsScreenState extends State<AdminReportsScreen> with SingleTick
           labelColor: AppColors.primary,
           unselectedLabelColor: Colors.grey,
           indicatorColor: AppColors.primary,
-          tabs: const [
-            Tab(text: "High Risk"),
-            Tab(text: "Speech & Hearing"),
-            Tab(text: "Growth"),
+          tabs: [
+            Tab(text: t.tabHighRisk),
+            Tab(text: t.tabSpeechHearing),
+            Tab(text: t.tabGrowth),
           ],
         ),
       ),
@@ -63,13 +63,14 @@ class _AdminReportsScreenState extends State<AdminReportsScreen> with SingleTick
     return FutureBuilder<List<Map<String, dynamic>>>(
       future: _adminService.getReportData(reportType),
       builder: (context, snapshot) {
+        final t = AppLocalizations.of(context)!;
         if (!snapshot.hasData) {
           return const Center(child: CircularProgressIndicator());
         }
         
         final data = snapshot.data!;
         if (data.isEmpty) {
-          return const Center(child: Text("No records found"));
+          return Center(child: Text(t.noRecordsFound));
         }
 
         return ListView.separated(

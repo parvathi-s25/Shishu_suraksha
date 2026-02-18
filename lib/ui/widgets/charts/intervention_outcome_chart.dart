@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import '../../../models/dashboard_data.dart';
 
+import 'package:shishu_suraksha/l10n/generated/app_localizations.dart';
+
 class InterventionOutcomeChart extends StatelessWidget {
   final InterventionOutcome data;
+  final AppLocalizations t;
 
-  const InterventionOutcomeChart({Key? key, required this.data}) : super(key: key);
+  const InterventionOutcomeChart({Key? key, required this.data, required this.t}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,11 +21,11 @@ class InterventionOutcomeChart extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            const Align(
+             Align(
               alignment: Alignment.centerLeft,
               child: Text(
-                "Intervention Success Rate", // Localize later
-                style: TextStyle(
+                t.interventionSuccessRate,
+                style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                 ),
@@ -74,9 +77,9 @@ class InterventionOutcomeChart extends StatelessWidget {
                           "$total",
                           style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                         ),
-                        const Text(
-                          "Total",
-                          style: TextStyle(fontSize: 12, color: Colors.grey),
+                         Text(
+                          t.keyTotal,
+                          style: const TextStyle(fontSize: 12, color: Colors.grey),
                         ),
                       ],
                     ),
@@ -90,9 +93,9 @@ class InterventionOutcomeChart extends StatelessWidget {
               runSpacing: 8,
               alignment: WrapAlignment.center,
               children: [
-                _buildLegendItem(Colors.teal[400]!, "Improved"),
-                _buildLegendItem(Colors.orange[300]!, "Monitoring"),
-                _buildLegendItem(Colors.red[300]!, "No Change"),
+                _buildLegendItem(Colors.teal[400]!, t.keyImproved),
+                _buildLegendItem(Colors.orange[300]!, t.keyMonitoring),
+                _buildLegendItem(Colors.red[300]!, t.keyNoChange),
               ],
             ),
           ],

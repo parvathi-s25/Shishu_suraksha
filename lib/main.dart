@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:firebase_core/firebase_core.dart';
 
-import 'package:shishu_suraksha/l10n/app_localizations.dart';
+import 'package:shishu_suraksha/l10n/generated/app_localizations.dart';
 import 'package:shishu_suraksha/localization/legacy_app_localizations.dart'; // For DataLocalizations
 import 'package:shishu_suraksha/ui/screens/splash/splash_screen.dart';
 import 'package:shishu_suraksha/ui/screens/opening/opening_animation_screen.dart';
@@ -90,11 +91,20 @@ class _MyAppState extends ConsumerState<MyApp> {
     }
   }
 
+  static const platform = MethodChannel('com.shishusuraksha/locale');
+
   void changeLocale(Locale locale) {
     setState(() {
       _locale = locale;
     });
     Hive.box(AppConstants.kBoxSettings).put(AppConstants.kKeyLanguage, locale.languageCode);
+    
+    // Sync with Native Android
+    try {
+      platform.invokeMethod('updateLocale', {'languageCode': locale.languageCode});
+    } catch (e) {
+      print("Failed to update native locale: $e");
+    }
   }
 
   @override
@@ -106,6 +116,7 @@ class _MyAppState extends ConsumerState<MyApp> {
       supportedLocales: const [
         Locale("en"), 
         Locale("te"),
+        Locale("hi"),
       ],
       localizationsDelegates: const [
         AppLocalizations.delegate,

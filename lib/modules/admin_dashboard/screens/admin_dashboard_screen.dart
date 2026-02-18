@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:shishu_suraksha/l10n/app_localizations.dart';
+import 'package:shishu_suraksha/l10n/generated/app_localizations.dart';
 import '../../../../services/responsive_dashboard.dart';
 import '../services/admin_service.dart';
 import 'package:shishu_suraksha/app/theme/colors.dart';

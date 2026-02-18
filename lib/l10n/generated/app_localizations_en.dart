@@ -600,4 +600,182 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get exporting => 'Exporting...';
+
+  @override
+  String get speechIssues => 'Speech Issues';
+
+  @override
+  String get hearingIssues => 'Hearing Issues';
+
+  @override
+  String get pendingReferrals => 'Pending Referrals';
+
+  @override
+  String get analyticsOverview => 'Analytics Overview';
+
+  @override
+  String get detailedReports => 'Detailed Reports';
+
+  @override
+  String get tabHighRisk => 'High Risk';
+
+  @override
+  String get tabSpeechHearing => 'Speech & Hearing';
+
+  @override
+  String get tabGrowth => 'Growth';
+
+  @override
+  String get noRecordsFound => 'No records found';
+
+  @override
+  String get students => 'Students';
+
+  @override
+  String get status => 'Status';
+
+  @override
+  String get healthTrends => 'Health Trends (Last 5 Months)';
+
+  @override
+  String get malnutritionLegend => 'Malnutrition';
+
+  @override
+  String get feverCasesLegend => 'Fever Cases';
+
+  @override
+  String get settings => 'Settings';
+
+  @override
+  String get offlineMode => 'Offline Mode';
+
+  @override
+  String get logout => 'Logout';
+
+  @override
+  String get riskDistribution => 'Risk Distribution';
+
+  @override
+  String get assessmentTrend => 'Assessment Trend';
+
+  @override
+  String get ageGroupDistribution => 'Age Group Distribution';
+
+  @override
+  String get interventionSuccessRate => 'Intervention Success Rate';
+
+  @override
+  String get keyHigh => 'High';
+
+  @override
+  String get keyModerate => 'Moderate';
+
+  @override
+  String get keyMild => 'Mild';
+
+  @override
+  String get keyNormal => 'Normal';
+
+  @override
+  String get keyImproved => 'Improved';
+
+  @override
+  String get keyMonitoring => 'Monitoring';
+
+  @override
+  String get keyNoChange => 'No Change';
+
+  @override
+  String get keyTotal => 'Total';
+
+  @override
+  String get categoryHearing => 'Hearing';
+
+  @override
+  String get categorySpeech => 'Speech';
+
+  @override
+  String get categoryMotor => 'Motor Skills';
+
+  @override
+  String get categoryNutrition => 'Nutrition';
+
+  @override
+  String get categoryDevelopment => 'Development';
+
+  @override
+  String get categoryHealth => 'Overall Health';
+
+  @override
+  String get descHearingHigh => 'No response to hearing test detected';
+
+  @override
+  String get actionHearingHigh => 'Immediate referral to audiologist required';
+
+  @override
+  String get descSpeechHigh => 'Severe speech delay detected';
+
+  @override
+  String get actionSpeechHigh => 'Refer to speech therapist immediately';
+
+  @override
+  String get descMotorHigh => 'Motor movement absence or severe delay';
+
+  @override
+  String get actionMotorHigh => 'Refer to pediatric physiotherapist';
+
+  @override
+  String get descNutritionHigh => 'Severe malnutrition detected';
+
+  @override
+  String get actionNutritionHigh => 'Immediate medical intervention required';
+
+  @override
+  String get descSpeechMod => 'Slow speech formation and development';
+
+  @override
+  String get actionSpeechMod => 'Speech exercises and monitoring needed';
+
+  @override
+  String get descMotorMod => 'Delayed walking or motor development';
+
+  @override
+  String get actionMotorMod => 'Physical activity exercises recommended';
+
+  @override
+  String get descNutritionMod => 'Low weight percentile for age';
+
+  @override
+  String get actionNutritionMod => 'Nutritional support and monitoring';
+
+  @override
+  String get descHearingMod => 'Low response to hearing test';
+
+  @override
+  String get actionHearingMod => 'Follow-up hearing assessment needed';
+
+  @override
+  String get descSpeechMild => 'Minor pronunciation issues observed';
+
+  @override
+  String get actionSpeechMild =>
+      'Continue monitoring, encourage verbal interaction';
+
+  @override
+  String get descDevMild => 'Slight attention or cognitive delay';
+
+  @override
+  String get actionDevMild => 'Engaging activities and regular assessment';
+
+  @override
+  String get descNormal => 'Child is developing normally';
+
+  @override
+  String get actionNormal => 'Continue regular monitoring';
+
+  @override
+  String get descDefault => 'No significant concerns detected';
+
+  @override
+  String get actionDefault => 'Continue routine check-ups';
 }

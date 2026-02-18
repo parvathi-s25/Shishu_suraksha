@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Shishu Suraksha AI</string>
+    <string name="admin_panel">Admin Panel</string>
+    <string name="central_monitoring">Central Monitoring Console</string>
+    <string name="total_schools">Total Schools</string>
+    <string name="children_monitored">Children Monitored</string>
+    <string name="high_risk_cases">High Risk Cases</string>
+    <string name="malnutrition">Malnutrition</string>
+    <string name="fever_alerts">Fever Alerts</string>
+    <string name="env_issues">Environmental Issues</string>
+    <string name="high_risk_children">High Risk Children</string>
+    <string name="action_required">Action Required</string>
+    <string name="export_excel">Export Excel</string>
+    <string name="risk_score">Risk Score</string>
+    <string name="settings">Settings</string>
+    <string name="logout">Logout</string>
+    <string name="permission_camera">Camera Permission</string>
+    <string name="permission_camera_rationale">Shishu Suraksha needs camera access to scan documents.</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+</resources>

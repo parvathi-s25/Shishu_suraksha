@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../l10n/app_localizations.dart';
+import '../../../l10n/generated/app_localizations.dart';
 import '../../../../localization/legacy_app_localizations.dart'; // For DataLocalizations
 import '../../../../main.dart'; // For language switching
 import 'dart:ui';

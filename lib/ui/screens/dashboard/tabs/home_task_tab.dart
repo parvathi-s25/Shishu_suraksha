@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shishu_suraksha/l10n/app_localizations.dart';
+import 'package:shishu_suraksha/l10n/generated/app_localizations.dart';
 import '../../../../services/responsive_dashboard.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart';

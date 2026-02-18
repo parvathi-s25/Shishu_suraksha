@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shishu_suraksha/l10n/app_localizations.dart';
+import 'package:shishu_suraksha/l10n/generated/app_localizations.dart';
 import 'package:shishu_suraksha/services/analytics_service.dart';
 import 'package:shishu_suraksha/models/dashboard_data.dart';
 import 'package:shishu_suraksha/ui/widgets/kpi_card.dart';
@@ -104,7 +104,7 @@ class _InsightsTabState extends State<InsightsTab> {
                       ),
                       icon: const Icon(Icons.download),
                       label: Text(
-                        "Export Report",
+                        t.exportReport,
                         style: TextStyle(
                           fontSize: responsive.getFontSize(14),
                           fontWeight: FontWeight.bold,
@@ -246,13 +246,13 @@ class _InsightsTabState extends State<InsightsTab> {
   Widget _buildVisualizations(ResponsiveDashboard responsive, AppLocalizations t) {
     return Column(
       children: [
-        RiskDistributionChart(data: _riskData),
+        RiskDistributionChart(data: _riskData, t: t),
         SizedBox(height: responsive.getSpacing(16)),
-        AssessmentTrendChart(data: _trendData),
+        AssessmentTrendChart(data: _trendData, t: t),
         SizedBox(height: responsive.getSpacing(16)),
-        AgeDistributionChart(data: _ageData),
+        AgeDistributionChart(data: _ageData, t: t),
         SizedBox(height: responsive.getSpacing(16)),
-        InterventionOutcomeChart(data: _interventionData),
+        InterventionOutcomeChart(data: _interventionData, t: t),
         SizedBox(height: responsive.getSpacing(16)),
         _buildDevelopmentScoreCard(responsive, t),
       ],
@@ -347,7 +347,7 @@ class _InsightsTabState extends State<InsightsTab> {
             ),
             SizedBox(height: responsive.getSpacing(16)),
             Text(
-              "Export Report",
+              t.exportReport,
               style: TextStyle(
                 fontSize: responsive.getFontSize(18),
                 fontWeight: FontWeight.bold,
@@ -357,7 +357,7 @@ class _InsightsTabState extends State<InsightsTab> {
             ListTile(
               leading: Icon(Icons.picture_as_pdf, color: Colors.red, size: responsive.getFontSize(24)),
               title: Text(
-                "Download PDF Report",
+                t.downloadPdf,
                 style: TextStyle(fontSize: responsive.getFontSize(13)),
               ),
               onTap: () {
@@ -365,7 +365,7 @@ class _InsightsTabState extends State<InsightsTab> {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content: Text(
-                      "Downloading PDF Report...",
+                      t.downloading,
                       style: TextStyle(fontSize: responsive.getFontSize(12)),
                     ),
                     backgroundColor: Colors.teal,
@@ -376,7 +376,7 @@ class _InsightsTabState extends State<InsightsTab> {
             ListTile(
               leading: Icon(Icons.table_chart, color: Colors.green, size: responsive.getFontSize(24)),
               title: Text(
-                "Export CSV Data",
+                t.exportCsv,
                 style: TextStyle(fontSize: responsive.getFontSize(13)),
               ),
               onTap: () {
@@ -384,7 +384,7 @@ class _InsightsTabState extends State<InsightsTab> {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content: Text(
-                      "Exporting CSV Data...",
+                      t.exporting,
                       style: TextStyle(fontSize: responsive.getFontSize(12)),
                     ),
                     backgroundColor: Colors.teal,

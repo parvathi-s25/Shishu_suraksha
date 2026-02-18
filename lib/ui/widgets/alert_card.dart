@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../models/alert_model.dart';
 import 'intervention_dialog.dart';
-import 'package:shishu_suraksha/l10n/app_localizations.dart';
+import 'package:shishu_suraksha/l10n/generated/app_localizations.dart';
 
 class AlertCard extends StatelessWidget {
   final AlertModel alert;

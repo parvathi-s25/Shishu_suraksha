@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shishu_suraksha/app/theme/colors.dart'; // Import AppColors
 import 'dart:ui'; // Required for ImageFilter
-import 'package:shishu_suraksha/l10n/app_localizations.dart';
+import 'package:shishu_suraksha/l10n/generated/app_localizations.dart';
 import '../../../utils/permission_manager.dart';
 import '../../widgets/cropped_logo.dart';
 import 'tabs/home_task_tab.dart'; // Import the new tab
@@ -314,12 +314,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
           ),
           ListTile(
             leading: const Icon(Icons.person),
-            title: const Text('Profile'),
+            title: Text(t.profile),
             onTap: () => Navigator.pop(context),
           ),
           ListTile(
             leading: const Icon(Icons.settings),
-            title: const Text('Settings'),
+            title: Text(t.settings),
             onTap: () => Navigator.pop(context),
           ),
           const Divider(),
@@ -328,7 +328,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             builder: (context, child) {
               return SwitchListTile(
                 secondary: const Icon(Icons.wifi_off),
-                title: const Text('Offline Mode'),
+                title: Text(t.offlineMode),
                 value: OfflineDataService().isOfflineMode,
                 onChanged: (bool value) {
                   OfflineDataService().setOfflineMode(value);
@@ -339,7 +339,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           ),
           ListTile(
             leading: const Icon(Icons.logout),
-            title: const Text('Logout'),
+            title: Text(t.logout),
             onTap: () {
               Navigator.pushNamedAndRemoveUntil(context, "/auth", (route) => false);
             },

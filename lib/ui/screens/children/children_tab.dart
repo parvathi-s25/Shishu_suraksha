@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:shishu_suraksha/l10n/app_localizations.dart';
+import 'package:shishu_suraksha/l10n/generated/app_localizations.dart';
 import '../../../../core/data/models/child_model.dart';
 import '../../../../core/data/models/assessment_result_models.dart';
 import '../../screens/monitor/health_monitoring_screen.dart';
