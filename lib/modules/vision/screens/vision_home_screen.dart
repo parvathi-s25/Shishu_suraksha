@@ -6,6 +6,7 @@ import 'package:shishu_suraksha/modules/vision/screens/strabismus_test_screen.da
 import 'package:shishu_suraksha/modules/vision/screens/pupil_reflex_test_screen.dart';
 import 'package:shishu_suraksha/modules/vision/screens/color_vision_test_screen.dart';
 import 'package:shishu_suraksha/modules/vision/screens/field_of_vision_test_screen.dart';
+import 'package:shishu_suraksha/modules/vision/refraction_screen.dart';
 
 import 'package:uuid/uuid.dart';
 
@@ -54,32 +55,11 @@ class _VisionHomeScreenState extends State<VisionHomeScreen> {
     }
   }
 
-  void _runRefractionEstimation() {
-      // Simulate Refraction Estimation based on Acuity
-      // In a real scenario, this might be a separate ML model or detailed questionnaire
-      setState(() {
-          double estimatedOD = 0.0;
-          double estimatedOS = 0.0;
-          
-          // Simple heuristic logic
-          if (_acuityResult != null) {
-             if (_acuityResult!.rightEyeScore.contains("6/60")) estimatedOD = -2.5;
-             if (_acuityResult!.rightEyeScore.contains("6/36")) estimatedOD = -1.5;
-             
-             if (_acuityResult!.leftEyeScore.contains("6/60")) estimatedOS = -2.5;
-             if (_acuityResult!.leftEyeScore.contains("6/36")) estimatedOS = -1.5;
-          }
-          
-          _refractionResult = RefractionResult(
-             estimatedSphereOD: estimatedOD,
-             estimatedSphereOS: estimatedOS,
-             riskLabel: (estimatedOD < -1 || estimatedOS < -1) ? 'Myopia Risk' : 'Low Risk'
-          );
-      });
-      
-      ScaffoldMessenger.of(context).showSnackBar(
-         const SnackBar(content: Text('Refraction Risk Estimated from Acuity Data'))
-      );
+  void _navigateToRefraction() {
+    _navigateToTest(
+      const RefractionScreen(),
+      (res) => _refractionResult = res as RefractionResult,
+    );
   }
 
   void _finishAssessment() {
@@ -188,11 +168,10 @@ class _VisionHomeScreenState extends State<VisionHomeScreen> {
             
              _buildTestCard(
               title: "Refraction Risk",
-              desc: "Myopia/Hyperopia Estimation",
+              desc: "Interactive Blur & Diopter Estimation",
               icon: Icons.blur_on,
               isDone: _isRefractionDone,
-              onTap: _runRefractionEstimation,
-              isAuto: true,
+              onTap: _navigateToRefraction,
             ),
             
             const SizedBox(height: 30),

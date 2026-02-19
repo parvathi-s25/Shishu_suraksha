@@ -1,6 +1,8 @@
 import 'dart:async';
+import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui';
+import 'package:flutter/services.dart';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/foundation.dart';
@@ -27,10 +29,13 @@ class VisionProcessor {
   void Function(bool attentionOk)? onAttention;
   void Function(Face face)? onFace;
 
-  Future<void> start() async {
-    if (_running) return;
+  Future<void> start({CameraLensDirection direction = CameraLensDirection.front}) async {
+    if (_running) {
+      // If already running but direction might be different, stop first
+      await stop();
+    }
     _running = true;
-    await CameraService.instance.initCamera(preset: ResolutionPreset.low, direction: CameraLensDirection.front);
+    await CameraService.instance.initCamera(preset: ResolutionPreset.low, direction: direction);
     await CameraService.instance.startImageStream(_processFrame);
   }
 
@@ -46,6 +51,7 @@ class VisionProcessor {
 
     try {
       final inputImage = _convertCameraImage(image);
+      if (inputImage == null) return;
       _detector.processImage(inputImage).then((faces) {
         if (faces.isEmpty) {
           onDistance?.call(false);
@@ -77,36 +83,55 @@ class VisionProcessor {
     }
   }
 
-  InputImage _convertCameraImage(CameraImage image) {
-    // Concatenate planes into a single NV21 / YUV byte buffer
+  InputImage? _convertCameraImage(CameraImage image) {
+    final controller = CameraService.instance.controller;
+    if (controller == null) return null;
+
+    // 1. Calculate Rotation
+    final sensorOrientation = controller.description.sensorOrientation;
+    InputImageRotation? rotation;
+    if (Platform.isIOS) {
+      rotation = InputImageRotationValue.fromRawValue(sensorOrientation);
+    } else if (Platform.isAndroid) {
+      var rotationCompensation = _orientations[controller.value.deviceOrientation];
+      if (rotationCompensation == null) return null;
+      if (controller.description.lensDirection == CameraLensDirection.front) {
+        rotationCompensation = (sensorOrientation + rotationCompensation) % 360;
+      } else {
+        rotationCompensation = (sensorOrientation - rotationCompensation + 360) % 360;
+      }
+      rotation = InputImageRotationValue.fromRawValue(rotationCompensation);
+    }
+    if (rotation == null) return null;
+
+    // 2. Determine Format
+    final format = InputImageFormatValue.fromRawValue(image.format.raw);
+    if (format == null && Platform.isIOS) return null;
+
+    // 3. Extract Bytes
     final allBytes = WriteBuffer();
     for (final plane in image.planes) {
       allBytes.putUint8List(plane.bytes);
     }
     final bytes = allBytes.done().buffer.asUint8List();
 
-    final size = Size(image.width.toDouble(), image.height.toDouble());
-
-    final planeData = image.planes.map((plane) {
-      return InputImagePlaneMetadata(
-        bytesPerRow: plane.bytesPerRow,
-        height: plane.height,
-        width: plane.width,
-      );
-    }).toList();
-
-    final rotation = InputImageRotation.rotation90deg; // Adjusted for upright mobile
-    final format = InputImageFormatMethods.fromRawValue(image.format.raw) ?? InputImageFormat.nv21;
-
-    final metadata = InputImageMetadata(
-      size: size,
-      rotation: rotation,
-      format: format,
-      bytesPerRow: image.planes[0].bytesPerRow,
+    return InputImage.fromBytes(
+      bytes: bytes,
+      metadata: InputImageMetadata(
+        size: Size(image.width.toDouble(), image.height.toDouble()),
+        rotation: rotation,
+        format: format ?? InputImageFormat.nv21,
+        bytesPerRow: image.planes[0].bytesPerRow,
+      ),
     );
-
-    return InputImage.fromBytes(bytes: bytes, metadata: metadata);
   }
+
+  static final _orientations = {
+    DeviceOrientation.portraitUp: 0,
+    DeviceOrientation.landscapeLeft: 90,
+    DeviceOrientation.portraitDown: 180,
+    DeviceOrientation.landscapeRight: 270,
+  };
 
   void dispose() {
     _detector.close();

@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/foundation.dart';
@@ -31,9 +30,6 @@ class _VisionCameraViewState extends State<VisionCameraView> {
   static List<CameraDescription> _cameras = [];
   CameraController? _controller;
   int _cameraIndex = -1;
-  double _zoomLevel = 0.0;
-  double _minZoomLevel = 0.0;
-  double _maxZoomLevel = 0.0;
   bool _gettingCameras = false;
 
   @override
@@ -68,25 +64,7 @@ class _VisionCameraViewState extends State<VisionCameraView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-        actions: [
-          IconButton(
-            onPressed: _switchLiveCamera,
-            icon: Icon(
-              Platform.isIOS
-                  ? Icons.flip_camera_ios_outlined
-                  : Icons.flip_camera_android_outlined,
-              color: Colors.white,
-            ),
-          )
-        ],
-      ),
-      body: _body(),
-      floatingActionButton: _floatingActionButton(),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-    );
+    return _body();
   }
 
   Widget _body() {
@@ -112,20 +90,6 @@ class _VisionCameraViewState extends State<VisionCameraView> {
     );
   }
 
-  Widget? _floatingActionButton() {
-    if (widget.text == null) return null;
-    return Container(
-      height: 60,
-      margin: const EdgeInsets.only(bottom: 20),
-      child: Chip(
-        backgroundColor: Colors.black87,
-        label: Text(
-          widget.text!,
-          style: const TextStyle(color: Colors.white),
-        ),
-      ),
-    );
-  }
 
   Future _startLiveFeed() async {
     final camera = _cameras[_cameraIndex];
@@ -139,13 +103,6 @@ class _VisionCameraViewState extends State<VisionCameraView> {
     );
     _controller?.initialize().then((_) {
       if (!mounted) return;
-      _controller?.getMinZoomLevel().then((value) {
-        _zoomLevel = value;
-        _minZoomLevel = value;
-      });
-      _controller?.getMaxZoomLevel().then((value) {
-        _maxZoomLevel = value;
-      });
       _controller?.startImageStream(_processCameraImage).then((value) {});
       setState(() {});
     });
@@ -157,13 +114,6 @@ class _VisionCameraViewState extends State<VisionCameraView> {
     _controller = null;
   }
 
-  Future _switchLiveCamera() async {
-    if (_cameras.isEmpty) return;
-    _cameraIndex = (_cameraIndex + 1) % _cameras.length;
-
-    await _stopLiveFeed();
-    await _startLiveFeed();
-  }
 
   void _processCameraImage(CameraImage image) {
     final inputImage = _inputImageFromCameraImage(image);

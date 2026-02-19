@@ -294,96 +294,108 @@ class _AcuityTestScreenState extends State<AcuityTestScreen> {
     }
     
     // Testing Phase
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-            // Mode toggle
-            Row(
-               mainAxisAlignment: MainAxisAlignment.center,
-               children: [
-                  const Text('Mode:'),
-                  const SizedBox(width: 8),
-                  ChoiceChip(
-                     label: const Text('Tumbling E'),
-                     selected: !_useLetters,
-                     onSelected: (v) => setState(() => _useLetters = !v),
-                  ),
-                  const SizedBox(width: 8),
-                  ChoiceChip(
-                     label: const Text('Letters'),
-                     selected: _useLetters,
-                     onSelected: (v) => setState(() => _useLetters = v),
-                  ),
-               ],
-            ),
-            const SizedBox(height: 12),
-         const Text(
-           "Which way is the 'E' pointing?",
-           style: TextStyle(fontSize: 18, color: Colors.grey),
-         ),
-         const SizedBox(height: 40),
-         
-             // Optotype (E or Letter)
-             if (!_useLetters)
-                Transform.rotate(
-                     angle: _getRotationAngle(_currentDirection),
-                     child: Text(
-                         'E',
-                         style: TextStyle(
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return SingleChildScrollView(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(minHeight: constraints.maxHeight),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                    // Mode toggle
+                    Wrap(
+                       alignment: WrapAlignment.center,
+                       spacing: 8,
+                       runSpacing: 8,
+                       crossAxisAlignment: WrapCrossAlignment.center,
+                       children: [
+                          const Text('Mode:'),
+                          ChoiceChip(
+                             label: const Text('Tumbling E'),
+                             selected: !_useLetters,
+                             onSelected: (v) => setState(() => _useLetters = !v),
+                          ),
+                          ChoiceChip(
+                             label: const Text('Letters'),
+                             selected: _useLetters,
+                             onSelected: (v) => setState(() => _useLetters = v),
+                          ),
+                       ],
+                    ),
+                    const SizedBox(height: 12),
+                 const Text(
+                   "Which way is the 'E' pointing?",
+                   style: TextStyle(fontSize: 18, color: Colors.grey),
+                 ),
+                 const SizedBox(height: 40),
+                 
+                     // Optotype (E or Letter)
+                     if (!_useLetters)
+                        Transform.rotate(
+                             angle: _getRotationAngle(_currentDirection),
+                             child: Text(
+                                 'E',
+                                 style: TextStyle(
+                                      fontSize: _getLetterSize(),
+                                      fontWeight: FontWeight.w900,
+                                      height: 1,
+                                      fontFamily: 'Roboto',
+                                 ),
+                             ),
+                        )
+                     else
+                        Text(
+                           _currentLetter,
+                           style: TextStyle(
                               fontSize: _getLetterSize(),
                               fontWeight: FontWeight.w900,
                               height: 1,
                               fontFamily: 'Roboto',
-                         ),
-                     ),
-                )
-             else
-                Text(
-                   _currentLetter,
-                   style: TextStyle(
-                      fontSize: _getLetterSize(),
-                      fontWeight: FontWeight.w900,
-                      height: 1,
-                      fontFamily: 'Roboto',
-                   ),
-                ),
-         
-         const Spacer(),
-         
-             // Controls
-             if (!_useLetters)
-                GridView.count(
-                     shrinkWrap: true,
-                     crossAxisCount: 3,
-                     padding: const EdgeInsets.all(24),
-                     children: [
-                         const SizedBox(),
-                         _buildAnswerBtn('up', Icons.arrow_upward),
-                         const SizedBox(),
-                         _buildAnswerBtn('left', Icons.arrow_back),
-                         const SizedBox(),
-                         _buildAnswerBtn('right', Icons.arrow_forward),
-                         const SizedBox(),
-                         _buildAnswerBtn('down', Icons.arrow_downward),
-                         const SizedBox(),
-                     ],
-                )
-             else
-                Padding(
-                   padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                   child: GridView.count(
-                      shrinkWrap: true,
-                      crossAxisCount: 2,
-                      mainAxisSpacing: 12,
-                      crossAxisSpacing: 12,
-                      children: _letterChoices.map((c) => ElevatedButton(
-                         onPressed: () => _checkAnswer(c),
-                         child: Text(c, style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold)),
-                      )).toList(),
-                   ),
-                ),
-         const SizedBox(height: 20),
-      ],
+                           ),
+                        ),
+                 
+                 const SizedBox(height: 40),
+                 
+                     // Controls
+                     if (!_useLetters)
+                        GridView.count(
+                             shrinkWrap: true,
+                             physics: const NeverScrollableScrollPhysics(),
+                             crossAxisCount: 3,
+                             padding: const EdgeInsets.all(24),
+                             children: [
+                                 const SizedBox(),
+                                 _buildAnswerBtn('up', Icons.arrow_upward),
+                                 const SizedBox(),
+                                 _buildAnswerBtn('left', Icons.arrow_back),
+                                 const SizedBox(),
+                                 _buildAnswerBtn('right', Icons.arrow_forward),
+                                 const SizedBox(),
+                                 _buildAnswerBtn('down', Icons.arrow_downward),
+                                 const SizedBox(),
+                             ],
+                        )
+                     else
+                        Padding(
+                           padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                           child: GridView.count(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              crossAxisCount: 2,
+                              mainAxisSpacing: 12,
+                              crossAxisSpacing: 12,
+                              children: _letterChoices.map((c) => ElevatedButton(
+                                 onPressed: () => _checkAnswer(c),
+                                 child: Text(c, style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold)),
+                              )).toList(),
+                           ),
+                        ),
+                 const SizedBox(height: 20),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 

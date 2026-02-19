@@ -54,7 +54,7 @@ class TFLiteIsolate {
           final reply = message['reply'] as SendPort;
           try {
             interpreter?.close();
-            interpreter = Interpreter.fromAsset(model);
+            interpreter = await Interpreter.fromAsset(model);
             reply.send('ok');
           } catch (e) {
             reply.send('error:$e');
