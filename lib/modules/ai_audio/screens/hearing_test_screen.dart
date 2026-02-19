@@ -3,7 +3,9 @@ import 'dart:async';
 import 'dart:math';
 import 'dart:typed_data';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import '../../../services/ml/realtime_audio_service.dart'; // Import for HearingTestResult
 
 class HearingTestScreen extends StatefulWidget {
   const HearingTestScreen({Key? key}) : super(key: key);
@@ -211,7 +213,40 @@ class _HearingTestScreenState extends State<HearingTestScreen> {
     _showResultsDialog();
   }
 
+  // ... inside _HearingTestScreenState ...
+
+  // Calculate generic score based on average threshold
+  // Lower threshold is better (hearing at lower volume)
+  // Simple logic: Average volume threshold. If < 0.3 (30%) -> Great.
+  HearingTestResult _calculateResult() {
+     // Averages
+     List<double> leftVals = _results['Left']!.values.where((v) => v <= 1.0).toList();
+     List<double> rightVals = _results['Right']!.values.where((v) => v <= 1.0).toList();
+     
+     double leftAvg = leftVals.isNotEmpty ? leftVals.reduce((a, b) => a + b) / leftVals.length : 1.0;
+     double rightAvg = rightVals.isNotEmpty ? rightVals.reduce((a, b) => a + b) / rightVals.length : 1.0;
+     
+     double totalAvg = (leftAvg + rightAvg) / 2;
+     
+     // Score: Map 0.1 vol to 100, 1.0 vol to 0.
+     double score = ((1.0 - totalAvg) * 100).clamp(0, 100);
+     
+     String risk = "Normal";
+     if (score < 50) risk = "Moderate Concern";
+     if (score < 25) risk = "High Concern";
+
+     return HearingTestResult(
+        passed: score > 70,
+        score: score,
+        riskLevel: risk,
+        frequenciesTested: _frequencies,
+        responseLatency: const Duration(seconds: 0) // Approximation
+     );
+  }
+
   void _showResultsDialog() {
+    final result = _calculateResult();
+
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -231,12 +266,22 @@ class _HearingTestScreenState extends State<HearingTestScreen> {
                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                      children: [
                        Text("${freq}Hz"),
-                       Text("L: ${_formatVol(_results['Left']?[freq])} | R: ${_formatVol(_results['Right']?[freq])}"),
+                       // Use Flexible/Expanded to prevent overflow
+                       Flexible(
+                         child: Text(
+                           "L: ${_formatVol(_results['Left']?[freq])} | R: ${_formatVol(_results['Right']?[freq])}",
+                           overflow: TextOverflow.ellipsis,
+                           textAlign: TextAlign.end,
+                         ),
+                       ),
                      ],
                    ),
                  );
                }).toList(),
                const SizedBox(height: 20),
+               Text("Score: ${result.score.toStringAsFixed(0)}% (${result.riskLevel})", 
+                   style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Colors.teal)),
+               const SizedBox(height: 5),
                const Text("Note: Lower % is better (heard at lower volume).", style: TextStyle(fontSize: 12, color: Colors.grey)),
             ],
           ),
@@ -245,7 +290,7 @@ class _HearingTestScreenState extends State<HearingTestScreen> {
           TextButton(
             onPressed: () {
               Navigator.pop(context); // Close dialog
-              Navigator.pop(context); // Exit screen
+              Navigator.pop(context, result); // Exit screen WITH RESULT
             },
             child: const Text("Done"),
           )

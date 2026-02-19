@@ -633,12 +633,15 @@ class _AssessmentFlowScreenState extends ConsumerState<AssessmentFlowScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Icon(icon, size: 32, color: Colors.blue[700]),
             const SizedBox(width: 12),
-            Text(
-              title,
-              style: Theme.of(context).textTheme.headlineSmall,
+            Expanded(
+              child: Text(
+                title,
+                style: Theme.of(context).textTheme.headlineSmall,
+              ),
             ),
           ],
         ),

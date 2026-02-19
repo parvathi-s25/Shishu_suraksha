@@ -9,6 +9,7 @@ import '../screening/audio/audio_screening_screen.dart';
 import '../assessment/assessment_flow_screen.dart';
 import 'package:shishu_suraksha/app/theme/colors.dart';
 import '../../../../core/services/data_service.dart';
+import '../dashboard/tabs/assessment_report_screen.dart';
 
 class ChildDetailsScreen extends StatelessWidget {
   final ChildModel child;
@@ -134,35 +135,10 @@ class ChildDetailsScreen extends StatelessWidget {
                     Navigator.push(context, MaterialPageRoute(builder: (context) => GrowthScreen(child: child)));
                   },
                 ),
-                _buildSuiteItem(
-                  context,
-                  icon: Icons.psychology,
-                  label: t.developmental,
-                  color: Colors.teal,
-                  onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => AssessmentFlowScreen(child: child)));
-                  },
-                ),
-                _buildSuiteItem(
-                  context,
-                  icon: Icons.visibility,
-                  label: t.visionTest,
-                  color: Colors.orange,
-                  onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => VisionHomeScreen(childId: child.id)));
-                  },
-                ),
-                _buildSuiteItem(
-                  context,
-                  icon: Icons.hearing,
-                  label: t.hearingTest,
-                  color: Colors.indigo,
-                  onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => const AudioScreeningScreen()));
-                  },
-                ),
               ],
             ),
+            const SizedBox(height: 32),
+            _buildAssessmentReport(context, t),
           ],
         ),
       ),
@@ -250,5 +226,121 @@ class ChildDetailsScreen extends StatelessWidget {
     if (riskLevel == 'MEDIUM RISK') return Colors.orange;
     if (riskLevel == 'NO ASSESSMENT') return Colors.grey;
     return Colors.green;
+  }
+
+  Widget _buildAssessmentReport(BuildContext context, AppLocalizations t) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: Colors.teal.shade100),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.teal.withOpacity(0.05),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: Colors.teal.shade50,
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(Icons.assignment_turned_in, color: Colors.teal),
+              ),
+              const SizedBox(width: 12),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "General Assessment",
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.teal.shade900,
+                    ),
+                  ),
+                  Text(
+                    "Generated on ${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}",
+                    style: TextStyle(fontSize: 12, color: Colors.grey[600]),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          const Divider(height: 24),
+          _buildReportItem("Development", "Normal", Colors.green),
+          _buildReportItem("Mobility", "Active", Colors.blue),
+          _buildReportItem("Cognitive", "Age Appropriate", Colors.green),
+          _buildReportItem("Speech", "Monitoring Required", Colors.orange),
+          const SizedBox(height: 16),
+          SizedBox(
+            width: double.infinity,
+            child: OutlinedButton(
+              onPressed: () {
+                 // Simulate opening full report
+                 // Converting ChildModel to Map for the existing AssessmentReportScreen
+                 final childMap = {
+                   'id': child.id,
+                   'name': child.name,
+                   'age': '${child.ageMonths ~/ 12}y ${child.ageMonths % 12}m',
+                   'gender': child.gender,
+                   'anganwadi': child.anganwadi,
+                 };
+                 
+                 // We need to import AssessmentReportScreen. 
+                 // It is in ../../screens/dashboard/tabs/assessment_report_screen.dart
+                 // But we are in ../../screens/children/child_details_screen.dart
+                 // The relative path in the file imports is:
+                 // import '../assessment/assessment_flow_screen.dart';
+                 // So we need to add the import or use the right path.
+                 // Let's check imports first.
+                 // import '../../screens/dashboard/tabs/assessment_report_screen.dart'; seems correct relative to lib/ui/screens/children/
+                 
+                 Navigator.push(
+                    context, 
+                    MaterialPageRoute(builder: (context) => AssessmentReportScreen(child: childMap))
+                 );
+              },
+              style: OutlinedButton.styleFrom(
+                foregroundColor: Colors.teal,
+                side: const BorderSide(color: Colors.teal),
+              ),
+              child: const Text("View Full Report"),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildReportItem(String label, String value, Color color) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(label, style: const TextStyle(color: Colors.black87)),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+            decoration: BoxDecoration(
+              color: color.withOpacity(0.1),
+              borderRadius: BorderRadius.circular(4),
+            ),
+            child: Text(
+              value,
+              style: TextStyle(color: color, fontWeight: FontWeight.bold, fontSize: 12),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

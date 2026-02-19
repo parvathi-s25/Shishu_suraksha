@@ -110,17 +110,34 @@ class _SpeechAssessmentScreenState extends State<SpeechAssessmentScreen> {
     String status = "Normal Fluency";
     Color statusColor = Colors.green;
     
-    if (wpm < 60) {
-        status = "Slow Speech/Disfluent";
+    // 1. Analyze Speed
+    if (wpm < 80) {
+        status = "Slow Paced";
         statusColor = Colors.orange;
     } else if (wpm > 180) {
-        status = "Too Fast/Cluttered";
+        status = "Fast Paced";
         statusColor = Colors.orange;
+    } else {
+        status = "Normal Pace";
+        statusColor = Colors.green;
     }
     
+    // 2. Analyze Clarity/Confidence
+    // If confidence is low, it overrides "Normal Pace" to show there's an issue
     if (_confidence < 0.6) {
-        status += " (Low Clarity)";
-        statusColor = Colors.red;
+        if (status == "Normal Pace") {
+             status = "Low Clarity"; // Change completely if speed was fine but clarity bad
+        } else {
+             status += " & Low Clarity"; // Append if both speed and clarity are issues
+        }
+        statusColor = Colors.orange; // Warn
+        if (_confidence < 0.4) statusColor = Colors.red; // Critical if very low
+    } else {
+        // High confidence
+        if (status == "Normal Pace") {
+            status = "Normal Fluency"; // Good speed + Good clarity
+            statusColor = Colors.green;
+        }
     }
 
     setState(() {
@@ -134,6 +151,7 @@ class _SpeechAssessmentScreenState extends State<SpeechAssessmentScreen> {
   void _showResultDialog(String status, Color color) {
     showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (c) => AlertDialog(
         title: const Text("Fluency Analysis"),
         content: Column(
@@ -153,7 +171,20 @@ class _SpeechAssessmentScreenState extends State<SpeechAssessmentScreen> {
             )
           ],
         ),
-        actions: [TextButton(onPressed: () => Navigator.pop(c), child: const Text("Close"))],
+        actions: [
+          TextButton(
+            onPressed: () {
+               Navigator.pop(c); // Close dialog
+               // Return result to previous screen
+               Navigator.pop(context, {
+                 'wpm': _wpm,
+                 'confidence': _confidence,
+                 'status': status
+               });
+            }, 
+            child: const Text("Done")
+          )
+        ],
       )
     );
   }
