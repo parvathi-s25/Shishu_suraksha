@@ -1623,6 +1623,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Continue routine check-ups'**
   String get actionDefault;
+
+  /// No description provided for @aiDisclaimerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'AI Disclaimer'**
+  String get aiDisclaimerTitle;
+
+  /// No description provided for @aiDisclaimerBody.
+  ///
+  /// In en, this message translates to:
+  /// **'AI-based screenings are for preliminary assessment only. They do not replace professional medical diagnosis. Please consult a doctor for any health concerns.'**
+  String get aiDisclaimerBody;
 }
 
 class _AppLocalizationsDelegate

@@ -253,5 +253,7 @@
   "descNormal": "बच्चा सामान्य रूप से विकसित हो रहा है",
   "actionNormal": "नियमित निगरानी जारी रखें",
   "descDefault": "कोई महत्वपूर्ण चिंता का पता नहीं चला",
-  "actionDefault": "नियमित चेक-अप जारी रखें"
+  "actionDefault": "नियमित चेक-अप जारी रखें",
+  "aiDisclaimerTitle": "AI Disclaimer",
+  "aiDisclaimerBody": "AI-based screenings are for preliminary assessment only. They do not replace professional medical diagnosis. Please consult a doctor for any health concerns."
 }

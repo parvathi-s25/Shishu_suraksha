@@ -259,5 +259,7 @@
   "descNormal": "Child is developing normally",
   "actionNormal": "Continue regular monitoring",
   "descDefault": "No significant concerns detected",
-  "actionDefault": "Continue routine check-ups"
+  "actionDefault": "Continue routine check-ups",
+  "aiDisclaimerTitle": "AI Disclaimer",
+  "aiDisclaimerBody": "AI-based screenings are for preliminary assessment only. They do not replace professional medical diagnosis. Please consult a doctor for any health concerns."
 }

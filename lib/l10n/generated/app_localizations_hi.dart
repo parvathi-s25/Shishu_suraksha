@@ -780,4 +780,11 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get actionDefault => 'नियमित चेक-अप जारी रखें';
+
+  @override
+  String get aiDisclaimerTitle => 'AI Disclaimer';
+
+  @override
+  String get aiDisclaimerBody =>
+      'AI-based screenings are for preliminary assessment only. They do not replace professional medical diagnosis. Please consult a doctor for any health concerns.';
 }

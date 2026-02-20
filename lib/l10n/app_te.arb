@@ -259,5 +259,7 @@
   "descNormal": "పిల్లవాడు సాధారణంగా అభివృద్ధి చెందుతున్నాడు",
   "actionNormal": "సాధారణ పర్యవేక్షణ కొనసాగించండి",
   "descDefault": "ఎటువంటి ప్రధాన ఆందోళనలు గుర్తించబడలేదు",
-  "actionDefault": "సాధారణ చెక్-అప్‌లను కొనసాగించండి"
+  "actionDefault": "సాధారణ చెక్-అప్‌లను కొనసాగించండి",
+  "aiDisclaimerTitle": "AI Disclaimer",
+  "aiDisclaimerBody": "AI-based screenings are for preliminary assessment only. They do not replace professional medical diagnosis. Please consult a doctor for any health concerns."
 }

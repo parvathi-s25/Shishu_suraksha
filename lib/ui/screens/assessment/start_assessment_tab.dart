@@ -76,6 +76,10 @@ class _StartAssessmentTabState extends State<StartAssessmentTab> {
           
           _buildStandardAssessmentFlow(responsive, AppLocalizations.of(context)!),
           
+
+
+          _buildAIDisclaimer(context, responsive),
+
           SizedBox(height: responsive.getSpacing(80)),
         ],
       ),
@@ -203,6 +207,57 @@ class _StartAssessmentTabState extends State<StartAssessmentTab> {
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildAIDisclaimer(BuildContext context, ResponsiveDashboard responsive) {
+    final t = AppLocalizations.of(context)!;
+    return Container(
+      padding: const EdgeInsets.all(16),
+      margin: const EdgeInsets.only(top: 24),
+      decoration: BoxDecoration(
+        color: AppColors.surface,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Colors.orange.withOpacity(0.3)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.orange.withOpacity(0.05),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Icon(Icons.info_outline, color: Colors.orange[700], size: 24),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  t.aiDisclaimerTitle,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.orange[900],
+                    fontSize: responsive.getFontSize(16),
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  t.aiDisclaimerBody,
+                  style: TextStyle(
+                    color: AppColors.textSecondary,
+                    fontSize: responsive.getFontSize(14),
+                    height: 1.4,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
