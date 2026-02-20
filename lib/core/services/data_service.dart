@@ -83,6 +83,15 @@ class DataService extends ChangeNotifier {
     notifyListeners();
   }
 
+  void updateChild(ChildModel updatedChild) {
+    final index = _children.indexWhere((c) => c.id == updatedChild.id);
+    if (index != -1) {
+      _children[index] = updatedChild;
+      _offlineService.saveChild(updatedChild.toJson()); // Assuming upsert behavior or relying on ID
+      notifyListeners();
+    }
+  }
+
   void addAssessment() {
     _assessmentCount++;
     _assessmentCountController.add(_assessmentCount);

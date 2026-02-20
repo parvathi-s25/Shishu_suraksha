@@ -20,6 +20,7 @@ import '../../../modules/admin_dashboard/screens/admin_schools_screen.dart';
 import '../../../modules/admin_dashboard/screens/admin_reports_screen.dart';
 import '../../../../main.dart'; // For language switching
 import '../../../../core/services/offline_data_service.dart';
+import '../profile/profile_screen.dart'; // Import Profile Screen
 
 class DashboardScreen extends StatefulWidget {
   final String role; // 'Admin' or 'Anganwadi Teacher'
@@ -315,7 +316,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
           ListTile(
             leading: const Icon(Icons.person),
             title: Text(t.profile),
-            onTap: () => Navigator.pop(context),
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const ProfileScreen()),
+              );
+            },
           ),
           ListTile(
             leading: const Icon(Icons.settings),

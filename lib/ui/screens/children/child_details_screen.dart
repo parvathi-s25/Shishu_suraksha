@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shishu_suraksha/l10n/generated/app_localizations.dart';
 import '../../../../core/data/models/child_model.dart';
 import '../../../../core/data/models/assessment_result_models.dart';
-import '../../screens/monitor/health_monitoring_screen.dart';
+
 import '../../screens/monitor/growth_screen.dart';
 import '../../../modules/vision/screens/vision_home_screen.dart';
 import '../screening/audio/audio_screening_screen.dart';
@@ -72,6 +72,14 @@ class ChildDetailsScreen extends StatelessWidget {
                 ),
               ),
             ),
+            const SizedBox(height: 16),
+            Center(
+              child: OutlinedButton.icon(
+                onPressed: () => _showEditDetailsDialog(context),
+                icon: const Icon(Icons.edit),
+                label: const Text("Edit Details"),
+              ),
+            ),
             const SizedBox(height: 24),
 
             // Risk Level Status
@@ -108,35 +116,6 @@ class ChildDetailsScreen extends StatelessWidget {
               style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold, color: AppColors.primary),
             ),
             const SizedBox(height: 16),
-            
-            GridView.count(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              crossAxisCount: 2,
-              mainAxisSpacing: 16,
-              crossAxisSpacing: 16,
-              childAspectRatio: 1.2,
-              children: [
-                _buildSuiteItem(
-                  context,
-                  icon: Icons.monitor_heart,
-                  label: t.heartRateVitals,
-                  color: Colors.purple,
-                  onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => HealthMonitoringScreen(child: child)));
-                  },
-                ),
-                _buildSuiteItem(
-                  context,
-                  icon: Icons.show_chart,
-                  label: t.growth,
-                  color: Colors.blue,
-                  onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => GrowthScreen(child: child)));
-                  },
-                ),
-              ],
-            ),
             const SizedBox(height: 32),
             _buildAssessmentReport(context, t),
           ],
@@ -280,34 +259,20 @@ class ChildDetailsScreen extends StatelessWidget {
           _buildReportItem("Mobility", "Active", Colors.blue),
           _buildReportItem("Cognitive", "Age Appropriate", Colors.green),
           _buildReportItem("Speech", "Monitoring Required", Colors.orange),
+          _buildReportItem("Vision", "Normal", Colors.green),
+          _buildReportItem("Hearing", "Pass", Colors.green),
+          _buildReportItem("Heart Rate", "98 bpm", Colors.pink),
+          _buildGrowthItem(context, child), // Added Growth Item
           const SizedBox(height: 16),
           SizedBox(
             width: double.infinity,
             child: OutlinedButton(
               onPressed: () {
                  // Simulate opening full report
-                 // Converting ChildModel to Map for the existing AssessmentReportScreen
-                 final childMap = {
-                   'id': child.id,
-                   'name': child.name,
-                   'age': '${child.ageMonths ~/ 12}y ${child.ageMonths % 12}m',
-                   'gender': child.gender,
-                   'anganwadi': child.anganwadi,
-                 };
-                 
-                 // We need to import AssessmentReportScreen. 
-                 // It is in ../../screens/dashboard/tabs/assessment_report_screen.dart
-                 // But we are in ../../screens/children/child_details_screen.dart
-                 // The relative path in the file imports is:
-                 // import '../assessment/assessment_flow_screen.dart';
-                 // So we need to add the import or use the right path.
-                 // Let's check imports first.
-                 // import '../../screens/dashboard/tabs/assessment_report_screen.dart'; seems correct relative to lib/ui/screens/children/
-                 
-                 Navigator.push(
-                    context, 
-                    MaterialPageRoute(builder: (context) => AssessmentReportScreen(child: childMap))
-                 );
+                  Navigator.push(
+                     context, 
+                     MaterialPageRoute(builder: (context) => AssessmentReportScreen(child: child))
+                  );
               },
               style: OutlinedButton.styleFrom(
                 foregroundColor: Colors.teal,
@@ -318,6 +283,34 @@ class ChildDetailsScreen extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildGrowthItem(BuildContext context, ChildModel child) {
+    if (child.growthHistory.isEmpty) {
+      return _buildReportItem("Growth (BMI)", "No Data", Colors.grey);
+    }
+    final latest = child.growthHistory.last;
+    final bmi = latest.bmi;
+    String status = 'Normal';
+    Color color = Colors.green;
+    
+    if (bmi < 14) {
+      status = 'Underweight';
+      color = Colors.orange;
+    } else if (bmi > 18) {
+      status = 'Overweight';
+      color = Colors.red;
+    }
+
+    return InkWell( // Make it clickable to see the chart if needed, or just display text
+      onTap: () {
+         Navigator.push(
+           context,
+           MaterialPageRoute(builder: (context) => GrowthScreen(child: child)),
+         );
+      },
+      child: _buildReportItem("Growth (BMI)", "${bmi.toStringAsFixed(1)} ($status)", color),
     );
   }
 
@@ -341,6 +334,62 @@ class ChildDetailsScreen extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  void _showEditDetailsDialog(BuildContext context) {
+    final TextEditingController heightController = TextEditingController();
+    final TextEditingController weightController = TextEditingController();
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text("Update Growth Details"),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: heightController,
+                decoration: const InputDecoration(labelText: "Height (cm)"),
+                keyboardType: TextInputType.number,
+              ),
+              TextField(
+                controller: weightController,
+                decoration: const InputDecoration(labelText: "Weight (kg)"),
+                keyboardType: TextInputType.number,
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text("Cancel"),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                final double? h = double.tryParse(heightController.text);
+                final double? w = double.tryParse(weightController.text);
+                
+                if (h != null && w != null) {
+                  final record = GrowthRecord(
+                    date: DateTime.now(),
+                    height: h,
+                    weight: w,
+                  );
+                  child.growthHistory.add(record);
+                  DataService().updateChild(child);
+                  Navigator.pop(context);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text("Details Updated")),
+                  );
+                }
+              },
+              child: const Text("Save"),
+            ),
+          ],
+        );
+      },
     );
   }
 }

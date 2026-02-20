@@ -18,6 +18,7 @@ import '../../../../modules/ai_audio/screens/hearing_test_screen.dart';
 import '../../../../modules/ai_audio/screens/speech_assessment_screen.dart'; // Added Import
 import '../../assessment/assessment_flow_screen.dart';
 import '../../../../core/data/models/child_model.dart';
+import '../../monitor/health_monitoring_screen.dart';
 
 class AssessmentScreen extends StatefulWidget {
   final Map<String, dynamic> child;
@@ -200,6 +201,7 @@ class _AssessmentScreenState extends State<AssessmentScreen>
       {'title': 'Injury Scan', 'icon': Icons.healing, 'key': 'injury', 'index': 4, 'completed': _woundResult != null},
       {'title': 'Symptoms', 'icon': Icons.face, 'key': 'symptoms', 'index': 5, 'completed': _symptomResult != null},
       {'title': 'Thermal Scan', 'icon': Icons.thermostat, 'key': 'thermal', 'index': 6, 'completed': _thermalResult != null},
+      {'title': 'Heart Rate & Vitals', 'icon': Icons.monitor_heart, 'key': 'vitals', 'index': 7, 'completed': false}, // TODO: Track completion
     ];
 
     return GridView.builder(
@@ -480,6 +482,8 @@ class _AssessmentScreenState extends State<AssessmentScreen>
              if (_currentStep == 4) _buildInjuryTest(responsive),
              if (_currentStep == 5) _buildSymptomsTest(responsive),
              if (_currentStep == 6) _buildThermalTest(responsive),
+             if (_currentStep == 7) _buildHeartRateTest(responsive),
+
 
              const SizedBox(height: 30),
              
@@ -1051,11 +1055,86 @@ class _AssessmentScreenState extends State<AssessmentScreen>
   }
 
   void _completeAssessment(ResponsiveDesign responsive) {
+      // Create ChildModel from map (reusing logic from _startHeartRateTest)
+      final childId = widget.child['id']?.toString() ?? DateTime.now().millisecondsSinceEpoch.toString();
+      final childName = widget.child['name']?.toString() ?? 'Unknown Child';
+      DateTime? dob;
+      if (widget.child['dob'] != null && widget.child['dob'] is String) {
+         try { dob = DateTime.parse(widget.child['dob']); } catch(_) {}
+      }
+      int? age;
+      if (widget.child['age'] != null) {
+         if (widget.child['age'] is int) age = widget.child['age'];
+         else if (widget.child['age'] is String) age = int.tryParse(widget.child['age']);
+      }
+
+      final childModel = ChildModel(
+        id: childId,
+        name: childName,
+        age: age,
+        dob: dob,
+        gender: widget.child['gender']?.toString(),
+        anganwadi: widget.child['anganwadi']?.toString(),
+      );
+
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (context) => AssessmentReportScreen(child: widget.child),
+        builder: (context) => AssessmentReportScreen(child: childModel),
       ),
     );
+  }
+  // --- Step 8: Heart Rate & Vitals ---
+  Widget _buildHeartRateTest(ResponsiveDesign responsive) {
+     return Column(
+      children: [
+        Text("8. Heart Rate & Vitals", style: Theme.of(context).textTheme.headlineSmall),
+        _buildSubtitle(responsive, "Measure heart rate and other vitals."),
+        SizedBox(height: responsive.getAdaptiveSpacing(20)),
+        
+        ElevatedButton.icon(
+          onPressed: () => _startHeartRateTest(context),
+          icon: const Icon(Icons.monitor_heart),
+          label: const Text("Start Vitals Measurement"),
+          style: ElevatedButton.styleFrom(
+             backgroundColor: Colors.purple,
+             foregroundColor: Colors.white,
+             padding: EdgeInsets.symmetric(
+                horizontal: responsive.getAdaptiveSpacing(24),
+                vertical: 12
+             )
+          ),
+        ),
+      ],
+    );
+  }
+
+  void _startHeartRateTest(BuildContext context) {
+      // Create ChildModel from map
+      final childId = widget.child['id']?.toString() ?? DateTime.now().millisecondsSinceEpoch.toString();
+      final childName = widget.child['name']?.toString() ?? 'Unknown Child';
+      DateTime? dob;
+      if (widget.child['dob'] != null && widget.child['dob'] is String) {
+         try { dob = DateTime.parse(widget.child['dob']); } catch(_) {}
+      }
+      int? age;
+      if (widget.child['age'] != null) {
+         if (widget.child['age'] is int) age = widget.child['age'];
+         else if (widget.child['age'] is String) age = int.tryParse(widget.child['age']);
+      }
+
+      final childModel = ChildModel(
+        id: childId,
+        name: childName,
+        age: age,
+        dob: dob,
+        gender: widget.child['gender']?.toString(),
+        anganwadi: widget.child['anganwadi']?.toString(),
+      );
+
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => HealthMonitoringScreen(child: childModel)),
+      );
   }
 }

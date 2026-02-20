@@ -118,9 +118,11 @@ class _SocialEmotionalAssessmentScreenState extends ConsumerState<SocialEmotiona
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              _buildRatingButton('Poor', 30, Colors.red),
-              _buildRatingButton('Fair', 60, Colors.orange),
-              _buildRatingButton('Good', 90, Colors.green),
+              Expanded(child: _buildRatingButton('Poor', 30, Colors.red)),
+              const SizedBox(width: 8),
+              Expanded(child: _buildRatingButton('Fair', 60, Colors.orange)),
+              const SizedBox(width: 8),
+              Expanded(child: _buildRatingButton('Good', 90, Colors.green)),
             ],
           ),
         ],
@@ -147,9 +149,11 @@ class _SocialEmotionalAssessmentScreenState extends ConsumerState<SocialEmotiona
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              _buildRatingButton('Avoidant', 30, Colors.red, isInteraction: true),
-              _buildRatingButton('Passive', 60, Colors.orange, isInteraction: true),
-              _buildRatingButton('Active', 90, Colors.green, isInteraction: true),
+              Expanded(child: _buildRatingButton('Avoidant', 30, Colors.red, isInteraction: true)),
+              const SizedBox(width: 8),
+              Expanded(child: _buildRatingButton('Passive', 60, Colors.orange, isInteraction: true)),
+              const SizedBox(width: 8),
+              Expanded(child: _buildRatingButton('Active', 90, Colors.green, isInteraction: true)),
             ],
           ),
         ],
@@ -176,9 +180,11 @@ class _SocialEmotionalAssessmentScreenState extends ConsumerState<SocialEmotiona
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              _buildRatingButton('Distressed', 30, Colors.red, isEmotion: true),
-              _buildRatingButton('Neutral', 60, Colors.orange, isEmotion: true),
-              _buildRatingButton('Responsive', 90, Colors.green, isEmotion: true),
+              Expanded(child: _buildRatingButton('Distressed', 30, Colors.red, isEmotion: true)),
+              const SizedBox(width: 8),
+              Expanded(child: _buildRatingButton('Neutral', 60, Colors.orange, isEmotion: true)),
+              const SizedBox(width: 8),
+              Expanded(child: _buildRatingButton('Responsive', 90, Colors.green, isEmotion: true)),
             ],
           ),
         ],
@@ -212,8 +218,15 @@ class _SocialEmotionalAssessmentScreenState extends ConsumerState<SocialEmotiona
         backgroundColor: isSelected ? color : Colors.white,
         foregroundColor: isSelected ? Colors.white : color,
         side: BorderSide(color: color),
+        padding: const EdgeInsets.symmetric(vertical: 12), // Added padding for better touch target and text fit
       ),
-      child: Text(label),
+      child: Text(
+        label,
+        textAlign: TextAlign.center,
+        style: const TextStyle(fontSize: 13), // Slightly smaller font to ensure fit
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+      ),
     );
   }
 
