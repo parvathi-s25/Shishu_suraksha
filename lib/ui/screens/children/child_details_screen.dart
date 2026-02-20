@@ -77,7 +77,7 @@ class ChildDetailsScreen extends StatelessWidget {
               child: OutlinedButton.icon(
                 onPressed: () => _showEditDetailsDialog(context),
                 icon: const Icon(Icons.edit),
-                label: const Text("Edit Details"),
+                label: const Text("Edit BMI Values"),
               ),
             ),
             const SizedBox(height: 24),
