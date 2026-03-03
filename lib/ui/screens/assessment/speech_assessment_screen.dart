@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:shishu_suraksha/core/data/models/assessment_result_models.dart';
+import '../../../../core/data/models/assessment_result_models.dart';
 import 'dart:async';
 import 'dart:math';
-import 'package:shishu_suraksha/core/services/ai/speech_model_service.dart';
+import '../../../../core/services/ai/speech_model_service.dart';
 import '../../../core/data/models/child_model.dart';
+import '../../../providers/assessment_provider.dart';
 import 'assessment_result_screen.dart';
 
 /// Simulated Speech & Language Assessment Screen
@@ -101,7 +102,7 @@ class _SpeechAssessmentScreenState extends ConsumerState<SpeechAssessmentScreen>
         );
       });
     } catch (e) {
-      Navigator.pop(context);
+      if (mounted) Navigator.pop(context);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Analysis failed: $e')),
       );
@@ -136,13 +137,15 @@ class _SpeechAssessmentScreenState extends ConsumerState<SpeechAssessmentScreen>
       developmentalAgeMonths: widget.child.ageMonths, // Placeholder
     );
 
+    ref.read(assessmentProvider).completeSpeech(result);
+
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => AssessmentResultScreen(
           child: widget.child,
           speechAssessment: result,
-          overallSpeechScore: result.totalScore,
+          overallScore: result.totalScore,
         ),
       ),
     );
@@ -289,7 +292,7 @@ class _SpeechAssessmentScreenState extends ConsumerState<SpeechAssessmentScreen>
                 backgroundColor: Colors.green,
                 padding: const EdgeInsets.symmetric(vertical: 15),
               ),
-              child: const Text('Save & View Report', style: TextStyle(fontSize: 18)),
+              child: const Text('Save & View Report', style: TextStyle(fontSize: 18, color: Colors.white)),
             ),
           ),
         ],

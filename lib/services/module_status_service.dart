@@ -20,7 +20,6 @@ class ModuleStatusService {
 
   final ValueNotifier<Map<String, bool>> _notifier = ValueNotifier({});
 
-  ModuleStatusService._init() : _notifier = ValueNotifier({});
 
   ValueListenable<Map<String, bool>> get snapshotListenable => _notifier;
 

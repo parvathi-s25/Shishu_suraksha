@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:google_mlkit_face_detection/google_mlkit_face_detection.dart';
 import '../../services/module_status_service.dart';
 import '../../services/vision_processor.dart';
 import '../../services/tflite_isolate.dart';
+import '../../services/db_service.dart';
 
 class ReflexScreen extends StatefulWidget {
   const ReflexScreen({super.key});
@@ -61,8 +63,8 @@ class _ReflexScreenState extends State<ReflexScreen> {
   void _captureBaseline() {
     // Use latest detection synchronously via a one-shot detector
     VisionProcessor.instance.onFace = (face) async {
-      final leftPts = face.getContour(FaceContourType.leftEye)?.points ?? [];
-      final rightPts = face.getContour(FaceContourType.rightEye)?.points ?? [];
+      final leftPts = face.contours[FaceContourType.leftEye]?.points ?? [];
+      final rightPts = face.contours[FaceContourType.rightEye]?.points ?? [];
       double? leftH = _eyeContourHeight(leftPts);
       double? rightH = _eyeContourHeight(rightPts);
       // If TFLite model available, attempt segmentation-run to get pupil area baseline
@@ -101,8 +103,8 @@ class _ReflexScreenState extends State<ReflexScreen> {
 
     // after flash, capture one frame similarly
     VisionProcessor.instance.onFace = (face) async {
-      final leftPts = face.getContour(FaceContourType.leftEye)?.points ?? [];
-      final rightPts = face.getContour(FaceContourType.rightEye)?.points ?? [];
+      final leftPts = face.contours[FaceContourType.leftEye]?.points ?? [];
+      final rightPts = face.contours[FaceContourType.rightEye]?.points ?? [];
       double? leftH = _eyeContourHeight(leftPts);
       double? rightH = _eyeContourHeight(rightPts);
 

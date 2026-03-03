@@ -68,19 +68,18 @@ class _AnganwadiLoginScreenState extends State<AnganwadiLoginScreen> {
                   size: 40,
                 ),
               ),
-              const SizedBox(height: 24),
-              
-                child: FittedBox(
-                  fit: BoxFit.scaleDown,
-                  child: Text(
-                    'Anganwadi Worker Login',
-                    style: TextStyle(
-                      fontSize: 28,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xFF3B1E8A), // Dark Purple
-                    ),
+              FittedBox(
+                fit: BoxFit.scaleDown,
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'Anganwadi Worker Login',
+                  style: TextStyle(
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF3B1E8A), // Dark Purple
                   ),
                 ),
+              ),
               const SizedBox(height: 8),
               Text(
                 'Please select your center details to sign in.',

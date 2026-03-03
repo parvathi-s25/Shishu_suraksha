@@ -370,7 +370,7 @@ class DatabaseService {
   }
 
   // Motor Results
-  Future<void> saveMotorResult(String sessionId, MotorAssessmentResult result) async {
+  Future<void> saveMotorResult(String sessionId, PoseMotorResult result) async {
     final db = await database;
     await db.insert(
       'motor_results',

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'dart:math';
 import '../../../core/data/models/child_model.dart';
 import '../../../core/data/models/assessment_result_models.dart';
+import '../../../providers/assessment_provider.dart';
 import 'assessment_result_screen.dart';
 
 /// Simulated Social-Emotional Assessment Screen
@@ -63,13 +64,15 @@ class _SocialEmotionalAssessmentScreenState extends ConsumerState<SocialEmotiona
       developmentalAgeMonths: widget.child.ageMonths,
     );
 
+    ref.read(assessmentProvider).completeSocialEmotional(result);
+
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => AssessmentResultScreen(
           child: widget.child,
           socialEmotionalAssessment: result,
-          overallSocialEmotionalScore: result.totalScore, // Pass to overall score
+          overallScore: result.totalScore,
         ),
       ),
     );
@@ -218,12 +221,12 @@ class _SocialEmotionalAssessmentScreenState extends ConsumerState<SocialEmotiona
         backgroundColor: isSelected ? color : Colors.white,
         foregroundColor: isSelected ? Colors.white : color,
         side: BorderSide(color: color),
-        padding: const EdgeInsets.symmetric(vertical: 12), // Added padding for better touch target and text fit
+        padding: const EdgeInsets.symmetric(vertical: 12),
       ),
       child: Text(
         label,
         textAlign: TextAlign.center,
-        style: const TextStyle(fontSize: 13), // Slightly smaller font to ensure fit
+        style: const TextStyle(fontSize: 13),
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
       ),
@@ -250,8 +253,9 @@ class _SocialEmotionalAssessmentScreenState extends ConsumerState<SocialEmotiona
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.teal,
                 padding: const EdgeInsets.symmetric(vertical: 15),
+                foregroundColor: Colors.white,
               ),
-              child: const Text('Save & View Report', style: TextStyle(fontSize: 18, color: Colors.white)),
+              child: const Text('Save & View Report', style: TextStyle(fontSize: 18)),
             ),
           ),
         ],

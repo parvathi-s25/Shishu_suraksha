@@ -1,6 +1,6 @@
 // Module 5: Color Vision (Simple accuracy-based, working)
-import '../models/assessment_models.dart';
-import '../services/database_service.dart';
+import 'package:shishu_suraksha/core/models/assessment_models.dart';
+import 'package:shishu_suraksha/core/services/database_service.dart';
 
 class ColorVisionModule {
   final DatabaseService database;
@@ -60,3 +60,5 @@ class ColorVisionModule {
     await database.saveColorVisionResult(sessionId, result);
   }
 }
+
+

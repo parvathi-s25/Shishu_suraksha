@@ -1,3 +1,4 @@
+import 'dart:math' show max;
 import '../models/vision_result_model.dart';
 
 class VisionScoreService {
@@ -56,3 +57,4 @@ class VisionScoreService {
     return 'High Risk';
   }
 }
+

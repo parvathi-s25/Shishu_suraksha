@@ -2,10 +2,10 @@
 import 'package:camera/camera.dart';
 import 'package:google_mlkit_face_detection/google_mlkit_face_detection.dart';
 import 'dart:ui' as ui;
-import '../models/assessment_models.dart';
-import '../services/database_service.dart';
-import '../services/frame_processor.dart';
-import '../utils/landmark_math.dart';
+import 'package:shishu_suraksha/core/models/assessment_models.dart';
+import 'package:shishu_suraksha/core/services/database_service.dart';
+import 'package:shishu_suraksha/core/services/frame_processor.dart';
+import 'package:shishu_suraksha/core/utils/landmark_math.dart';
 
 class EyeAlignmentModule {
   final FrameProcessor frameProcessor;
@@ -36,17 +36,19 @@ class EyeAlignmentModule {
     // - face.boundingBox for overall face
     // - face.landmarks for key points
     
-    // Use face.landmarks to get eye/nose positions
-    for (var landmark in face.landmarks) {
-      switch (landmark.type) {
+    // face.landmarks is Map<FaceLandmarkType, FaceLandmark?> in ML Kit
+    for (final entry in face.landmarks.entries) {
+      final landmark = entry.value;
+      if (landmark == null) continue;
+      switch (entry.key) {
         case FaceLandmarkType.leftEye:
-          leftEyePosition = ui.Offset(landmark.position.x, landmark.position.y);
+          leftEyePosition = ui.Offset(landmark.position.x.toDouble(), landmark.position.y.toDouble());
           break;
         case FaceLandmarkType.rightEye:
-          rightEyePosition = ui.Offset(landmark.position.x, landmark.position.y);
+          rightEyePosition = ui.Offset(landmark.position.x.toDouble(), landmark.position.y.toDouble());
           break;
         case FaceLandmarkType.noseBase:
-          nosePosition = ui.Offset(landmark.position.x, landmark.position.y);
+          nosePosition = ui.Offset(landmark.position.x.toDouble(), landmark.position.y.toDouble());
           break;
         default:
           break;
@@ -160,3 +162,5 @@ class AlignmentAnalysis {
   double rightEyeOffset = 0;
   double asymmetryDifference = 0;
 }
+
+

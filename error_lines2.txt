@@ -1,0 +1,9 @@
+  error - The method 'requestScopes' isn't defined for the type 'GoogleSignIn' - lib\core\services\calendar_service.dart:29:57 - undefined_method
+  error - The expression doesn't evaluate to a function, so it can't be invoked - lib\core\services\calendar_service.dart:35:32 - invocation_of_non_function_expression
+  error - The getter 'currentUser' isn't defined for the type 'GoogleSignIn' - lib\core\services\calendar_service.dart:36:31 - undefined_getter
+  error - The argument type 'int' can't be assigned to the parameter type 'double'.  - lib\modules\vision\eye_alignment_module.dart:45:39 - argument_type_not_assignable
+  error - The argument type 'int' can't be assigned to the parameter type 'double'.  - lib\modules\vision\eye_alignment_module.dart:45:60 - argument_type_not_assignable
+  error - The argument type 'int' can't be assigned to the parameter type 'double'.  - lib\modules\vision\eye_alignment_module.dart:48:40 - argument_type_not_assignable
+  error - The argument type 'int' can't be assigned to the parameter type 'double'.  - lib\modules\vision\eye_alignment_module.dart:48:61 - argument_type_not_assignable
+  error - The argument type 'int' can't be assigned to the parameter type 'double'.  - lib\modules\vision\eye_alignment_module.dart:51:36 - argument_type_not_assignable
+  error - The argument type 'int' can't be assigned to the parameter type 'double'.  - lib\modules\vision\eye_alignment_module.dart:51:57 - argument_type_not_assignable

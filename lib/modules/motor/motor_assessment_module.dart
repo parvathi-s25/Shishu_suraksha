@@ -1,10 +1,11 @@
 // Module 7: Motor Assessment (3 rule-based tasks)
+import 'dart:ui' show Offset;
 import 'package:camera/camera.dart';
 import 'package:google_mlkit_pose_detection/google_mlkit_pose_detection.dart';
-import '../models/assessment_models.dart';
-import '../services/database_service.dart';
-import '../services/frame_processor.dart';
-import '../utils/landmark_math.dart';
+import 'package:shishu_suraksha/core/models/assessment_models.dart';
+import 'package:shishu_suraksha/core/services/database_service.dart';
+import 'package:shishu_suraksha/core/services/frame_processor.dart';
+import 'package:shishu_suraksha/core/utils/landmark_math.dart';
 
 class MotorAssessmentModule {
   final FrameProcessor frameProcessor;
@@ -109,7 +110,7 @@ class MotorAssessmentModule {
       walkSymmetryScore: walkSymmetryScore,
     );
 
-    final result = MotorAssessmentResult(
+    final result = PoseMotorResult(
       balanceScore: balanceScore,
       symmetryScore: symmetryScore,
       walkSymmetryScore: walkSymmetryScore,
@@ -131,3 +132,5 @@ class HipMovement {
     required this.rightHipY,
   });
 }
+
+

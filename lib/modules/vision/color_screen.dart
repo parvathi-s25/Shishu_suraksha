@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../services/module_status_service.dart';
 import 'screens/color_vision_test_screen.dart';
-import '../models/vision_result_model.dart';
+import 'models/vision_result_model.dart';
 import '../../services/db_service.dart';
 
 class ColorScreen extends StatefulWidget {
@@ -88,3 +88,4 @@ class _ColorScreenState extends State<ColorScreen> {
     );
   }
 }
+

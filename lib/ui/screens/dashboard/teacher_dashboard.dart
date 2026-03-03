@@ -21,6 +21,7 @@ import '../../../modules/admin_dashboard/screens/admin_reports_screen.dart';
 import '../../../../main.dart'; // For language switching
 import '../../../../core/services/offline_data_service.dart';
 import '../profile/profile_screen.dart'; // Import Profile Screen
+import 'ml_insights_screen.dart'; // Import ML Insights Screen
 
 class DashboardScreen extends StatefulWidget {
   final String role; // 'Admin' or 'Anganwadi Teacher'
@@ -328,6 +329,17 @@ class _DashboardScreenState extends State<DashboardScreen> {
             leading: const Icon(Icons.settings),
             title: Text(t.settings),
             onTap: () => Navigator.pop(context),
+          ),
+          ListTile(
+            leading: const Icon(Icons.insights),
+            title: const Text('AI/ML Proof'),
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const MLInsightsScreen()),
+              );
+            },
           ),
           const Divider(),
           AnimatedBuilder(

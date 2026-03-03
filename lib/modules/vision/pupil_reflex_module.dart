@@ -1,9 +1,9 @@
 // Module 4: Pupil Light Reflex (Image processing, working)
 import 'package:camera/camera.dart';
 import 'package:image/image.dart' as img;
-import '../models/assessment_models.dart';
-import '../services/database_service.dart';
-import '../services/frame_processor.dart';
+import 'package:shishu_suraksha/core/models/assessment_models.dart';
+import 'package:shishu_suraksha/core/services/database_service.dart';
+import 'package:shishu_suraksha/core/services/frame_processor.dart';
 
 class PupilReflexModule {
   final FrameProcessor frameProcessor;
@@ -92,3 +92,5 @@ class PupilReflexModule {
     await database.savePupilResult(sessionId, result);
   }
 }
+
+

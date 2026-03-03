@@ -1,9 +1,9 @@
 // Module 2: Distance Check (Rule-based, working)
 import 'package:camera/camera.dart';
 import 'package:google_mlkit_face_detection/google_mlkit_face_detection.dart';
-import '../models/assessment_models.dart';
-import '../services/database_service.dart';
-import '../services/frame_processor.dart';
+import 'package:shishu_suraksha/core/models/assessment_models.dart';
+import 'package:shishu_suraksha/core/services/database_service.dart';
+import 'package:shishu_suraksha/core/services/frame_processor.dart';
 
 class DistanceCheckModule {
   final FrameProcessor frameProcessor;
@@ -100,3 +100,5 @@ class DistanceCheckModule {
     await database.saveDistanceResult(sessionId, result);
   }
 }
+
+

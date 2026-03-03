@@ -10,6 +10,9 @@ class AssessmentState {
   bool colorVisionDone = false;
   bool refractionRiskDone = false;
   bool motorAssessmentDone = false;
+  bool speechAssessmentDone = false;
+  bool cognitiveAssessmentDone = false;
+  bool socialEmotionalDone = false;
 
   bool get allComplete =>
       poseDone &&
@@ -18,7 +21,10 @@ class AssessmentState {
       pupilReflexDone &&
       colorVisionDone &&
       refractionRiskDone &&
-      motorAssessmentDone;
+      motorAssessmentDone &&
+      speechAssessmentDone &&
+      cognitiveAssessmentDone &&
+      socialEmotionalDone;
 
   Map<String, dynamic> toMap() => {
         'poseDone': poseDone,
@@ -28,6 +34,9 @@ class AssessmentState {
         'colorVisionDone': colorVisionDone,
         'refractionRiskDone': refractionRiskDone,
         'motorAssessmentDone': motorAssessmentDone,
+        'speechAssessmentDone': speechAssessmentDone,
+        'cognitiveAssessmentDone': cognitiveAssessmentDone,
+        'socialEmotionalDone': socialEmotionalDone,
       };
 
   void reset() {
@@ -38,6 +47,9 @@ class AssessmentState {
     colorVisionDone = false;
     refractionRiskDone = false;
     motorAssessmentDone = false;
+    speechAssessmentDone = false;
+    cognitiveAssessmentDone = false;
+    socialEmotionalDone = false;
   }
 }
 
@@ -212,15 +224,15 @@ class RefractionRiskResult {
       };
 }
 
-/// Motor assessment result
-class MotorAssessmentResult {
+/// Pose-based Motor result (Task-specific)
+class PoseMotorResult {
   final double balanceScore; // Task 1: Stand still
   final double symmetryScore; // Task 2: Raise arms
   final double walkSymmetryScore; // Task 3: Walk
   final double overallMotorScore; // 0-100
   final DateTime timestamp;
 
-  MotorAssessmentResult({
+  PoseMotorResult({
     required this.balanceScore,
     required this.symmetryScore,
     required this.walkSymmetryScore,
@@ -250,7 +262,10 @@ class AssessmentSession {
   PupilReflexResult? pupilResult;
   ColorVisionResult? colorVisionResult;
   RefractionRiskResult? refractionResult;
-  MotorAssessmentResult? motorResult;
+  PoseMotorResult? motorResult;
+  dynamic speechResult; // Use dynamic or import SpeechAssessmentResult
+  dynamic cognitiveResult;
+  dynamic socialEmotionalResult;
 
   AssessmentSession({
     required this.id,
@@ -274,34 +289,34 @@ class AssessmentSession {
 
   /// Calculate overall development score
   double calculateDevelopmentScore() {
-    double score = 0;
-    int validScores = 0;
+    double totalScore = 0;
+    int domainCount = 0;
 
-    if (poseResult != null) {
-      score += poseResult!.score * 0.20;
-      validScores++;
+    void addScoreValue(double? s) {
+      if (s != null) {
+        totalScore += s;
+        domainCount++;
+      }
     }
-    if (motorResult != null) {
-      score += motorResult!.overallMotorScore * 0.30;
-      validScores++;
-    }
-    if (alignmentResult != null) {
-      score += alignmentResult!.score * 0.15;
-      validScores++;
-    }
-    if (colorVisionResult != null) {
-      score += colorVisionResult!.score * 0.15;
-      validScores++;
-    }
+
+    addScoreValue(poseResult?.score);
+    addScoreValue(motorResult?.overallMotorScore);
+    addScoreValue(alignmentResult?.score);
+    addScoreValue(colorVisionResult?.score);
+    addScoreValue(pupilResult?.score);
     if (refractionResult != null) {
-      score += (100 - (refractionResult!.riskLevel == 'high' ? 30 : refractionResult!.riskLevel == 'medium' ? 15 : 0)).toDouble() * 0.10;
-      validScores++;
+      addScoreValue((100 - (refractionResult!.riskLevel == 'high' ? 30 : refractionResult!.riskLevel == 'medium' ? 15 : 0)).toDouble());
     }
-    if (pupilResult != null) {
-      score += pupilResult!.score * 0.10;
-      validScores++;
+    if (speechResult != null) {
+       addScoreValue(speechResult.totalScore as double);
+    }
+    if (cognitiveResult != null) {
+       addScoreValue(cognitiveResult.totalScore as double);
+    }
+    if (socialEmotionalResult != null) {
+       addScoreValue(socialEmotionalResult.totalScore as double);
     }
 
-    return validScores > 0 ? score / validScores : 0;
+    return domainCount > 0 ? totalScore / domainCount : 0;
   }
 }

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_mlkit_pose_detection/google_mlkit_pose_detection.dart';
 import '../../../../ui/widgets/ai/camera_view.dart';
 import '../../../../ui/widgets/ai/pose_painter.dart';
-import '../services/motor_assessment_service.dart';
+import '../../ai_motor/services/motor_assessment_service.dart';
 
 class PoseDetectorView extends StatefulWidget {
   const PoseDetectorView({Key? key}) : super(key: key);
@@ -130,3 +130,4 @@ class _PoseDetectorViewState extends State<PoseDetectorView> {
     }
   }
 }
+

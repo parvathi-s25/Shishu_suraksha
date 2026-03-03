@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/data/models/child_model.dart';
-import '../../../core/data/models/assessment_models.dart';
+import '../../../core/data/models/assessment_models.dart' as motor_models;
+import '../../../core/models/assessment_models.dart';
 import '../../../core/data/services/motor_skills_assessment_service.dart';
 import '../../../app/theme/colors.dart';
+import '../../../providers/assessment_provider.dart';
 import 'assessment_result_screen.dart';
 
 /// Motor Skills Assessment Screen - Record motor test results
@@ -131,22 +133,17 @@ class _MotorSkillsAssessmentScreenState
   void _saveAssessmentAndContinue() {
     _calculateMotorScores();
 
-    // Create motor skills assessment model
-    final motorAssessment = MotorSkillsAssessment(
-      jumpHeightCm: double.parse(_jumpHeightController.text),
-      jumpScore: _jumpScore!,
-      armSwingQuality: double.parse(_armSwingController.text),
-      landingStability: double.parse(_landingStabilityController.text),
-      balanceStabilityScore: _balanceScore!,
-      balanceDurationSeconds: double.parse(_balanceDurationController.text),
-      wobbleCount: int.parse(_wobbleCountController.text),
-      gaitSymmetryScore: _walkScore!,
-      stepCoordinationScore: double.parse(_coordinationController.text),
-      throwCatchScore: _throwCatchScore!,
-      developmentalAgeMonths:
-          MotorSkillsAssessmentService().calculateDevelopmentalAge(_overallScore!),
-      recordedAt: DateTime.now(),
+    // Create motor assessment result for provider
+    final motorResult = PoseMotorResult(
+      balanceScore: _balanceScore!,
+      symmetryScore: _walkScore!,
+      walkSymmetryScore: _walkScore!,
+      overallMotorScore: _overallScore!,
+      timestamp: DateTime.now(),
     );
+
+    // Save to provider
+    ref.read(assessmentProvider).completeMotor(motorResult);
 
     // Navigate to result screen
     Navigator.push(
@@ -154,8 +151,21 @@ class _MotorSkillsAssessmentScreenState
       MaterialPageRoute(
         builder: (context) => AssessmentResultScreen(
           child: widget.child,
-          motorAssessment: motorAssessment,
-          overallMotorScore: _overallScore!,
+          motorAssessment: motor_models.MotorSkillsAssessment(
+             jumpHeightCm: double.tryParse(_jumpHeightController.text) ?? 0,
+             jumpScore: _jumpScore!,
+             armSwingQuality: double.tryParse(_armSwingController.text) ?? 0,
+             landingStability: double.tryParse(_landingStabilityController.text) ?? 0,
+             balanceStabilityScore: _balanceScore!,
+             balanceDurationSeconds: double.tryParse(_balanceDurationController.text) ?? 0,
+             wobbleCount: int.tryParse(_wobbleCountController.text) ?? 0,
+             gaitSymmetryScore: _walkScore!,
+             stepCoordinationScore: double.tryParse(_coordinationController.text) ?? 0,
+             throwCatchScore: _throwCatchScore!,
+             developmentalAgeMonths: MotorSkillsAssessmentService().calculateDevelopmentalAge(_overallScore!),
+             recordedAt: DateTime.now(),
+          ),
+          overallScore: _overallScore!,
         ),
       ),
     );

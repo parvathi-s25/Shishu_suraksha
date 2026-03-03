@@ -1,0 +1,32 @@
+﻿============================================================
+MODEL 1: K-Means Clustering (ECD Child Data)
+============================================================
+  Clusters         : 3
+  Inertia (WCSS)   : 7652.93  (lower = tighter clusters)
+  Silhouette Score : 0.1783  (range -1 to 1; >0.5 = good)
+  Davies-Bouldin   : 2.0944  (lower = better separation)
+
+  Children per cluster:
+    Cluster 0: 257 children
+    Cluster 1: 509 children
+    Cluster 2: 234 children
+
+============================================================
+MODEL 2: Visual Acuity CNN (MobileNetV3 - Pass/Fail)
+============================================================
+  Device: cpu
+  Test Samples     : 300
+  Correct          : 150
+  Accuracy         : 50.00%
+  Note: Trained on MOCK (random) data ù real accuracy needs labelled images.
+
+============================================================
+MODEL 3: Pupil Segmentation (U-Net Lite - Dice Score)
+============================================================
+  Test Samples     : 100 eye images
+  Dice Score       : 0.0933  (range 0-1; >0.7 = acceptable, >0.85 = good)
+  Note: Trained on MOCK data ù real score needs OpenEDS/clinic images.
+
+============================================================
+EVALUATION COMPLETE
+============================================================

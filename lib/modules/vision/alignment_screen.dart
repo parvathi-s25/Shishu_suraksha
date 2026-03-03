@@ -1,5 +1,9 @@
+import 'dart:ui' show Offset;
 import 'package:flutter/material.dart';
+import 'package:google_mlkit_face_detection/google_mlkit_face_detection.dart';
 import '../../services/module_status_service.dart';
+import '../../services/vision_processor.dart';
+import '../../services/db_service.dart';
 
 class AlignmentScreen extends StatefulWidget {
   const AlignmentScreen({super.key});
@@ -18,26 +22,26 @@ class _AlignmentScreenState extends State<AlignmentScreen> {
     VisionProcessor.instance.start();
   }
 
-  void _onFace(face) {
-    // compute centroids of eye contours
+  void _onFace(Face face) {
     try {
-      final leftContour = face.getContour(FaceContourType.leftEye)?.points;
-      final rightContour = face.getContour(FaceContourType.rightEye)?.points;
+      final leftContour = face.contours[FaceContourType.leftEye]?.points;
+      final rightContour = face.contours[FaceContourType.rightEye]?.points;
       if (leftContour == null || rightContour == null) {
         setState(() => _statusText = 'Eye contours not available');
         return;
       }
-      Offset centroid(List<Offset> pts) {
+
+      Offset centroid(List<dynamic> pts) {
         double sx = 0, sy = 0;
         for (final p in pts) {
-          sx += p.dx;
-          sy += p.dy;
+          sx += (p.x as num).toDouble();
+          sy += (p.y as num).toDouble();
         }
         return Offset(sx / pts.length, sy / pts.length);
       }
 
-      final l = centroid(leftContour.map((p) => Offset(p.x, p.y)).toList());
-      final r = centroid(rightContour.map((p) => Offset(p.x, p.y)).toList());
+      final l = centroid(leftContour);
+      final r = centroid(rightContour);
 
       final interocular = (r - l).distance;
       if (interocular <= 1e-6) {
@@ -45,12 +49,13 @@ class _AlignmentScreenState extends State<AlignmentScreen> {
         return;
       }
 
-      // Use vertical alignment as primary metric: difference in Y normalized by interocular
       final verticalDiff = (l.dy - r.dy).abs();
       final symmetry = (verticalDiff / interocular).clamp(0.0, 1.0);
-      final risk = symmetry > 0.08; // threshold: >8% of interocular height is concerning
+      final risk = symmetry > 0.08;
 
-      setState(() => _statusText = 'Vertical offset: ${verticalDiff.toStringAsFixed(1)} px — Symmetry: ${symmetry.toStringAsFixed(3)} ${risk ? '(risk)' : '(ok)'}');
+      setState(() => _statusText =
+          'Vertical offset: ${verticalDiff.toStringAsFixed(1)} px — '
+          'Symmetry: ${symmetry.toStringAsFixed(3)} ${risk ? '(risk)' : '(ok)'}');
     } catch (e) {
       setState(() => _statusText = 'Error computing alignment');
     }
@@ -76,18 +81,17 @@ class _AlignmentScreenState extends State<AlignmentScreen> {
             const Expanded(child: Center(child: Icon(Icons.remove_red_eye, size: 72))),
             ElevatedButton(
               onPressed: () {
-                      // save alignment
-                      final sym = _statusText;
-                      DBService.instance.insert('vision_alignment', {
-                        'assessment_id': 'local',
-                        'symmetry': 0.0,
-                        'risk_flag': sym.contains('risk') ? 1 : 0,
-                        'details': sym,
-                        'created_at': DateTime.now().millisecondsSinceEpoch,
-                      });
-                      ModuleStatusService.instance.markCompleted('vision_alignment', true);
-                      ModuleStatusService.instance.markCompleted('vision', true);
-                      Navigator.of(context).pop();
+                final sym = _statusText;
+                DBService.instance.insert('vision_alignment', {
+                  'assessment_id': 'local',
+                  'symmetry': 0.0,
+                  'risk_flag': sym.contains('risk') ? 1 : 0,
+                  'details': sym,
+                  'created_at': DateTime.now().millisecondsSinceEpoch,
+                });
+                ModuleStatusService.instance.markCompleted('vision_alignment', true);
+                ModuleStatusService.instance.markCompleted('vision', true);
+                Navigator.of(context).pop();
               },
               child: const Text('Complete Alignment Test'),
             )

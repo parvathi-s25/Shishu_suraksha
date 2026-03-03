@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/data/models/child_model.dart';
-import '../../../core/data/models/assessment_result_models.dart';
 import '../../../app/theme/colors.dart';
+import '../../../providers/assessment_provider.dart';
 import 'motor_skills_assessment_screen.dart';
 import 'speech_assessment_screen.dart';
 import 'cognitive_assessment_screen.dart';
@@ -42,9 +42,18 @@ class _AssessmentFlowScreenState extends ConsumerState<AssessmentFlowScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final assessmentState = ref.watch(assessmentProvider);
+    
     return Scaffold(
       appBar: AppBar(
         title: Text('Assessment - ${widget.child.name}'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.refresh),
+            onPressed: () => ref.read(assessmentProvider).reset(),
+            tooltip: 'Reset Progress',
+          ),
+        ],
       ),
       body: PageView(
         controller: _pageController,
@@ -52,46 +61,53 @@ class _AssessmentFlowScreenState extends ConsumerState<AssessmentFlowScreen> {
           setState(() => _currentPage = index);
         },
         children: [
-          _buildAssessmentMenu(),
-          _buildMotorSkillsGuide(),
-          _buildSpeechLanguageGuide(),
-          _buildCognitiveGuide(),
-          _buildSocialEmotionalGuide(),
+          _buildAssessmentMenu(assessmentState),
+          _buildMotorSkillsGuide(assessmentState),
+          _buildSpeechLanguageGuide(assessmentState),
+          _buildCognitiveGuide(assessmentState),
+          _buildSocialEmotionalGuide(assessmentState),
         ],
       ),
       bottomNavigationBar: _buildBottomNavigation(),
     );
   }
 
-  Widget _buildAssessmentMenu() {
-    const assessmentTypes = [
+  Widget _buildAssessmentMenu(AssessmentProvider provider) {
+    final progress = provider.getProgress();
+    final state = provider.state;
+
+    final assessmentTypes = [
       {
         'title': 'Motor Skills',
         'description': 'Balance, coordination, jumping, walking',
-        'icon': 'run',
+        'icon': Icons.directions_run,
         'color': AppColors.primary,
-        'estimatedTime': '10-15 min'
+        'estimatedTime': '10-15 min',
+        'done': state.motorAssessmentDone,
       },
       {
         'title': 'Speech & Language',
         'description': 'Vocabulary, clarity, pronunciation',
-        'icon': 'mic',
+        'icon': Icons.mic,
         'color': AppColors.secondary,
-        'estimatedTime': '10-15 min'
+        'estimatedTime': '10-15 min',
+        'done': false, // Add speechDone to state if needed
       },
       {
         'title': 'Cognitive',
         'description': 'Memory, patterns, problem-solving',
-        'icon': 'school',
+        'icon': Icons.school,
         'color': AppColors.accent,
-        'estimatedTime': '10-15 min'
+        'estimatedTime': '10-15 min',
+        'done': false,
       },
       {
         'title': 'Social-Emotional',
         'description': 'Eye contact, emotions, interactions',
-        'icon': 'sentiment_satisfied',
+        'icon': Icons.sentiment_satisfied,
         'color': AppColors.secondary,
-        'estimatedTime': '5-10 min'
+        'estimatedTime': '5-10 min',
+        'done': false,
       },
     ];
 
@@ -112,19 +128,21 @@ class _AssessmentFlowScreenState extends ConsumerState<AssessmentFlowScreen> {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'Age: ${widget.child.dob?.difference(DateTime.now()).inDays.abs() ?? 0 ~/ 365} years',
+                    'Age: ${widget.child.ageMonths ~/ 12} years ${widget.child.ageMonths % 12} months',
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
-                  const SizedBox(height: 8),
-                   LinearProgressIndicator(
-                    value: (_currentPage + 1) / 5,
+                  const SizedBox(height: 16),
+                  LinearProgressIndicator(
+                    value: progress,
                     backgroundColor: Colors.grey[300],
-                    minHeight: 8,
+                    minHeight: 12,
+                    borderRadius: BorderRadius.circular(6),
+                    color: AppColors.primary,
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'Progress: ${_currentPage + 1} / 5 complete',
-                    style: const TextStyle(fontSize: 12),
+                    'Progress: ${(progress * 100).toStringAsFixed(0)}% complete',
+                    style: const TextStyle(fontWeight: FontWeight.bold),
                   )
                 ],
               ),
@@ -141,12 +159,14 @@ class _AssessmentFlowScreenState extends ConsumerState<AssessmentFlowScreen> {
             final assessment = entry.value;
             return Padding(
               padding: const EdgeInsets.only(bottom: 12),
-              child: _buildAssessmentCard(
+             child: _buildAssessmentCard(
                 index: index,
                 title: assessment['title'] as String,
                 description: assessment['description'] as String,
                 color: assessment['color'] as Color,
                 time: assessment['estimatedTime'] as String,
+                isDone: assessment['done'] as bool,
+                provider: provider,
               ),
             );
           }).toList(),
@@ -161,67 +181,85 @@ class _AssessmentFlowScreenState extends ConsumerState<AssessmentFlowScreen> {
     required String description,
     required Color color,
     required String time,
+    required bool isDone,
+    required AssessmentProvider provider,
   }) {
     return GestureDetector(
-      onTap: () => _pageController.animateToPage(
-        index + 1,
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeInOut,
-      ),
+      onTap: () {
+        if (provider.currentSession == null) {
+          provider.startSession(widget.child);
+        }
+        _pageController.animateToPage(
+          index + 1,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeInOut,
+        );
+      },
       child: Card(
         elevation: 2,
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Container(
-                    width: 60,
-                    height: 60,
-                    decoration: BoxDecoration(
-                      color: color.withOpacity(0.2),
-                      borderRadius: BorderRadius.circular(12),
+        child: Container(
+          decoration: isDone ? BoxDecoration(
+            border: Border.all(color: Colors.green, width: 2),
+            borderRadius: BorderRadius.circular(12),
+          ) : null,
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Container(
+                      width: 60,
+                      height: 60,
+                      decoration: BoxDecoration(
+                        color: color.withOpacity(0.2),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Icon(
+                        _getIconForAssessment(index),
+                        color: color,
+                        size: 32,
+                      ),
                     ),
-                    child: Icon(
-                      _getIconForAssessment(index),
-                      color: color,
-                      size: 32,
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Text(
+                                title,
+                                style: Theme.of(context).textTheme.titleMedium,
+                              ),
+                              if (isDone) const Icon(Icons.check_circle, color: Colors.green, size: 20),
+                            ],
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            description,
+                            style: Theme.of(context).textTheme.bodySmall,
+                            maxLines: 2,
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  const SizedBox(width: 16),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          title,
-                          style: Theme.of(context).textTheme.titleMedium,
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          description,
-                          style: Theme.of(context).textTheme.bodySmall,
-                          maxLines: 2,
-                        ),
-                      ],
+                  ],
+                ),
+                const SizedBox(height: 12),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Chip(
+                      label: Text(time),
+                      backgroundColor: color.withOpacity(0.2),
                     ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 12),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Chip(
-                    label: Text(time),
-                    backgroundColor: color.withOpacity(0.2),
-                  ),
-                  Icon(Icons.arrow_forward, color: color),
-                ],
-              ),
-            ],
+                    Icon(Icons.arrow_forward, color: color),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -238,7 +276,8 @@ class _AssessmentFlowScreenState extends ConsumerState<AssessmentFlowScreen> {
     return icons[index];
   }
 
-  Widget _buildMotorSkillsGuide() {
+  Widget _buildMotorSkillsGuide(AssessmentProvider provider) {
+// ... existing code ...
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16),
       child: Column(
@@ -347,7 +386,8 @@ class _AssessmentFlowScreenState extends ConsumerState<AssessmentFlowScreen> {
     );
   }
 
-  Widget _buildSpeechLanguageGuide() {
+  Widget _buildSpeechLanguageGuide(AssessmentProvider provider) {
+// ... existing code ...
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16),
       child: Column(
@@ -442,7 +482,8 @@ class _AssessmentFlowScreenState extends ConsumerState<AssessmentFlowScreen> {
     );
   }
 
-  Widget _buildCognitiveGuide() {
+  Widget _buildCognitiveGuide(AssessmentProvider provider) {
+// ... existing code ...
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16),
       child: Column(
@@ -537,7 +578,8 @@ class _AssessmentFlowScreenState extends ConsumerState<AssessmentFlowScreen> {
     );
   }
 
-  Widget _buildSocialEmotionalGuide() {
+  Widget _buildSocialEmotionalGuide(AssessmentProvider provider) {
+// ... existing code ...
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16),
       child: Column(

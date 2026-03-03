@@ -4,6 +4,7 @@
 import 'package:csv/csv.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
+import 'package:sqflite/sqflite.dart';
 import 'database_service.dart';
 
 class DataExportService {
@@ -272,7 +273,7 @@ class DataExportService {
         'total_sessions': sessionCount,
         'completed_assessments': completedCount,
         'average_pose_score': avgPoseScore.isNotEmpty 
-          ? (avgPoseScore[0]['avg'] ?? 0).toDouble() 
+          ? (avgPoseScore[0]['avg'] as num? ?? 0).toDouble() 
           : 0,
         'sessions_with_issues': issueCount,
         'completion_rate': sessionCount > 0 
@@ -281,20 +282,6 @@ class DataExportService {
       };
     } catch (e) {
       return {'error': e.toString()};
-    }
-  }
-}
-
-// Add sqflite import
-import 'package:sqflite/sqflite.dart' as sql_helper;
-
-class Sqflite {
-  static int? firstIntValue(List<Map<String, Object?>>? values) {
-    if (values == null || values.isEmpty) return null;
-    try {
-      return values.first.values.first as int?;
-    } catch (e) {
-      return null;
     }
   }
 }

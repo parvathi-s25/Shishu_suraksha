@@ -224,13 +224,13 @@ class _AssessmentDashboardState extends State<AssessmentDashboard> {
         score: provider.currentSession.poseResult?.score,
       ),
       _ModuleItem(
-        icon: Icons.distance,
+        icon: Icons.straighten,
         title: 'Distance Check',
         isDone: provider.assessmentState.distanceCheckDone,
         score: provider.currentSession.distanceResult?.score,
       ),
       _ModuleItem(
-        icon: Icons.eyes,
+        icon: Icons.visibility,
         title: 'Eye Alignment',
         isDone: provider.assessmentState.eyeAlignmentDone,
         score: provider.currentSession.alignmentResult?.score,

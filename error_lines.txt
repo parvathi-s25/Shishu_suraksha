@@ -1,0 +1,48 @@
+  error - The method 'standard' isn't defined for the type 'GoogleSignIn' - lib\core\services\calendar_service.dart:15:36 - undefined_method
+  error - The method 'signIn' isn't defined for the type 'GoogleSignIn' - lib\core\services\calendar_service.dart:36:44 - undefined_method
+  error - The method 'requestScopes' isn't defined for the type 'GoogleSignIn' - lib\core\services\calendar_service.dart:39:48 - undefined_method
+  error - Undefined class 'Offset' - lib\core\utils\landmark_math.dart:9:32 - undefined_class
+  error - Undefined class 'Offset' - lib\core\utils\landmark_math.dart:9:42 - undefined_class
+  error - Undefined class 'Offset' - lib\core\utils\landmark_math.dart:9:57 - undefined_class
+  error - Undefined class 'Offset' - lib\core\utils\landmark_math.dart:21:26 - undefined_class
+  error - Undefined class 'Offset' - lib\core\utils\landmark_math.dart:21:37 - undefined_class
+  error - Undefined class 'Offset' - lib\core\utils\landmark_math.dart:26:32 - undefined_class
+  error - Undefined class 'Offset' - lib\core\utils\landmark_math.dart:26:43 - undefined_class
+  error - Undefined class 'Offset' - lib\core\utils\landmark_math.dart:33:10 - undefined_class
+  error - The method 'Offset' isn't defined for the type 'LandmarkMath' - lib\core\utils\landmark_math.dart:36:14 - undefined_method
+  error - The getter 'position' isn't defined for the type 'PoseLandmark' - lib\core\utils\landmark_math.dart:36:30 - undefined_getter
+  error - The getter 'position' isn't defined for the type 'PoseLandmark' - lib\core\utils\landmark_math.dart:36:51 - undefined_getter
+  error - Undefined class 'Offset' - lib\core\utils\landmark_math.dart:43:10 - undefined_class
+  error - The name 'NormalizedVisionPoint' isn't defined, so it can't be used in an 'is' expression - lib\core\utils\landmark_math.dart:46:21 - type_test_with_undefined_name
+  error - The method 'Offset' isn't defined for the type 'LandmarkMath' - lib\core\utils\landmark_math.dart:47:14 - undefined_method
+  error - There's no constant named 'neck' in 'PoseLandmarkType' - lib\core\utils\landmark_math.dart:72:66 - undefined_enum_constant
+  error - There's no constant named 'midHip' in 'PoseLandmarkType' - lib\core\utils\landmark_math.dart:73:68 - undefined_enum_constant
+  error - The getter 'inFrameLikelihood' isn't defined for the type 'PoseLandmark' - lib\core\utils\landmark_math.dart:146:37 - undefined_getter
+  error - The name 'Offset' isn't a type, so it can't be used as a type argument - lib\modules\motor\motor_assessment_module.dart:24:41 - non_type_as_type_argument
+  error - The property 'dy' can't be unconditionally accessed because the receiver can be 'null' - lib\modules\motor\motor_assessment_module.dart:28:62 - unchecked_use_of_nullable_value
+  error - The argument type 'Map<PoseLandmarkType, PoseLandmark>' can't be assigned to the parameter type 'List<PoseLandmark>'.  - lib\modules\motor\motor_assessment_module.dart:50:62 - argument_type_not_assignable
+  error - The argument type 'Map<PoseLandmarkType, PoseLandmark>' can't be assigned to the parameter type 'List<PoseLandmark>'.  - lib\modules\pose_detection\pose_module.dart:120:34 - argument_type_not_assignable
+  error - The argument type 'Map<PoseLandmarkType, PoseLandmark>' can't be assigned to the parameter type 'List<PoseLandmark>'.  - lib\modules\pose_detection\pose_module.dart:134:40 - argument_type_not_assignable
+  error - Undefined name 'VisionProcessor' - lib\modules\vision\alignment_screen.dart:17:5 - undefined_identifier
+  error - Undefined name 'VisionProcessor' - lib\modules\vision\alignment_screen.dart:18:5 - undefined_identifier
+  error - Undefined name 'FaceContourType' - lib\modules\vision\alignment_screen.dart:24:43 - undefined_identifier
+  error - Undefined name 'FaceContourType' - lib\modules\vision\alignment_screen.dart:25:44 - undefined_identifier
+  error - Undefined name 'VisionProcessor' - lib\modules\vision\alignment_screen.dart:61:5 - undefined_identifier
+  error - Undefined name 'VisionProcessor' - lib\modules\vision\alignment_screen.dart:62:5 - undefined_identifier
+  error - Undefined name 'DBService' - lib\modules\vision\alignment_screen.dart:81:23 - undefined_identifier
+  error - The type 'Map<FaceLandmarkType, FaceLandmark?>' used in the 'for' loop must implement 'Iterable' - lib\modules\vision\eye_alignment_module.dart:40:26 - for_in_of_invalid_type
+  error - The method 'getContour' isn't defined for the type 'Face' - lib\modules\vision\reflex_screen.dart:64:28 - undefined_method
+  error - Undefined name 'FaceContourType' - lib\modules\vision\reflex_screen.dart:64:39 - undefined_identifier
+  error - The method 'getContour' isn't defined for the type 'Face' - lib\modules\vision\reflex_screen.dart:65:29 - undefined_method
+  error - Undefined name 'FaceContourType' - lib\modules\vision\reflex_screen.dart:65:40 - undefined_identifier
+  error - The method 'getContour' isn't defined for the type 'Face' - lib\modules\vision\reflex_screen.dart:104:28 - undefined_method
+  error - Undefined name 'FaceContourType' - lib\modules\vision\reflex_screen.dart:104:39 - undefined_identifier
+  error - The method 'getContour' isn't defined for the type 'Face' - lib\modules\vision\reflex_screen.dart:105:29 - undefined_method
+  error - Undefined name 'FaceContourType' - lib\modules\vision\reflex_screen.dart:105:40 - undefined_identifier
+  error - Undefined name 'DBService' - lib\modules\vision\reflex_screen.dart:143:5 - undefined_identifier
+  error - The method 'max' isn't defined for the type 'VisionScoreService' - lib\modules\vision\services\vision_scoring_service.dart:25:27 - undefined_method
+  error - The getter 'distance' isn't defined for the type 'Icons' - lib\screens\assessment\assessment_dashboard.dart:227:21 - undefined_getter
+  error - The getter 'eyes' isn't defined for the type 'Icons' - lib\screens\assessment\assessment_dashboard.dart:233:21 - undefined_getter
+  error - Fields can't be initialized in the constructor if they are final and were already initialized at their declaration - lib\services\module_status_service.dart:23:33 - field_initialized_in_initializer_and_declaration
+  error - Undefined name 'child' - lib\ui\screens\auth\anganwadi_login_screen.dart:73:17 - undefined_identifier
+  error - Expected to find ']' - lib\ui\screens\auth\anganwadi_login_screen.dart:73:22 - expected_token

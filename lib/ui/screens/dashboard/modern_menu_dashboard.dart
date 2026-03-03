@@ -20,6 +20,7 @@ import 'package:shishu_suraksha/ui/screens/student/ocr_data_entry_screen.dart';
 import '../screening/injury/injury_screening_screen.dart';
 import '../screening/symptoms/symptom_screening_screen.dart';
 import '../assessment/start_assessment_tab.dart'; // Added import
+import 'package:shishu_suraksha/ui/screens/dashboard/ml_insights_screen.dart';
 
 import 'package:shishu_suraksha/ui/widgets/custom_bottom_nav_bar.dart';
 import '../../../core/utils/voice_command_manager.dart';
@@ -334,9 +335,19 @@ class _ModernMenuDashboardState extends State<ModernMenuDashboard> {
           MaterialPageRoute(builder: (context) => const HelpCenterScreen()),
         ),
       },
+      {
+        'label': 'ML Insights',
+        'icon': Icons.insights_rounded,
+        'color': const Color(0xFF009688),
+        'onTap': () => Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const MLInsightsScreen()),
+        ),
+      },
     ];
 
     final double screenWidth = MediaQuery.of(context).size.width;
+
     final int crossAxisCount = screenWidth > 600 ? 3 : 2;
 
     return GridView.builder(

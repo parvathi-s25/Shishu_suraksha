@@ -1,10 +1,10 @@
 // Module 1: Pose & Body Detection (Rule-based, working)
 import 'package:camera/camera.dart';
 import 'package:google_mlkit_pose_detection/google_mlkit_pose_detection.dart';
-import '../models/assessment_models.dart';
-import '../services/database_service.dart';
-import '../services/frame_processor.dart';
-import '../utils/landmark_math.dart';
+import 'package:shishu_suraksha/core/models/assessment_models.dart';
+import 'package:shishu_suraksha/core/services/database_service.dart';
+import 'package:shishu_suraksha/core/services/frame_processor.dart';
+import 'package:shishu_suraksha/core/utils/landmark_math.dart';
 
 class PoseDetectionModule {
   final FrameProcessor frameProcessor;
@@ -16,16 +16,15 @@ class PoseDetectionModule {
   });
 
   /// Step 1: Validate person is fully in frame
-  bool validatePersonInFrame(List<PoseLandmark> poses) {
-    if (poses.isEmpty) return false;
-    
-    // Need at least 20 landmarks for valid detection
-    final validLandmarks = LandmarkMath.countValidLandmarks(poses, minConfidence: 0.3);
+  bool validatePersonInFrame(Map<PoseLandmarkType, PoseLandmark> landmarks) {
+    if (landmarks.isEmpty) return false;
+    // Need at least 20 landmarks with sufficient confidence
+    final validLandmarks = LandmarkMath.countValidLandmarks(landmarks, minConfidence: 0.3);
     return validLandmarks >= 20;
   }
 
   /// Step 2: Extract key features
-  PoseFeatures extractFeatures(List<PoseLandmark> landmarks) {
+  PoseFeatures extractFeatures(Map<PoseLandmarkType, PoseLandmark> landmarks) {
     final shoulderSlope = LandmarkMath.calculateShoulderSlope(landmarks) ?? 0;
     final hipSlope = LandmarkMath.calculateHipSlope(landmarks) ?? 0;
     final spineDeviation = LandmarkMath.calculateSpineDeviation(landmarks) ?? 0;
@@ -116,7 +115,7 @@ class PoseDetectionModule {
       }
 
       final landmarks = poses.first.landmarks;
-      
+
       if (!validatePersonInFrame(landmarks)) {
         return PoseResult(
           shoulderSlope: 0,

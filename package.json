@@ -1,0 +1,25 @@
+{
+  "name": "shishu_suraksha",
+  "version": "1.0.0",
+  "description": "**Shishu Suraksha** (శిశు సురక్ష) is a mission-critical platform empowering early childhood development through a fusion of AI and IoT. Designed for Anganwadi workers, ASHA personnel, and Health Administrators, it provides a robust, zero-overflow interface for monitoring, assessing, and intervening in child development across rural and urban India.",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/parvathi-s25/Shishu_suraksha.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/parvathi-s25/Shishu_suraksha/issues"
+  },
+  "homepage": "https://github.com/parvathi-s25/Shishu_suraksha#readme"
+}

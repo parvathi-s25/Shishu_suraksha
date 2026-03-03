@@ -1,47 +1,58 @@
-import 'package:flutter/foundation.dart'; // For kIsWeb
+import 'package:flutter/foundation.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:googleapis/calendar/v3.dart';
 import 'package:extension_google_sign_in_as_googleapis_auth/extension_google_sign_in_as_googleapis_auth.dart';
- // Import for Task model if needed for conversion
 
 class CalendarService {
-  late final GoogleSignIn? _googleSignIn;
+  bool _initialized = false;
+  CalendarApi? _calendarApi;
 
-  CalendarService() {
-    if (kIsWeb) {
-      _googleSignIn = null;
-    } else {
-      _googleSignIn = GoogleSignIn(
-        scopes: [CalendarApi.calendarScope],
-      );
+  Future<void> _ensureInitialized() async {
+    if (!_initialized && !kIsWeb) {
+      await GoogleSignIn.instance.initialize();
+      _initialized = true;
     }
   }
 
-  CalendarApi? _calendarApi;
-
-  Future<GoogleSignInAccount?> signIn() async {
-    if (_googleSignIn == null) {
-      print("Google Sign In not available on web (missing Client ID)");
-      return null;
+  Future<bool> signIn() async {
+    if (kIsWeb) {
+      debugPrint('Google Sign In not supported on web without a Client ID.');
+      return false;
     }
+
     try {
-      final account = await _googleSignIn!.signIn();
-      if (account != null) {
-        final httpClient = await _googleSignIn!.authenticatedClient();
-        if (httpClient != null) {
-          _calendarApi = CalendarApi(httpClient);
-        }
-      }
-      return account;
+      await _ensureInitialized();
+
+      // Step 1: Authenticate (get GoogleSignInAccount)
+      final account = await GoogleSignIn.instance.authenticate(
+        scopeHint: [CalendarApi.calendarScope],
+      );
+
+      // Step 2: Authorize scopes via the account's authorizationClient
+      final authorization = await account.authorizationClient.authorizeScopes(
+        [CalendarApi.calendarScope],
+      );
+
+      // Step 3: Create an authenticated HTTP client using the extension
+      final authClient = authorization.authClient(
+        scopes: [CalendarApi.calendarScope],
+      );
+
+      _calendarApi = CalendarApi(authClient);
+      return true;
     } catch (e) {
-      print('Error signing in: $e');
-      return null;
+      debugPrint('Error signing in to Google Calendar: $e');
+      return false;
     }
   }
 
   Future<void> signOut() async {
-    if (_googleSignIn != null) {
-      await _googleSignIn!.signOut();
+    if (!kIsWeb) {
+      try {
+        await GoogleSignIn.instance.signOut();
+      } catch (e) {
+        debugPrint('Error signing out: $e');
+      }
     }
     _calendarApi = null;
   }
@@ -50,7 +61,6 @@ class CalendarService {
     if (_calendarApi == null) return [];
     try {
       final now = DateTime.now();
-      // Fetch events for next 30 days
       final events = await _calendarApi!.events.list(
         'primary',
         timeMin: now.toUtc(),
@@ -60,7 +70,7 @@ class CalendarService {
       );
       return events.items ?? [];
     } catch (e) {
-      print('Error fetching events: $e');
+      debugPrint('Error fetching events: $e');
       return [];
     }
   }
@@ -73,17 +83,17 @@ class CalendarService {
         description: description,
         start: EventDateTime(
           dateTime: startTime,
-          timeZone: "IST", 
+          timeZone: 'IST',
         ),
         end: EventDateTime(
           dateTime: startTime.add(const Duration(hours: 1)),
-          timeZone: "IST",
+          timeZone: 'IST',
         ),
       );
       final value = await _calendarApi!.events.insert(event, 'primary');
       return value.id;
     } catch (e) {
-      print('Error creating event: $e');
+      debugPrint('Error creating event: $e');
       return null;
     }
   }

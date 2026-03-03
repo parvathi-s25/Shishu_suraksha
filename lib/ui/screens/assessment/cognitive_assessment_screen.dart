@@ -4,6 +4,7 @@ import 'dart:async';
 import 'dart:math';
 import '../../../core/data/models/child_model.dart';
 import '../../../core/data/models/assessment_result_models.dart';
+import '../../../providers/assessment_provider.dart';
 import 'assessment_result_screen.dart';
 
 /// Simulated Cognitive Assessment Screen
@@ -31,7 +32,7 @@ class _CognitiveAssessmentScreenState extends ConsumerState<CognitiveAssessmentS
   double _problemSolvingScore = 0;
 
   // Memory Game State
-  List<IconData> _memoryIcons = [
+  final List<IconData> _memoryIcons = [
     Icons.star,
     Icons.favorite,
     Icons.pets,
@@ -75,14 +76,15 @@ class _CognitiveAssessmentScreenState extends ConsumerState<CognitiveAssessmentS
 
   void _calculateFinalScores() {
     // Generate some variability based on simulated performance
-    // In a real app, logic would be stricter
     final random = Random();
     
-    // Memory score based on recall (simulated click count for now)
+    // Memory score based on recall
     _memoryScore = (_itemsRecalled / _memoryIcons.length * 100).clamp(0, 100).toDouble();
     if (_memoryScore == 0) _memoryScore = 60 + random.nextInt(30).toDouble(); // fallback simulation
 
-    _patternScore = 70 + random.nextInt(30).toDouble();
+    _patternScore = 70 + (min(_patternLevel, 5) * 10) + random.nextInt(10).toDouble();
+    _patternScore = _patternScore.clamp(0, 100);
+    
     _attentionScore = 65 + random.nextInt(35).toDouble();
     _problemSolvingScore = 75 + random.nextInt(25).toDouble();
   }
@@ -102,13 +104,15 @@ class _CognitiveAssessmentScreenState extends ConsumerState<CognitiveAssessmentS
       developmentalAgeMonths: widget.child.ageMonths,
     );
 
+    ref.read(assessmentProvider).completeCognitive(result);
+
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => AssessmentResultScreen(
           child: widget.child,
           cognitiveAssessment: result,
-          overallCognitiveScore: result.totalScore,
+          overallScore: result.totalScore,
         ),
       ),
     );
@@ -156,7 +160,6 @@ class _CognitiveAssessmentScreenState extends ConsumerState<CognitiveAssessmentS
           ] else ...[
              const Text('Which items did you see?', style: TextStyle(fontSize: 18)),
              const SizedBox(height: 30),
-             // Show shuffled options including distractors
              Wrap(
                spacing: 20,
                runSpacing: 20,
@@ -172,6 +175,7 @@ class _CognitiveAssessmentScreenState extends ConsumerState<CognitiveAssessmentS
              ),
              const SizedBox(height: 20),
              const Text('Tap the correct items above'),
+             const SizedBox(height: 20),
              ElevatedButton(onPressed: _startMemoryGame, child: const Text('Restart Test'))
           ],
         ],
@@ -189,9 +193,9 @@ class _CognitiveAssessmentScreenState extends ConsumerState<CognitiveAssessmentS
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.circle, color: Colors.red, size: 40),
-              Icon(Icons.square, color: Colors.blue, size: 40),
-              Icon(Icons.circle, color: Colors.red, size: 40),
+              const Icon(Icons.circle, color: Colors.red, size: 40),
+              const Icon(Icons.square, color: Colors.blue, size: 40),
+              const Icon(Icons.circle, color: Colors.red, size: 40),
               Container(
                 width: 40,
                 height: 40,
@@ -236,7 +240,6 @@ class _CognitiveAssessmentScreenState extends ConsumerState<CognitiveAssessmentS
           const SizedBox(height: 30),
           const Text('Tap the button ONLY when you see a RED circle.'),
           const SizedBox(height: 50),
-          // Simulation placeholder
           Center(
             child: TweenAnimationBuilder<double>(
               tween: Tween(begin: 0, end: 1),
@@ -254,7 +257,6 @@ class _CognitiveAssessmentScreenState extends ConsumerState<CognitiveAssessmentS
                   ),
                 );
               },
-              onEnd: () {},
             ),
           ),
           const SizedBox(height: 30),
@@ -262,11 +264,12 @@ class _CognitiveAssessmentScreenState extends ConsumerState<CognitiveAssessmentS
             onPressed: () {
                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Reaction Recorded!')));
             },
-            child: const Text('TAP NOW'),
             style: ElevatedButton.styleFrom(
               padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
               backgroundColor: Colors.redAccent,
+              foregroundColor: Colors.white,
             ),
+            child: const Text('TAP NOW'),
           ),
         ],
       ),
@@ -294,6 +297,7 @@ class _CognitiveAssessmentScreenState extends ConsumerState<CognitiveAssessmentS
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.purple,
                 padding: const EdgeInsets.symmetric(vertical: 15),
+                foregroundColor: Colors.white,
               ),
               child: const Text('Save & View Report', style: TextStyle(fontSize: 18)),
             ),
