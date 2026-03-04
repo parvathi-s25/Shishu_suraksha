@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">శిశు సురక్ష AI</string>
+    <string name="admin_panel">అడ్మిన్ ప్యానెల్</string>
+    <string name="central_monitoring">కేంద్ర పర్యవేక్షణ కన్సోల్</string>
+    <string name="total_schools">మొత్తం పాఠశాలలు</string>
+    <string name="children_monitored">పర్యవేక్షించబడిన పిల్లలు</string>
+    <string name="high_risk_cases">అధిక ప్రమాద కేసులు</string>
+    <string name="malnutrition">పోషకాహార లోపం</string>
+    <string name="fever_alerts">జ్వరం హెచ్చరికలు</string>
+    <string name="env_issues">పర్యావరణ సమస్యలు</string>
+    <string name="high_risk_children">అధిక ప్రమాదం ఉన్న పిల్లలు</string>
+    <string name="action_required">చర్య అవసరం</string>
+    <string name="export_excel">ఎక్సెల్ ఎగుమతి</string>
+    <string name="risk_score">రిస్క్ స్కోరు</string>
+    <string name="settings">సెట్టింగులు</string>
+    <string name="logout">లాగ్ అవుట్</string>
+    <string name="permission_camera">కెమెరా అనుమతి</string>
+    <string name="permission_camera_rationale">పత్రాలను స్కాన్ చేయడానికి శిశు సురక్షకు కెమెరా యాక్సెస్ అవసరం.</string>
+    <string name="ok">సరే</string>
+    <string name="cancel">రద్దు చేయండి</string>
+</resources>

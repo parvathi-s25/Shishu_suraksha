@@ -1,9 +1,10 @@
+import 'package:shishu_suraksha/l10n/generated/app_localizations.dart';
 import '../models/alert_model.dart';
 
 class AlertGenerator {
   /// Generates alerts from assessment data
   /// Returns a list of AlertModel objects categorized by risk level
-  static List<AlertModel> generateAlerts(List<Map<String, dynamic>> childrenData) {
+  static List<AlertModel> generateAlerts(List<Map<String, dynamic>> childrenData, AppLocalizations t) {
     List<AlertModel> alerts = [];
 
     for (var child in childrenData) {
@@ -26,6 +27,7 @@ class AlertGenerator {
         mobilityScore: mobilityScore,
         nutritionStatus: nutritionStatus,
         assessmentData: assessmentData,
+        t: t,
       );
 
       if (alert != null) {
@@ -39,181 +41,8 @@ class AlertGenerator {
     return alerts;
   }
 
-  static AlertModel? _analyzeAndCreateAlert({
-    required String childName,
-    required String childAge,
-    required String childId,
-    required int hearingScore,
-    required int speakingScore,
-    required int developmentScore,
-    required int mobilityScore,
-    required String nutritionStatus,
-    required Map<String, dynamic> assessmentData,
-  }) {
-    // HIGH RISK CONDITIONS
-    if (hearingScore == 0) {
-      return AlertModel(
-        childName: childName,
-        childAge: childAge,
-        childId: childId,
-        riskLevel: RiskLevel.high,
-        category: 'Hearing',
-        description: 'No response to hearing test detected',
-        recommendedAction: 'Immediate referral to audiologist required',
-        assessmentData: assessmentData,
-      );
-    }
-
-    if (speakingScore < 20) {
-      return AlertModel(
-        childName: childName,
-        childAge: childAge,
-        childId: childId,
-        riskLevel: RiskLevel.high,
-        category: 'Speech',
-        description: 'Severe speech delay detected',
-        recommendedAction: 'Refer to speech therapist immediately',
-        assessmentData: assessmentData,
-      );
-    }
-
-    if (mobilityScore < 20) {
-      return AlertModel(
-        childName: childName,
-        childAge: childAge,
-        childId: childId,
-        riskLevel: RiskLevel.high,
-        category: 'Motor Skills',
-        description: 'Motor movement absence or severe delay',
-        recommendedAction: 'Refer to pediatric physiotherapist',
-        assessmentData: assessmentData,
-      );
-    }
-
-    if (nutritionStatus == 'severe') {
-      return AlertModel(
-        childName: childName,
-        childAge: childAge,
-        childId: childId,
-        riskLevel: RiskLevel.high,
-        category: 'Nutrition',
-        description: 'Severe malnutrition detected',
-        recommendedAction: 'Immediate medical intervention required',
-        assessmentData: assessmentData,
-      );
-    }
-
-    // MODERATE RISK CONDITIONS
-    if (speakingScore >= 20 && speakingScore < 50) {
-      return AlertModel(
-        childName: childName,
-        childAge: childAge,
-        childId: childId,
-        riskLevel: RiskLevel.moderate,
-        category: 'Speech',
-        description: 'Slow speech formation and development',
-        recommendedAction: 'Speech exercises and monitoring needed',
-        assessmentData: assessmentData,
-      );
-    }
-
-    if (mobilityScore >= 20 && mobilityScore < 50) {
-      return AlertModel(
-        childName: childName,
-        childAge: childAge,
-        childId: childId,
-        riskLevel: RiskLevel.moderate,
-        category: 'Motor Skills',
-        description: 'Delayed walking or motor development',
-        recommendedAction: 'Physical activity exercises recommended',
-        assessmentData: assessmentData,
-      );
-    }
-
-    if (nutritionStatus == 'moderate' || nutritionStatus == 'underweight') {
-      return AlertModel(
-        childName: childName,
-        childAge: childAge,
-        childId: childId,
-        riskLevel: RiskLevel.moderate,
-        category: 'Nutrition',
-        description: 'Low weight percentile for age',
-        recommendedAction: 'Nutritional support and monitoring',
-        assessmentData: assessmentData,
-      );
-    }
-
-    if (hearingScore > 0 && hearingScore < 50) {
-      return AlertModel(
-        childName: childName,
-        childAge: childAge,
-        childId: childId,
-        riskLevel: RiskLevel.moderate,
-        category: 'Hearing',
-        description: 'Low response to hearing test',
-        recommendedAction: 'Follow-up hearing assessment needed',
-        assessmentData: assessmentData,
-      );
-    }
-
-    // MILD OBSERVATION CONDITIONS
-    if (speakingScore >= 50 && speakingScore < 75) {
-      return AlertModel(
-        childName: childName,
-        childAge: childAge,
-        childId: childId,
-        riskLevel: RiskLevel.mild,
-        category: 'Speech',
-        description: 'Minor pronunciation issues observed',
-        recommendedAction: 'Continue monitoring, encourage verbal interaction',
-        assessmentData: assessmentData,
-      );
-    }
-
-    if (developmentScore >= 50 && developmentScore < 75) {
-      return AlertModel(
-        childName: childName,
-        childAge: childAge,
-        childId: childId,
-        riskLevel: RiskLevel.mild,
-        category: 'Development',
-        description: 'Slight attention or cognitive delay',
-        recommendedAction: 'Engaging activities and regular assessment',
-        assessmentData: assessmentData,
-      );
-    }
-
-    // NORMAL - All scores above 75
-    if (hearingScore >= 75 && speakingScore >= 75 && 
-        developmentScore >= 75 && mobilityScore >= 75 &&
-        nutritionStatus == 'normal') {
-      return AlertModel(
-        childName: childName,
-        childAge: childAge,
-        childId: childId,
-        riskLevel: RiskLevel.normal,
-        category: 'Overall Health',
-        description: 'Child is developing normally',
-        recommendedAction: 'Continue regular monitoring',
-        assessmentData: assessmentData,
-      );
-    }
-
-    // Default to normal if no specific conditions met
-    return AlertModel(
-      childName: childName,
-      childAge: childAge,
-      childId: childId,
-      riskLevel: RiskLevel.normal,
-      category: 'Overall Health',
-      description: 'No significant concerns detected',
-      recommendedAction: 'Continue routine check-ups',
-      assessmentData: assessmentData,
-    );
-  }
-
   /// Mock data generator for demonstration
-  static List<AlertModel> getMockAlerts() {
+  static List<AlertModel> getMockAlerts(AppLocalizations t) {
     final mockChildren = [
       {
         'name': 'Aarav Kumar',
@@ -289,6 +118,180 @@ class AlertGenerator {
       },
     ];
 
-    return generateAlerts(mockChildren);
+    return generateAlerts(mockChildren, t);
+  }
+
+  static AlertModel? _analyzeAndCreateAlert({
+    required String childName,
+    required String childAge,
+    required String childId,
+    required int hearingScore,
+    required int speakingScore,
+    required int developmentScore,
+    required int mobilityScore,
+    required String nutritionStatus,
+    required Map<String, dynamic> assessmentData,
+    required AppLocalizations t,
+  }) {
+    // HIGH RISK CONDITIONS
+    if (hearingScore == 0) {
+      return AlertModel(
+        childName: childName,
+        childAge: childAge,
+        childId: childId,
+        riskLevel: RiskLevel.high,
+        category: t.categoryHearing,
+        description: t.descHearingHigh,
+        recommendedAction: t.actionHearingHigh,
+        assessmentData: assessmentData,
+      );
+    }
+
+    if (speakingScore < 20) {
+      return AlertModel(
+        childName: childName,
+        childAge: childAge,
+        childId: childId,
+        riskLevel: RiskLevel.high,
+        category: t.categorySpeech,
+        description: t.descSpeechHigh,
+        recommendedAction: t.actionSpeechHigh,
+        assessmentData: assessmentData,
+      );
+    }
+
+    if (mobilityScore < 20) {
+      return AlertModel(
+        childName: childName,
+        childAge: childAge,
+        childId: childId,
+        riskLevel: RiskLevel.high,
+        category: t.categoryMotor,
+        description: t.descMotorHigh,
+        recommendedAction: t.actionMotorHigh,
+        assessmentData: assessmentData,
+      );
+    }
+
+    if (nutritionStatus == 'severe') {
+      return AlertModel(
+        childName: childName,
+        childAge: childAge,
+        childId: childId,
+        riskLevel: RiskLevel.high,
+        category: t.categoryNutrition,
+        description: t.descNutritionHigh,
+        recommendedAction: t.actionNutritionHigh,
+        assessmentData: assessmentData,
+      );
+    }
+
+    // MODERATE RISK CONDITIONS
+    if (speakingScore >= 20 && speakingScore < 50) {
+      return AlertModel(
+        childName: childName,
+        childAge: childAge,
+        childId: childId,
+        riskLevel: RiskLevel.moderate,
+        category: t.categorySpeech,
+        description: t.descSpeechMod,
+        recommendedAction: t.actionSpeechMod,
+        assessmentData: assessmentData,
+      );
+    }
+
+    if (mobilityScore >= 20 && mobilityScore < 50) {
+      return AlertModel(
+        childName: childName,
+        childAge: childAge,
+        childId: childId,
+        riskLevel: RiskLevel.moderate,
+        category: t.categoryMotor,
+        description: t.descMotorMod,
+        recommendedAction: t.actionMotorMod,
+        assessmentData: assessmentData,
+      );
+    }
+
+    if (nutritionStatus == 'moderate' || nutritionStatus == 'underweight') {
+      return AlertModel(
+        childName: childName,
+        childAge: childAge,
+        childId: childId,
+        riskLevel: RiskLevel.moderate,
+        category: t.categoryNutrition,
+        description: t.descNutritionMod,
+        recommendedAction: t.actionNutritionMod,
+        assessmentData: assessmentData,
+      );
+    }
+
+    if (hearingScore > 0 && hearingScore < 50) {
+      return AlertModel(
+        childName: childName,
+        childAge: childAge,
+        childId: childId,
+        riskLevel: RiskLevel.moderate,
+        category: t.categoryHearing,
+        description: t.descHearingMod,
+        recommendedAction: t.actionHearingMod,
+        assessmentData: assessmentData,
+      );
+    }
+
+    // MILD OBSERVATION CONDITIONS
+    if (speakingScore >= 50 && speakingScore < 75) {
+      return AlertModel(
+        childName: childName,
+        childAge: childAge,
+        childId: childId,
+        riskLevel: RiskLevel.mild,
+        category: t.categorySpeech,
+        description: t.descSpeechMild,
+        recommendedAction: t.actionSpeechMild,
+        assessmentData: assessmentData,
+      );
+    }
+
+    if (developmentScore >= 50 && developmentScore < 75) {
+      return AlertModel(
+        childName: childName,
+        childAge: childAge,
+        childId: childId,
+        riskLevel: RiskLevel.mild,
+        category: t.categoryDevelopment,
+        description: t.descDevMild,
+        recommendedAction: t.actionDevMild,
+        assessmentData: assessmentData,
+      );
+    }
+
+    // NORMAL - All scores above 75
+    if (hearingScore >= 75 && speakingScore >= 75 && 
+        developmentScore >= 75 && mobilityScore >= 75 &&
+        nutritionStatus == 'normal') {
+      return AlertModel(
+        childName: childName,
+        childAge: childAge,
+        childId: childId,
+        riskLevel: RiskLevel.normal,
+        category: t.categoryHealth,
+        description: t.descNormal,
+        recommendedAction: t.actionNormal,
+        assessmentData: assessmentData,
+      );
+    }
+
+    // Default to normal if no specific conditions met
+    return AlertModel(
+      childName: childName,
+      childAge: childAge,
+      childId: childId,
+      riskLevel: RiskLevel.normal,
+      category: t.categoryHealth,
+      description: t.descDefault,
+      recommendedAction: t.actionDefault,
+      assessmentData: assessmentData,
+    );
   }
 }

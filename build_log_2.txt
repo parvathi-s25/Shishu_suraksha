@@ -1,0 +1,11 @@
+Launching lib\main.dart on V2207 in debug mode...
+Running Gradle task 'assembleDebug'...                          
+Note: C:\Users\thatr\AppData\Local\Pub\Cache\hosted\pub.dev\google_mlkit_face_mesh_detection-0.4.1\android\src\main\java\com\google_mlkit_face_mesh_detection\FaceMeshDetector.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+Running Gradle task 'assembleDebug'...                             86.8s
+ΓêÜ Built build\app\outputs\flutter-apk\app-debug.apk
+adb.exe: device '10BD3G1G8Y00381' not found
+Installing build\app\outputs\flutter-apk\app-debug.apk...           38ms
+Error: ADB exited with exit code 1
+adb.exe: device '10BD3G1G8Y00381' not found
+Error launching application on V2207.

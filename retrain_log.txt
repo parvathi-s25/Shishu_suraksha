@@ -1,0 +1,37 @@
+﻿============================================================
+  SHISHU SURAKSHA - IMPROVED MODEL TRAINING
+  Dataset: Andhra Pradesh Government ECD (1000 children)
+============================================================
+
+[1/6] Loaded dataset: 1000 children, 8 columns
+[2/6] Engineering features...
+    Features used: ['age_months', 'age_group', 'age_normalized', 'cycle_ordinal', 'district_score', 'gender_binary', 'awc_density_norm', 'mandal_code']
+[3/6] Scaling features...
+[4/6] Finding optimal k (Silhouette method)...
+    k=2 -> Silhouette=0.2463  Inertia=5729.9
+    k=3 -> Silhouette=0.1876  Inertia=5193.8
+    k=4 -> Silhouette=0.1678  Inertia=4719.2
+    k=5 -> Silhouette=0.1591  Inertia=4469.2
+    k=6 -> Silhouette=0.1496  Inertia=4251.1
+    k=7 -> Silhouette=0.1545  Inertia=4042.4
+    k=8 -> Silhouette=0.1508  Inertia=3856.6
+
+    Best k = 2  (Silhouette = 0.2463)
+
+[5/6] Training final model with k=2...
+[6/6] Saving improved model...
+
+============================================================
+  IMPROVED MODEL RESULTS
+============================================================
+  Silhouette Score : 0.2463  (was 0.1783)
+  Davies-Bouldin   : 1.5587  (was 2.0944)
+  Inertia (WCSS)   : 5729.89
+  Optimal Clusters : 2
+
+  CLUSTER BREAKDOWN:
+    Cluster 0 (At-Risk   ): 475 children (47.5%) | Avg age: 54.5 mo
+    Cluster 1 (On-Track  ): 525 children (52.5%) | Avg age: 18.6 mo
+============================================================
+
+  Model saved successfully. Re-run generate_ml_proof.py to update charts.

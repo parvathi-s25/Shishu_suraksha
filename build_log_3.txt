@@ -1,0 +1,6 @@
+Launching lib\main.dart on V2207 in debug mode...
+Running Gradle task 'assembleDebug'...                             42.3s
+ΓêÜ Built build\app\outputs\flutter-apk\app-debug.apk
+Installing build\app\outputs\flutter-apk\app-debug.apk...          22.0s
+I/flutter (11512): [IMPORTANT:flutter/shell/platform/android/android_context_vk_impeller.cc(60)] Using the Impeller rendering backend (Vulkan).
+Error connecting to the service protocol: failed to connect to http://127.0.0.1:60314/nq6me259HIw=/ Error: Failed to register service methods on attached VM Service: registerService: (-32000) Service connection disposed

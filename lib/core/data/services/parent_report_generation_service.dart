@@ -1,0 +1,3 @@
+class ParentReportGenerationService {
+  void generateReport() {}
+}

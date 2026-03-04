@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import '../../widgets/language_dropdown.dart';
 import '../../widgets/cropped_logo.dart';
 import 'splash_animation_controller.dart';
-import '../auth/authentication_screen.dart';
-import 'package:shishu_suraksha/localization/app_localizations.dart';
+
+import 'package:shishu_suraksha/l10n/generated/app_localizations.dart';
 import 'package:shishu_suraksha/main.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -87,30 +87,51 @@ class _SplashScreenState extends State<SplashScreen>
                           MediaQuery.of(context).padding.bottom,
                     ),
                     child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const SizedBox(height: 50),
-
                         // LOGO + TAGLINE CONTAINER
                         Transform.translate(
                           offset: Offset(0, anim.moveUp.value),
                           child: Column(
                             children: [
-                              // LOGO (LARGER SIZE)
+                              // TRIANGULAR LOGO FORMATION
                               Opacity(
-                                opacity: (anim.logoFadeIn.value -
-                                        anim.logoFadeOut.value +
-                                        anim.logoTaglineFadeIn.value)
-                                    .clamp(0.0, 1.0),
-                                child: CroppedLogo(width: 220),
+                                opacity: anim.logoFadeIn.value,
+                                child: Column(
+                                  children: [
+                                    // Top Logo: AP
+                                    _buildBorderlessLogo(
+                                      'assets/logos/AP.png',
+                                      140, // Uniform size
+                                      scale: 1.25,
+                                    ),
+                                    const SizedBox(height: 20), // Adjusted vertical gap
+                                    // Bottom Row: WDCW and RTIH
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        _buildBorderlessLogo(
+                                          'assets/logos/WDCW.png',
+                                          140, // Uniform size
+                                          scale: 1.25,
+                                        ),
+                                        const SizedBox(width: 40), // Adjusted horizontal gap
+                                        _buildBorderlessLogo(
+                                          'assets/logos/RTIH.png',
+                                          140, // Uniform size
+                                          scale: 1.25,
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
 
-                              const SizedBox(height: 8),
+                              const SizedBox(height: 12),
 
                               // TAGLINE (CLOSER TO LOGO)
                               Opacity(
-                                opacity: (anim.taglineFadeIn.value +
-                                        anim.logoTaglineFadeIn.value)
-                                    .clamp(0.0, 1.0),
+                                opacity: anim.taglineFadeIn.value,
                                 child: const Text(
                                   "మీ బిడ్డ భద్రత మా బాధ్యత",
                                   textAlign: TextAlign.center,
@@ -127,12 +148,13 @@ class _SplashScreenState extends State<SplashScreen>
                           ),
                         ),
 
-                        const SizedBox(height: 40), // Reduced from 120/40 logic for consistencty
+                        if (anim.controller.value > 0.6)
+                          const SizedBox(height: 40), 
 
                         // GLASSMORPHISM CARD - LANGUAGE DROPDOWN
-                        if (anim.controller.value > 0.643)
+                        if (anim.controller.value > 0.6)
                           Opacity(
-                            opacity: ((anim.controller.value - 0.643) * 3).clamp(0.0, 1.0),
+                            opacity: ((anim.controller.value - 0.6) * 5).clamp(0.0, 1.0),
                             child: Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 32),
                               child: ClipRRect(
@@ -160,7 +182,7 @@ class _SplashScreenState extends State<SplashScreen>
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          AppLocalizations.of(context)!.select_language,
+                                          AppLocalizations.of(context)!.selectLanguage,
                                           style: const TextStyle(
                                             fontSize: 14,
                                             color: Color(0xFF005F66),
@@ -187,12 +209,12 @@ class _SplashScreenState extends State<SplashScreen>
                             ),
                           ),
 
-                        SizedBox(height: anim.controller.value > 0.643 ? 20 : 80), // Reduced gap
+                        SizedBox(height: anim.controller.value > 0.6 ? 20 : 80), // Reduced gap
 
                         // GLASSMORPHISM CARD - GET STARTED BUTTON
-                        if (anim.controller.value > 0.643)
+                        if (anim.controller.value > 0.6)
                           Opacity(
-                            opacity: ((anim.controller.value - 0.643) * 3)
+                            opacity: ((anim.controller.value - 0.6) * 5)
                                 .clamp(0.0, 1.0),
                             child: Padding(
                               padding:
@@ -240,7 +262,7 @@ class _SplashScreenState extends State<SplashScreen>
                                           ),
                                           alignment: Alignment.center,
                                           child: Text(
-                                            AppLocalizations.of(context)!.get_started,
+                                            AppLocalizations.of(context)!.getStarted,
                                             style: const TextStyle(
                                               color: Colors.white,
                                               fontSize: 18,
@@ -265,6 +287,22 @@ class _SplashScreenState extends State<SplashScreen>
             },
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildBorderlessLogo(String path, double size, {double scale = 1.25}) {
+    return SizedBox(
+      width: size,
+      height: size,
+      child: ClipOval(
+        child: Transform.scale(
+          scale: scale,
+          child: Image.asset(
+            path,
+            fit: BoxFit.contain,
+          ),
+        ),
       ),
     );
   }

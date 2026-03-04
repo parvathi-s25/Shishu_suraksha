@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../models/alert_model.dart';
 import 'intervention_dialog.dart';
+import 'package:shishu_suraksha/l10n/generated/app_localizations.dart';
 
 class AlertCard extends StatelessWidget {
   final AlertModel alert;
@@ -20,8 +21,23 @@ class AlertCard extends StatelessWidget {
     }
   }
 
+  String _getRiskLevelText(AppLocalizations t) {
+    switch (alert.riskLevel) {
+      case RiskLevel.high:
+        return t.riskHigh;
+      case RiskLevel.moderate:
+        return t.riskModerate;
+      case RiskLevel.mild:
+        return t.riskMild;
+      case RiskLevel.normal:
+        return t.riskNormal;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context)!;
+
     return Card(
       elevation: 4,
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -63,14 +79,14 @@ class AlertCard extends StatelessWidget {
                       ),
                       const SizedBox(height: 2),
                       Text(
-                        'Age: ${alert.childAge}',
+                        '${t.ageLabel}: ${alert.childAge}',
                         style: const TextStyle(
                           fontSize: 14,
                           color: Colors.grey,
                         ),
                       ),
                       Text(
-                        'ID: ${alert.childId}',
+                        '${t.idLabel}: ${alert.childId}',
                         style: const TextStyle(
                           fontSize: 12,
                           color: Colors.grey,
@@ -100,7 +116,7 @@ class AlertCard extends StatelessWidget {
                   ),
                   const SizedBox(width: 8),
                   Text(
-                    alert.riskLevelText,
+                    _getRiskLevelText(t),
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
@@ -114,7 +130,7 @@ class AlertCard extends StatelessWidget {
 
             // Category
             Text(
-              'Category: ${alert.category}',
+              '${t.categoryLabel}: ${alert.category}',
               textAlign: TextAlign.center,
               style: const TextStyle(
                 fontSize: 13,
@@ -132,7 +148,7 @@ class AlertCard extends StatelessWidget {
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Text(
-                alert.description,
+                alert.description, // This description might come from backend/model. If it's static/enum based, it should be localized too.
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   fontSize: 14,
@@ -149,7 +165,7 @@ class AlertCard extends StatelessWidget {
                 const SizedBox(width: 6),
                 Expanded(
                   child: Text(
-                    alert.recommendedAction,
+                    alert.recommendedAction, // Also potential for localization if static
                     style: TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.w500,
@@ -181,14 +197,14 @@ class AlertCard extends StatelessWidget {
                   ),
                   elevation: 2,
                 ),
-                child: const Row(
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.medical_services, color: Colors.white, size: 20),
-                    SizedBox(width: 8),
+                    const Icon(Icons.medical_services, color: Colors.white, size: 20),
+                    const SizedBox(width: 8),
                     Text(
-                      'Start Intervention',
-                      style: TextStyle(
+                      t.startIntervention,
+                      style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                         color: Colors.white,

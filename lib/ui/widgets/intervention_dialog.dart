@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:ui';
 import '../../models/alert_model.dart';
+import 'package:shishu_suraksha/l10n/generated/app_localizations.dart';
 
 class InterventionDialog extends StatefulWidget {
   final AlertModel alert;
@@ -26,70 +27,57 @@ class _InterventionDialogState extends State<InterventionDialog> {
         return Colors.green;
     }
   }
-
-  List<String> get _suggestedExercises {
-    switch (widget.alert.category.toLowerCase()) {
-      case 'hearing':
-        return [
-          'Sound localization games',
-          'Music and rhythm activities',
-          'Name-calling response exercises',
-          'Follow simple verbal commands',
-        ];
-      case 'speech':
-        return [
-          'Daily storytelling sessions',
-          'Repeat-after-me activities',
-          'Singing nursery rhymes',
-          'Picture naming games',
-          'Encourage conversation during play',
-        ];
-      case 'motor skills':
-        return [
-          'Crawling obstacle courses',
-          'Ball rolling/throwing games',
-          'Standing with support practice',
-          'Hand-eye coordination activities',
-          'Walking assistance exercises',
-        ];
-      case 'nutrition':
-        return [
-          'Regular meal schedule (5-6 times daily)',
-          'High-protein foods (dal, eggs, milk)',
-          'Fresh fruits and vegetables',
-          'Monitor weight weekly',
-          'Consult nutritionist for meal plan',
-        ];
-      case 'development':
-        return [
-          'Shape sorting activities',
-          'Color recognition games',
-          'Building blocks play',
-          'Interactive puzzle solving',
-          'Social interaction with peers',
-        ];
-      default:
-        return [
-          'Regular play activities',
-          'Interactive games',
-          'Daily monitoring',
-        ];
+  
+  String _getRiskLevelText(AppLocalizations t) {
+    switch (widget.alert.riskLevel) {
+      case RiskLevel.high:
+        return t.riskHigh;
+      case RiskLevel.moderate:
+        return t.riskModerate;
+      case RiskLevel.mild:
+        return t.riskMild;
+      case RiskLevel.normal:
+        return t.riskNormal;
     }
   }
 
-  String? get _referralSuggestion {
+  List<String> _getSuggestedExercises(AppLocalizations t) {
+    String exercisesString;
+    switch (widget.alert.category.toLowerCase()) {
+      case 'hearing':
+        exercisesString = t.exercisesHearing;
+        break;
+      case 'speech':
+        exercisesString = t.exercisesSpeech;
+        break;
+      case 'motor skills':
+        exercisesString = t.exercisesMotor;
+        break;
+      case 'nutrition':
+        exercisesString = t.exercisesNutrition;
+        break;
+      case 'development':
+        exercisesString = t.exercisesDevelopment;
+        break;
+      default:
+        exercisesString = t.exercisesDefault;
+    }
+    return exercisesString.split(' | ');
+  }
+
+  String? _getReferralSuggestion(AppLocalizations t) {
     if (widget.alert.riskLevel == RiskLevel.high) {
       switch (widget.alert.category.toLowerCase()) {
         case 'hearing':
-          return 'Refer to Audiologist at nearest PHC';
+          return t.referralHearing;
         case 'speech':
-          return 'Refer to Speech Therapist immediately';
+          return t.referralSpeech;
         case 'motor skills':
-          return 'Refer to Pediatric Physiotherapist';
+          return t.referralMotor;
         case 'nutrition':
-          return 'Immediate medical intervention at PHC';
+          return t.referralNutrition;
         default:
-          return 'Consult with Medical Officer at PHC';
+          return t.referralDefault;
       }
     }
     return null;
@@ -97,6 +85,7 @@ class _InterventionDialogState extends State<InterventionDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context)!;
     return DraggableScrollableSheet(
       initialChildSize: 0.75,
       minChildSize: 0.5,
@@ -152,7 +141,7 @@ class _InterventionDialogState extends State<InterventionDialog> {
                                     ),
                                   ),
                                   Text(
-                                    '${widget.alert.riskEmoji} ${widget.alert.riskLevelText}',
+                                    '${widget.alert.riskEmoji} ${_getRiskLevelText(t)}',
                                     style: TextStyle(
                                       fontSize: 14,
                                       color: _riskColor,
@@ -227,7 +216,7 @@ class _InterventionDialogState extends State<InterventionDialog> {
                           ),
                         ] else ...[
                           // Referral Suggestion (High Risk Only)
-                          if (_referralSuggestion != null) ...[
+                          if (_getReferralSuggestion(t) != null) ...[
                             _buildSectionHeader('🏥 Referral Required', Colors.red),
                             const SizedBox(height: 8),
                             Container(
@@ -243,7 +232,7 @@ class _InterventionDialogState extends State<InterventionDialog> {
                                   const SizedBox(width: 12),
                                   Expanded(
                                     child: Text(
-                                      _referralSuggestion!,
+                                      _getReferralSuggestion(t)!,
                                       style: TextStyle(
                                         fontSize: 15,
                                         fontWeight: FontWeight.w600,
@@ -260,7 +249,7 @@ class _InterventionDialogState extends State<InterventionDialog> {
                           // Suggested Exercises
                           _buildSectionHeader('💪 Suggested Exercises', Colors.teal),
                           const SizedBox(height: 12),
-                          ..._suggestedExercises.asMap().entries.map((entry) {
+                          ..._getSuggestedExercises(t).asMap().entries.map((entry) {
                             return Padding(
                               padding: const EdgeInsets.only(bottom: 10),
                               child: Row(

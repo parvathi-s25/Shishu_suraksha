@@ -1,0 +1,22 @@
+
+Running Gradle task 'assembleRelease'...                        
+
+FAILURE: Build failed with an exception.
+
+* Where:
+Settings file 'D:\sishusuraksha\Shishu_suraksha\android\settings.gradle.kts' line: 20
+
+* What went wrong:
+Error resolving plugin [id: 'dev.flutter.flutter-plugin-loader', version: '1.0.0']
+> A problem occurred configuring project ':gradle'.
+   > Could not read workspace metadata from C:\Users\thatr\.gradle\caches\8.14\kotlin-dsl\accessors\9e1531cfaf8b07051a723d9b0a621870\metadata.bin
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights.
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 22s
+Running Gradle task 'assembleRelease'...                           26.2s
+Gradle task assembleRelease failed with exit code 1

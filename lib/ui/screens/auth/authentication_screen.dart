@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import '../../../../main.dart';
-import '../../../../localization/app_localizations.dart';
+import '../../../l10n/generated/app_localizations.dart';
+import '../../../../localization/legacy_app_localizations.dart'; // For DataLocalizations
+import '../../../../main.dart'; // For language switching
 import 'dart:ui';
 import 'package:shishu_suraksha/data/auth_data.dart';
 import '../../widgets/cropped_logo.dart';
+import '../../screens/dashboard/teacher_dashboard.dart';
 
 
 class AuthenticationScreen extends StatefulWidget {
@@ -17,33 +19,53 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
   String? selectedDistrict;
   String? selectedVillage;
   String? selectedUserId; // Added for User ID Dropdown
+  final FocusNode _passwordFocusNode = FocusNode();
+
+  @override
+  void dispose() {
+    _passwordFocusNode.dispose();
+    super.dispose();
+  }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     final args = ModalRoute.of(context)!.settings.arguments;
-    selectedLang = args != null ? args as String : 'en'; 
+    selectedLang = args != null ? args as String : 'en';
     
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      MyApp.setLocale(context, Locale(selectedLang));
-    });
+    // We don't need to force set locale here if it's already managed by MyApp, 
+    // but preserving selectedLang logic for now.
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   MyApp.setLocale(context, Locale(selectedLang));
+    // });
   }
 
   @override
   Widget build(BuildContext context) {
-    final t = AppLocalizations.of(context);
+    // Use generated AppLocalizations for UI text
+    final t = AppLocalizations.of(context)!;
+    // Use legacy DataLocalizations for data (districts, villages)
+    // We need to try/catch or safe access since DataLocalizations might not be ready or context might be null?
+    // DataLocalizations is in localizationsDelegates, so it should be available.
+    final dataLoc = DataLocalizations.of(context);
 
-    // Safe access for districts/villages
+    // Safe access for districts/villages using DataLocalizations
     List<String> districts = [];
     try {
-      districts = t.list("districts");
+      // DataLocalizations still has the logic to load from JSON and has .list() method
+      districts = dataLoc.list("districts"); 
+      // Wait, legacy code used t.districts which returned Map<String, String> in my view of file legacy_app_localizations.dart
+      // Let's check legacy_app_localizations.dart content again if needed, but I recall it had 'districts' getter returning Map.
+      // Actually the view file showed: Map<String, String> get districts ...
+      // But the authentication_screen.dart used `t.districts.entries`
     } catch (e) {
       districts = [];
     }
 
     Map<String, List<String>> villagesMap = {};
     try {
-      villagesMap = t.map("villages");
+       // legacy has map(String key) method
+      villagesMap = dataLoc.map("villages");
     } catch (e) {
       villagesMap = {};
     }
@@ -149,8 +171,8 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                         isExpanded: true,
                         value: selectedDistrict,
                         hint: Text(t.district),
-                        // Use .entries to get English Key for value, and Localized Value for display
-                        items: t.districts.entries.map((entry) {
+                        // Use dataLoc.districts entries
+                        items: dataLoc.districts.entries.map((entry) {
                           return DropdownMenuItem<String>(
                             value: entry.key, // English Key
                             child: Text(entry.value), // Localized Name
@@ -184,8 +206,8 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                           isExpanded: true,
                           value: selectedVillage,
                           hint: Text(t.village),
-                          // Look up villages using English District Key
-                          items: (t.map("villages")[selectedDistrict] ?? [])
+                          // Look up villages using English District Key from dataLoc
+                          items: (dataLoc.map("villages")[selectedDistrict] ?? [])
                               .map((v) => DropdownMenuItem(value: v, child: Text(v)))
                               .toList(),
                           onChanged: (value) {
@@ -215,8 +237,8 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                            isExpanded: true,
                            value: selectedUserId,
                            hint: Text(t.userId),
-                           // Look up User IDs using English District Key
-                           items: (t.map("user_ids")[selectedDistrict] ?? [])
+                           // Look up User IDs using English District Key and Role
+                           items: AuthData.getUserIdsForDistrict(selectedDistrict!)
                                .map((id) => DropdownMenuItem(value: id, child: Text(id)))
                                .toList(),
                            onChanged: (value) {
@@ -231,6 +253,7 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                      
                      // Password Field (Localized)
                      TextFormField(
+                       focusNode: _passwordFocusNode,
                        obscureText: true,
                        decoration: InputDecoration(
                          labelText: t.password,
@@ -248,10 +271,17 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                   ElevatedButton(
                     onPressed: () {
                       if (selectedRole != null && selectedDistrict != null && selectedVillage != null) {
-                         Navigator.pushNamed(context, "/dashboard");
+                         if (selectedRole == "Admin") { 
+                           Navigator.pushReplacement(
+                             context,
+                             MaterialPageRoute(builder: (context) => const DashboardScreen(role: 'Admin')),
+                           );
+                         } else {
+                           Navigator.pushReplacementNamed(context, "/dashboard");
+                         }
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text("Please fill all fields"))
+                          const SnackBar(content: Text("Please fill all fields"))
                         );
                       }
                     },

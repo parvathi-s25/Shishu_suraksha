@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import '../../../models/dashboard_data.dart';
 
+import 'package:shishu_suraksha/l10n/generated/app_localizations.dart';
+
 class RiskDistributionChart extends StatelessWidget {
   final RiskDistribution data;
+  final AppLocalizations t;
 
-  const RiskDistributionChart({Key? key, required this.data}) : super(key: key);
+  const RiskDistributionChart({Key? key, required this.data, required this.t}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,11 +19,11 @@ class RiskDistributionChart extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-             const Align(
+             Align(
               alignment: Alignment.centerLeft,
               child: Text(
-                "Risk Distribution", // Localize later
-                style: TextStyle(
+                t.riskDistribution,
+                style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                 ),
@@ -73,10 +76,10 @@ class RiskDistributionChart extends StatelessWidget {
               runSpacing: 8,
               alignment: WrapAlignment.center,
               children: [
-                _buildLegendItem(Colors.red, "High"),
-                _buildLegendItem(Colors.orange, "Moderate"),
-                _buildLegendItem(Colors.amber, "Mild"),
-                _buildLegendItem(Colors.green, "Normal"),
+                _buildLegendItem(Colors.red, t.keyHigh),
+                _buildLegendItem(Colors.orange, t.keyModerate),
+                _buildLegendItem(Colors.amber, t.keyMild),
+                _buildLegendItem(Colors.green, t.keyNormal),
               ],
             ),
           ],

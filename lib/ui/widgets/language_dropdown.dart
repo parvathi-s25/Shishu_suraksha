@@ -107,7 +107,7 @@ class _LanguageDropdownState extends State<LanguageDropdown> {
                   AnimatedContainer(
                     duration: const Duration(milliseconds: 350),
                     curve: Curves.easeInOut,
-                    height: isExpanded ? languages.length * 48.0 : 0,
+                    height: isExpanded ? 240.0 : 0, // Max height = ~5 items visible
                     child: AnimatedOpacity(
                       duration: const Duration(milliseconds: 300),
                       opacity: isExpanded ? 1.0 : 0.0,
@@ -129,7 +129,7 @@ class _LanguageDropdownState extends State<LanguageDropdown> {
                           borderRadius: BorderRadius.circular(12),
                           child: ListView.separated(
                             padding: EdgeInsets.zero,
-                            physics: const NeverScrollableScrollPhysics(),
+                            physics: const BouncingScrollPhysics(), // Scrollable
                             itemCount: languages.length,
                             separatorBuilder: (context, index) => const Divider(
                               height: 1,

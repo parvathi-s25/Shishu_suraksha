@@ -1,0 +1,4 @@
+Silhouette=0.1876 DB=1.8709
+Cluster 0: 448 children, avg age 55.5m
+Cluster 1: 267 children, avg age 18.8m
+Cluster 2: 285 children, avg age 20.4m

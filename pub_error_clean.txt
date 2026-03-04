@@ -1,0 +1,22 @@
+flutter : Because 
+shishu_suraksha depends on
+At line:1 char:1
++ flutter pub get 2> 
+pub_error.txt
++ 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : 
+NotS    pecified: (Because 
+shishu_sura    ksha depends 
+on:String) [], Re    
+moteException
+    + FullyQualifiedErrorId : 
+Nati    veCommandError
+ 
+  record_linux ^0.9.1 which 
+doesn't
+  match any versions, 
+[1mversion
+  solving failed[0m.
+[31mFailed to update 
+packages.[39m

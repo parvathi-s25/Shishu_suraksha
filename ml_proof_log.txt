@@ -1,0 +1,25 @@
+﻿Loading Andhra Pradesh Government ECD Dataset...
+  [OK] Loaded 1000 children from 4 districts
+  [OK] Silhouette Score : 0.1876
+  [OK] Davies-Bouldin   : 1.8709
+  [OK] Inertia (WCSS)   : 5193.83
+
+  [OK] Dashboard saved -> C:\Users\Parvathi\shishu_suraksha\assets\images\ml_proof_dashboard.png
+  [OK] District analysis saved -> C:\Users\Parvathi\shishu_suraksha\assets\images\ml_district_analysis.png
+
+============================================================
+  SHISHU SURAKSHA ML MODEL - PROOF REPORT
+============================================================
+  Dataset Source     : Andhra Pradesh Government (ECD)
+  Total Children     : 1000
+  Districts Covered  : Chittoor, Guntur, Eluru, Visakhapatnam
+  Algorithm          : K-Means Clustering (k=3)
+  Silhouette Score   : 0.1876  (benchmark: >0.40 = good)
+  Davies-Bouldin     : 1.8709  (benchmark: <1.5 = good)
+  Inertia (WCSS)     : 5193.83
+
+  CLUSTER BREAKDOWN:
+    Cluster 0 (At-Risk ) : 448 children (44.8%) | Avg age: 55.5 months
+    Cluster 1 (On-Track) : 267 children (26.7%) | Avg age: 18.8 months
+    Cluster 2 (Advanced) : 285 children (28.5%) | Avg age: 20.4 months
+============================================================

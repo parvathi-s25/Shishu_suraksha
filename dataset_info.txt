@@ -1,0 +1,33 @@
+Shape: (1000, 8)
+
+Columns:
+child_id, dob, age_months, gender, awc_code, mandal, district, assessment_cycle
+
+First 5 rows:
+        child_id        dob  age_months gender  awc_code    mandal  district assessment_cycle
+0  AP_ECD_000001 2022-01-24          62      F      1001  Mandal_B  Chittoor         Baseline
+1  AP_ECD_000002 2024-08-18          17      M      1172  Mandal_B    Guntur         Baseline
+2  AP_ECD_000003 2022-11-24           9      M      1173  Mandal_B    Guntur        Follow-up
+3  AP_ECD_000004 2021-03-07          63      F      1151  Mandal_A     Eluru        Follow-up
+4  AP_ECD_000005 2024-09-18          28      M      1121  Mandal_C     Eluru         Baseline
+
+Info:
+<class 'pandas.DataFrame'>
+RangeIndex: 1000 entries, 0 to 999
+Data columns (total 8 columns):
+ #   Column            Non-Null Count  Dtype         
+---  ------            --------------  -----         
+ 0   child_id          1000 non-null   str           
+ 1   dob               1000 non-null   datetime64[us]
+ 2   age_months        1000 non-null   int64         
+ 3   gender            1000 non-null   str           
+ 4   awc_code          1000 non-null   int64         
+ 5   mandal            1000 non-null   str           
+ 6   district          1000 non-null   str           
+ 7   assessment_cycle  1000 non-null   str           
+dtypes: datetime64[us](1), int64(2), str(5)
+memory usage: 62.6 KB
+
+
+Missing values:
+Series([], )

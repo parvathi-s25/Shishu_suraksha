@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import '../../../../services/alert_generator.dart';
 import '../../../../models/alert_model.dart';
 import '../../../widgets/alert_card.dart';
+import '../../../../services/responsive_dashboard.dart';
+import 'package:shishu_suraksha/l10n/generated/app_localizations.dart';
 
 class InterveneTab extends StatefulWidget {
   const InterveneTab({Key? key}) : super(key: key);
@@ -24,8 +26,9 @@ class _InterveneTabState extends State<InterveneTab> {
     // Simulate loading delay for realistic UX
     Future.delayed(const Duration(milliseconds: 500), () {
       if (mounted) {
+        final t = AppLocalizations.of(context)!;
         setState(() {
-          _alerts = AlertGenerator.getMockAlerts();
+          _alerts = AlertGenerator.getMockAlerts(t);
           _isLoading = false;
         });
       }
@@ -34,6 +37,9 @@ class _InterveneTabState extends State<InterveneTab> {
 
   @override
   Widget build(BuildContext context) {
+    final responsive = ResponsiveDashboard(context);
+    final t = AppLocalizations.of(context)!;
+    
     return LayoutBuilder(
       builder: (context, constraints) {
         if (_isLoading) {
@@ -49,24 +55,24 @@ class _InterveneTabState extends State<InterveneTab> {
               children: [
                 Icon(
                   Icons.check_circle_outline,
-                  size: 80,
+                  size: responsive.getFontSize(80),
                   color: Colors.green[300],
                 ),
-                const SizedBox(height: 16),
-                const Text(
-                  'No alerts at this time',
+                SizedBox(height: responsive.getSpacing(16)),
+                Text(
+                  t.noAlerts,
                   style: TextStyle(
-                    fontSize: 20,
+                    fontSize: responsive.getFontSize(20),
                     fontWeight: FontWeight.bold,
                     color: Colors.black87,
                   ),
                 ),
-                const SizedBox(height: 8),
+                SizedBox(height: responsive.getSpacing(8)),
                 Text(
-                  'All children are being monitored.',
+                  t.allMonitored,
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    fontSize: 14,
+                    fontSize: responsive.getFontSize(14),
                     color: Colors.grey[600],
                   ),
                 ),
@@ -82,12 +88,17 @@ class _InterveneTabState extends State<InterveneTab> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const SizedBox(height: 20),
+                SizedBox(height: responsive.getSpacing(20)),
 
                 // Header Section
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-                  margin: const EdgeInsets.symmetric(horizontal: 16),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: responsive.getSpacing(20),
+                    vertical: responsive.getSpacing(16),
+                  ),
+                  margin: EdgeInsets.symmetric(
+                    horizontal: responsive.contentPadding.left,
+                  ),
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       colors: [Colors.teal[50]!, Colors.teal[100]!],
@@ -95,31 +106,35 @@ class _InterveneTabState extends State<InterveneTab> {
                       end: Alignment.bottomRight,
                     ),
                     borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: Colors.teal.withValues(alpha: 0.3)),
+                    border: Border.all(color: Colors.teal.withOpacity(0.3)),
                   ),
                   child: Column(
                     children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Icons.notifications_active, color: Colors.teal[700], size: 28),
-                          const SizedBox(width: 12),
-                          const Text(
-                            'Child Alerts',
+                          Icon(
+                            Icons.notifications_active,
+                            color: Colors.teal[700],
+                            size: responsive.getFontSize(28),
+                          ),
+                          SizedBox(width: responsive.getSpacing(12)),
+                          Text(
+                            t.childAlerts,
                             style: TextStyle(
-                              fontSize: 24,
+                              fontSize: responsive.getFontSize(24),
                               fontWeight: FontWeight.bold,
                               color: Colors.teal,
                             ),
                           ),
                         ],
                       ),
-                      const SizedBox(height: 8),
+                      SizedBox(height: responsive.getSpacing(8)),
                       Text(
-                        '${_alerts.length} alert${_alerts.length != 1 ? 's' : ''} require${_alerts.length == 1 ? 's' : ''} attention',
+                        '${_alerts.length} ${t.alertsAttention}',
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          fontSize: 14,
+                          fontSize: responsive.getFontSize(14),
                           color: Colors.grey[700],
                         ),
                       ),
@@ -127,53 +142,64 @@ class _InterveneTabState extends State<InterveneTab> {
                   ),
                 ),
 
-                const SizedBox(height: 20),
+                SizedBox(height: responsive.getSpacing(20)),
 
                 // Risk Level Summary Badges
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: responsive.contentPadding.left,
+                  ),
                   child: Wrap(
                     alignment: WrapAlignment.center,
-                    spacing: 8,
-                    runSpacing: 8,
+                    spacing: responsive.getSpacing(8),
+                    runSpacing: responsive.getSpacing(8),
                     children: [
                       _buildRiskBadge(
-                        '🔴 High Risk',
+                        '🔴 ${t.riskHigh}',
                         _alerts.where((a) => a.riskLevel == RiskLevel.high).length,
                         Colors.red,
+                        responsive,
                       ),
                       _buildRiskBadge(
-                        '🟠 Moderate',
+                        '🟠 ${t.riskModerate}',
                         _alerts.where((a) => a.riskLevel == RiskLevel.moderate).length,
                         Colors.orange,
+                        responsive,
                       ),
                       _buildRiskBadge(
-                        '🟡 Mild',
+                        '🟡 ${t.riskMild}',
                         _alerts.where((a) => a.riskLevel == RiskLevel.mild).length,
                         Colors.amber,
+                        responsive,
                       ),
                       _buildRiskBadge(
-                        '🟢 Normal',
+                        '🟢 ${t.riskNormal}',
                         _alerts.where((a) => a.riskLevel == RiskLevel.normal).length,
                         Colors.green,
+                        responsive,
                       ),
                     ],
                   ),
                 ),
 
-                const SizedBox(height: 24),
+                SizedBox(height: responsive.getSpacing(24)),
 
                 // Alert Cards List
-                ListView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: _alerts.length,
-                  itemBuilder: (context, index) {
-                    return AlertCard(alert: _alerts[index]);
-                  },
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: responsive.contentPadding.left,
+                  ),
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: _alerts.length,
+                    itemBuilder: (context, index) {
+                      return AlertCard(alert: _alerts[index]);
+                    },
+                  ),
                 ),
 
-                const SizedBox(height: 20),
+                SizedBox(height: responsive.getSpacing(20)),
               ],
             ),
           ),
@@ -182,18 +208,26 @@ class _InterveneTabState extends State<InterveneTab> {
     );
   }
 
-  Widget _buildRiskBadge(String label, int count, Color color) {
+  Widget _buildRiskBadge(
+    String label,
+    int count,
+    Color color,
+    ResponsiveDashboard responsive,
+  ) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      padding: EdgeInsets.symmetric(
+        horizontal: responsive.getSpacing(12),
+        vertical: responsive.getSpacing(6),
+      ),
       decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.1),
+        color: color.withOpacity(0.1),
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: color.withValues(alpha: 0.5)),
+        border: Border.all(color: color.withOpacity(0.5)),
       ),
       child: Text(
         '$label: $count',
         style: TextStyle(
-          fontSize: 12,
+          fontSize: responsive.getFontSize(12),
           fontWeight: FontWeight.w600,
           color: color is MaterialColor ? (color as MaterialColor)[900] ?? color : color,
         ),

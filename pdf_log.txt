@@ -1,0 +1,101 @@
+﻿python : C:\Users\Parvathi\shishu_suraksha\generate_pdf_report.py:43: 
+DeprecationWarning: The parameter "ln" is deprecated since v2.5.2. Instead of 
+ln=False use new_x=XPos.RIGHT, new_y=YPos.TOP.
+At line:1 char:1
++ python generate_pdf_report.py 2>&1 | Out-File pdf_log.txt -Encoding u ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (C:\Users\Parvat...new_y=YPos.TOP. 
+   :String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+  pdf.cell(0, 10, 'SHISHU SURAKSHA', ln=False)
+C:\Users\Parvathi\shishu_suraksha\generate_pdf_report.py:48: 
+DeprecationWarning: The parameter "ln" is deprecated since v2.5.2. Instead of 
+ln=True use new_x=XPos.LMARGIN, new_y=YPos.NEXT.
+  pdf.cell(0, 8, 'Early Childhood Development Screening App  |  AI/ML Model 
+Proof Report', ln=True)
+C:\Users\Parvathi\shishu_suraksha\generate_pdf_report.py:53: 
+DeprecationWarning: The parameter "ln" is deprecated since v2.5.2. Instead of 
+ln=True use new_x=XPos.LMARGIN, new_y=YPos.NEXT.
+  pdf.cell(0, 6, f'Generated: {datetime.now().strftime("%d %B %Y, %I:%M %p")}  
+|  Andhra Pradesh Government Dataset', ln=True)
+C:\Users\Parvathi\shishu_suraksha\generate_pdf_report.py:63: 
+DeprecationWarning: The parameter "ln" is deprecated since v2.5.2. Instead of 
+ln=True use new_x=XPos.LMARGIN, new_y=YPos.NEXT.
+  pdf.cell(0, 9, '  1.  Dataset Information', ln=True, fill=True)
+C:\Users\Parvathi\shishu_suraksha\generate_pdf_report.py:86: 
+DeprecationWarning: The parameter "ln" is deprecated since v2.5.2. Instead of 
+ln=True use new_x=XPos.LMARGIN, new_y=YPos.NEXT.
+  pdf.cell(0, 7, val, ln=True, fill=True, border=0)
+C:\Users\Parvathi\shishu_suraksha\generate_pdf_report.py:96: 
+DeprecationWarning: The parameter "ln" is deprecated since v2.5.2. Instead of 
+ln=True use new_x=XPos.LMARGIN, new_y=YPos.NEXT.
+  pdf.cell(0, 9, '  2.  Machine Learning Model', ln=True, fill=True)
+C:\Users\Parvathi\shishu_suraksha\generate_pdf_report.py:119: 
+DeprecationWarning: The parameter "ln" is deprecated since v2.5.2. Instead of 
+ln=True use new_x=XPos.LMARGIN, new_y=YPos.NEXT.
+  pdf.cell(0, 7, val, ln=True, fill=True, border=0)
+C:\Users\Parvathi\shishu_suraksha\generate_pdf_report.py:129: 
+DeprecationWarning: The parameter "ln" is deprecated since v2.5.2. Instead of 
+ln=True use new_x=XPos.LMARGIN, new_y=YPos.NEXT.
+  pdf.cell(0, 9, '  3.  Model Performance Metrics', ln=True, fill=True)
+C:\Users\Parvathi\shishu_suraksha\generate_pdf_report.py:147: 
+DeprecationWarning: The parameter "ln" is deprecated since v2.5.2. Instead of 
+ln=False use new_x=XPos.RIGHT, new_y=YPos.TOP.
+  pdf.cell(col_w - 2, 8, f'  {title}', fill=True, border=0, ln=False)
+C:\Users\Parvathi\shishu_suraksha\generate_pdf_report.py:157: 
+DeprecationWarning: The parameter "ln" is deprecated since v2.5.2. Instead of 
+ln=False use new_x=XPos.RIGHT, new_y=YPos.TOP.
+  pdf.cell(col_w - 2, 14, value, fill=True, border=0, ln=False, align='C')
+C:\Users\Parvathi\shishu_suraksha\generate_pdf_report.py:175: 
+DeprecationWarning: The parameter "ln" is deprecated since v2.5.2. Instead of 
+ln=True use new_x=XPos.LMARGIN, new_y=YPos.NEXT.
+  pdf.cell(0, 9, '  4.  Cluster Breakdown  (AP ECD Dataset)', ln=True, 
+fill=True)
+C:\Users\Parvathi\shishu_suraksha\generate_pdf_report.py:216: 
+DeprecationWarning: The parameter "ln" is deprecated since v2.5.2. Instead of 
+ln=True use new_x=XPos.LMARGIN, new_y=YPos.NEXT.
+  pdf.cell(0, 9, '  5.  Visual Proof  -  ML Model Charts', ln=True, fill=True)
+C:\Users\Parvathi\shishu_suraksha\generate_pdf_report.py:227: 
+DeprecationWarning: The parameter "ln" is deprecated since v2.5.2. Instead of 
+ln=True use new_x=XPos.LMARGIN, new_y=YPos.NEXT.
+  pdf.cell(0, 5, 'Figure 1: PCA Cluster Visualization, Elbow Curve, 
+Silhouette, and Age Distribution', ln=True, align='C')
+C:\Users\Parvathi\shishu_suraksha\generate_pdf_report.py:235: 
+DeprecationWarning: The parameter "ln" is deprecated since v2.5.2. Instead of 
+ln=True use new_x=XPos.LMARGIN, new_y=YPos.NEXT.
+  pdf.cell(0, 5, 'Figure 2: District-level Cluster Distribution and Assessment 
+Cycle Breakdown', ln=True, align='C')
+C:\Users\Parvathi\shishu_suraksha\generate_pdf_report.py:245: 
+DeprecationWarning: The parameter "ln" is deprecated since v2.5.2. Instead of 
+ln=True use new_x=XPos.LMARGIN, new_y=YPos.NEXT.
+  pdf.cell(0, 9, '  6.  Complete Technology Stack', ln=True, fill=True)
+C:\Users\Parvathi\shishu_suraksha\generate_pdf_report.py:273: 
+DeprecationWarning: The parameter "ln" is deprecated since v2.5.2. Instead of 
+ln=True use new_x=XPos.LMARGIN, new_y=YPos.NEXT.
+  pdf.cell(0, 7, val, ln=True, fill=True, border=0)
+C:\Users\Parvathi\shishu_suraksha\generate_pdf_report.py:283: 
+DeprecationWarning: The parameter "ln" is deprecated since v2.5.2. Instead of 
+ln=True use new_x=XPos.LMARGIN, new_y=YPos.NEXT.
+  pdf.cell(0, 9, '  7.  Assessment Modules in the App', ln=True, fill=True)
+Traceback (most recent call last):
+  File "C:\Users\Parvathi\shishu_suraksha\generate_pdf_report.py", line 307, 
+in <module>
+    pdf.multi_cell(0, 7, desc, fill=True, border=0)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Parvathi\AppData\Roaming\Python\Python314\site-packages\fpdf\f
+pdf.py", line 281, in wrapper
+    return fn(*args, **kwargs)
+  File "C:\Users\Parvathi\AppData\Roaming\Python\Python314\site-packages\fpdf\d
+eprecation.py", line 36, in wrapper
+    return fn(*args, **kwargs)
+  File "C:\Users\Parvathi\AppData\Roaming\Python\Python314\site-packages\fpdf\f
+pdf.py", line 4916, in multi_cell
+    text_line = multi_line_break.get_line()
+  File "C:\Users\Parvathi\AppData\Roaming\Python\Python314\site-packages\fpdf\l
+ine_break.py", line 851, in get_line
+    raise FPDFException(
+        "Not enough horizontal space to render a single character"
+    )
+fpdf.errors.FPDFException: Not enough horizontal space to render a single 
+character

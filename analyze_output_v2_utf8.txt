@@ -1,0 +1,44 @@
+﻿Analyzing 7 items...                                            
+
+warning - Unused import: '../../../core/data/models/assessment_result_models.dart' - lib\ui\screens\assessment\assessment_flow_screen.dart:4:8 - unused_import
+   info - Parameter 'key' could be a super parameter - lib\ui\screens\assessment\assessment_flow_screen.dart:19:9 - use_super_parameters
+   info - Unnecessary use of 'toList' in a spread - lib\ui\screens\assessment\assessment_flow_screen.dart:173:14 - unnecessary_to_list_in_spreads
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\assessment\assessment_flow_screen.dart:217:38 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\assessment\assessment_flow_screen.dart:257:46 - deprecated_member_use
+   info - Unnecessary use of 'toList' in a spread - lib\ui\screens\assessment\assessment_flow_screen.dart:727:16 - unnecessary_to_list_in_spreads
+   info - Unnecessary use of 'toList' in a spread - lib\ui\screens\assessment\assessment_flow_screen.dart:765:16 - unnecessary_to_list_in_spreads
+warning - Unused import: '../../../../core/models/assessment_models.dart' - lib\ui\screens\assessment\assessment_result_screen.dart:6:8 - unused_import
+warning - Unused import: '../../../../providers/assessment_provider.dart' - lib\ui\screens\assessment\assessment_result_screen.dart:11:8 - unused_import
+   info - Parameter 'key' could be a super parameter - lib\ui\screens\assessment\assessment_result_screen.dart:22:9 - use_super_parameters
+warning - The value of the field '_riskService' isn't used - lib\ui\screens\assessment\assessment_result_screen.dart:39:34 - unused_field
+warning - The value of the field '_reportService' isn't used - lib\ui\screens\assessment\assessment_result_screen.dart:40:38 - unused_field
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\assessment\assessment_result_screen.dart:92:50 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\assessment\assessment_result_screen.dart:136:24 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\assessment\assessment_result_screen.dart:274:26 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\assessment\assessment_result_screen.dart:276:45 - deprecated_member_use
+   info - Unnecessary use of 'toList' in a spread - lib\ui\screens\assessment\assessment_result_screen.dart:315:12 - unnecessary_to_list_in_spreads
+   info - Parameter 'key' could be a super parameter - lib\ui\screens\assessment\cognitive_assessment_screen.dart:14:9 - use_super_parameters
+warning - Unused import: '../../../app/theme/colors.dart' - lib\ui\screens\assessment\motor_skills_assessment_screen.dart:7:8 - unused_import
+   info - Parameter 'key' could be a super parameter - lib\ui\screens\assessment\motor_skills_assessment_screen.dart:21:9 - use_super_parameters
+   info - Unnecessary use of 'toList' in a spread - lib\ui\screens\assessment\motor_skills_assessment_screen.dart:656:16 - unnecessary_to_list_in_spreads
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\assessment\motor_skills_assessment_screen.dart:700:30 - deprecated_member_use
+   info - Parameter 'key' could be a super parameter - lib\ui\screens\assessment\social_emotional_assessment_screen.dart:13:9 - use_super_parameters
+   info - Parameter 'key' could be a super parameter - lib\ui\screens\assessment\speech_assessment_screen.dart:15:9 - use_super_parameters
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\ui\screens\assessment\speech_assessment_screen.dart:194:68 - deprecated_member_use
+
+flutter : 25 issues found. (ran in 
+1.4s)
+At line:1 char:1
++ flutter analyze lib\providers\ass
+essment_provider.dart 
+lib\ui\screens ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~
+    + CategoryInfo          : NotS 
+   pecified: (25 issues found. (r  
+  an in 1.4s):String) [], Remote   
+ Exception
+    + FullyQualifiedErrorId : Nati 
+   veCommandError
+ 
