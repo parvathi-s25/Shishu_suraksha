@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:image_picker/image_picker.dart';
 import 'assessment_report_screen.dart';
 import 'dart:async';
-import 'dart:io';
 
 class AssessmentScreen extends StatefulWidget {
   final Map<String, dynamic> child;
@@ -27,8 +27,8 @@ class _AssessmentScreenState extends State<AssessmentScreen> {
   bool _recordingCompleted = false;
 
   // Screening Test State
-  File? _selectedImage;
-  File? _selectedVideo;
+  XFile? _selectedImage;
+  XFile? _selectedVideo;
 
   @override
   Widget build(BuildContext context) {
@@ -134,10 +134,12 @@ class _AssessmentScreenState extends State<AssessmentScreen> {
     setState(() => _isPlayingAudio = true);
     // Simulate audio
     Future.delayed(const Duration(seconds: 3), () {
-      setState(() {
-        _isPlayingAudio = false;
-        _audioCompleted = true;
-      });
+      if (mounted) {
+        setState(() {
+          _isPlayingAudio = false;
+          _audioCompleted = true;
+        });
+      }
     });
   }
 
@@ -247,7 +249,7 @@ class _AssessmentScreenState extends State<AssessmentScreen> {
              const Icon(Icons.check_circle, color: Colors.green, size: 40),
              const Text("Image Captured"),
              const SizedBox(height: 10),
-             Image.file(_selectedImage!, height: 100),
+             Image.network(_selectedImage!.path, height: 100),
            ]),
            
         if (_selectedVideo != null)
@@ -285,10 +287,10 @@ class _AssessmentScreenState extends State<AssessmentScreen> {
             XFile? file;
             if (isVideo) {
               file = await picker.pickVideo(source: source);
-              if (file != null) setState(() => _selectedVideo = File(file!.path));
+              if (file != null) setState(() => _selectedVideo = file);
             } else {
               file = await picker.pickImage(source: source);
-              if (file != null) setState(() => _selectedImage = File(file!.path));
+              if (file != null) setState(() => _selectedImage = file);
             }
           },
           child: Container(

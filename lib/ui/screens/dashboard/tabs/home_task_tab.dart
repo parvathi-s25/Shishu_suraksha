@@ -215,14 +215,9 @@ class _HomeTaskTabState extends State<HomeTaskTab> {
   Widget build(BuildContext context) {
     if (_isLoading) return const Center(child: CircularProgressIndicator());
 
-    return Scaffold(
-      backgroundColor: Colors.transparent, // Preserve dashboard BG
-      floatingActionButton: FloatingActionButton(
-        onPressed: _addTask,
-        backgroundColor: Colors.teal,
-        child: const Icon(Icons.add, color: Colors.white),
-      ),
-      body: LayoutBuilder(
+    return Stack(
+      children: [
+        LayoutBuilder(
         builder: (context, constraints) {
           return SingleChildScrollView(
             child: ConstrainedBox(
@@ -340,6 +335,16 @@ class _HomeTaskTabState extends State<HomeTaskTab> {
           );
         }
       ),
+        Positioned(
+          bottom: 16,
+          right: 16,
+          child: FloatingActionButton(
+            onPressed: _addTask,
+            backgroundColor: Colors.teal,
+            child: const Icon(Icons.add, color: Colors.white),
+          ),
+        ),
+      ],
     );
   }
 

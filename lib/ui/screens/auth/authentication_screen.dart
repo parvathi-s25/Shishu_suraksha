@@ -247,7 +247,7 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                   // Sign In Button
                   ElevatedButton(
                     onPressed: () {
-                      if (selectedRole != null && selectedDistrict != null && selectedVillage != null) {
+                      if (selectedRole != null && selectedDistrict != null && selectedVillage != null && selectedUserId != null) {
                          Navigator.pushNamed(context, "/dashboard");
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(

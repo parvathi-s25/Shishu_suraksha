@@ -116,7 +116,7 @@ class AssessmentReportScreen extends StatelessWidget {
             const SizedBox(height: 24),
             ElevatedButton(
               onPressed: () {
-                Navigator.popUntil(context, (route) => route.isFirst);
+                Navigator.popUntil(context, ModalRoute.withName('/dashboard'));
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.teal,

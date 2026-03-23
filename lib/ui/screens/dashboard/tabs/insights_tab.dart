@@ -61,40 +61,45 @@ class _InsightsTabState extends State<InsightsTab> {
       return const Center(child: CircularProgressIndicator(color: Colors.teal));
     }
 
-    return Scaffold(
-      backgroundColor: Colors.transparent, // Inherit background from DashboardScreen
-      body: CustomScrollView(
-        slivers: [
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // 1️⃣ Header & Filters
-                  _buildHeaderAndFilters(),
-                  const SizedBox(height: 20),
+    return Stack(
+      children: [
+        CustomScrollView(
+          slivers: [
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // 1️⃣ Header & Filters
+                    _buildHeaderAndFilters(),
+                    const SizedBox(height: 20),
 
-                  // 2️⃣ KPI Cards (Horizontal Scroll)
-                  _buildKPISection(),
-                  const SizedBox(height: 24),
+                    // 2️⃣ KPI Cards (Horizontal Scroll)
+                    _buildKPISection(),
+                    const SizedBox(height: 24),
 
-                  // 3️⃣ Visualizations
-                  _buildVisualizations(),
-                  
-                  const SizedBox(height: 100), // Bottom padding
-                ],
+                    // 3️⃣ Visualizations
+                    _buildVisualizations(),
+
+                    const SizedBox(height: 100), // Bottom padding
+                  ],
+                ),
               ),
             ),
+          ],
+        ),
+        Positioned(
+          bottom: 16,
+          right: 16,
+          child: FloatingActionButton.extended(
+            onPressed: _showExportOptions,
+            backgroundColor: Colors.teal,
+            icon: const Icon(Icons.download, color: Colors.white),
+            label: const Text("Export Report", style: TextStyle(color: Colors.white)),
           ),
-        ],
-      ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: _showExportOptions,
-        backgroundColor: Colors.teal,
-        icon: const Icon(Icons.download, color: Colors.white),
-        label: const Text("Export Report", style: TextStyle(color: Colors.white)),
-      ),
+        ),
+      ],
     );
   }
 
