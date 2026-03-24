@@ -17,16 +17,19 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
   String? selectedDistrict;
   String? selectedVillage;
   String? selectedUserId; // Added for User ID Dropdown
+  bool _localeSet = false;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    final args = ModalRoute.of(context)!.settings.arguments;
-    selectedLang = args != null ? args as String : 'en'; 
-    
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      MyApp.setLocale(context, Locale(selectedLang));
-    });
+    if (!_localeSet) {
+      final args = ModalRoute.of(context)!.settings.arguments;
+      selectedLang = args != null ? args as String : 'en';
+      _localeSet = true;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        MyApp.setLocale(context, Locale(selectedLang));
+      });
+    }
   }
 
   @override

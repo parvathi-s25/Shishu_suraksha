@@ -282,8 +282,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             leading: const Icon(Icons.logout),
             title: const Text('Logout'),
             onTap: () {
-              Navigator.pop(context);
-              // Implement logout logic if needed
+              Navigator.of(context).pushNamedAndRemoveUntil('/auth', (route) => false);
             },
           ),
         ],

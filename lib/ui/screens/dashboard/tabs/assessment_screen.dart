@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
+import 'dart:typed_data';
 import 'package:image_picker/image_picker.dart';
 import 'assessment_report_screen.dart';
 import 'dart:async';
@@ -249,7 +249,15 @@ class _AssessmentScreenState extends State<AssessmentScreen> {
              const Icon(Icons.check_circle, color: Colors.green, size: 40),
              const Text("Image Captured"),
              const SizedBox(height: 10),
-             Image.network(_selectedImage!.path, height: 100),
+             FutureBuilder<Uint8List>(
+               future: _selectedImage!.readAsBytes(),
+               builder: (context, snapshot) {
+                 if (snapshot.hasData) {
+                   return Image.memory(snapshot.data!, height: 100);
+                 }
+                 return const SizedBox(height: 100, child: Center(child: CircularProgressIndicator()));
+               },
+             ),
            ]),
            
         if (_selectedVideo != null)
